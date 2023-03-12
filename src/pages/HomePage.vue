@@ -1,10 +1,12 @@
 <template>
-  <q-page class="flex flex-center">
-    <p>{{ currentUser.user_name }}</p>
+  <q-page>
+    <p class="text-center">{{ currentUser.user_name }}</p>
+    <Assortment/>
   </q-page>
 </template>
 
 <script setup>
+import Assortment from "src/components/Home/Assortment.vue";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 

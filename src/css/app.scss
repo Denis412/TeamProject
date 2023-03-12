@@ -1,0 +1,12 @@
+.wf-800 {
+  max-width: 800px;
+  width: 800px;
+}
+
+.link {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

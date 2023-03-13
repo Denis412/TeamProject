@@ -1,3 +1,3 @@
 export function UPDATE_PRODUCTS(state,product) {
-  state.products = product;
+  state.products.unshift(product);
 }

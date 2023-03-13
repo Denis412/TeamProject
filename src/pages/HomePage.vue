@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <p class="text-center">{{ currentUser.user_name }}</p>
+    <!-- <p class="text-center">{{ currentUser.user_name }}</p> -->
     <Assortment/>
   </q-page>
 </template>

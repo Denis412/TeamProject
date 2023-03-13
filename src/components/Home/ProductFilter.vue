@@ -2,7 +2,7 @@
   <q-list class="row wrap justify-center btn-group">
     <q-item v-for="(btn,index) in filterBtns"
     :key="btn.id">
-      <button ref="button" @click="useFilter(index)" class="btn-group__item no-border">
+      <button ref="button" @click="useFilter(index,btn.name)" class="btn-group__item no-border">
       {{btn.name }}
     </button>
     </q-item>
@@ -10,8 +10,10 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, defineEmits } from "vue";
 import { useStore } from "vuex";
+
+const emit = defineEmits(['useFilter']);
 
 const store = useStore();
 
@@ -19,10 +21,11 @@ const filterBtns = computed(() => store.getters["filter/PRODUCT_FILTER"]);
 
 const button=ref();
 
-const useFilter = (index)=>{
+const useFilter = (index,categoryName)=>{
   button.value.forEach(el => {
     el.classList.remove('active');
   });
+  emit('useFilter',categoryName);
   button.value[index].classList.add('active');
 }
 

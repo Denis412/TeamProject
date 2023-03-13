@@ -22,10 +22,10 @@
               </div>
             </div>
             <div class="buttons-area row q-ml-sm q-my-lg">
-                <q-btn icon="compare_arrows" flat class="col-2 text-grey"/>
+                <q-btn  icon="compare_arrows" flat class="col-2 text-grey"/>
                 <q-btn icon="search" flat class="col-2 text-grey"/>
-                <q-btn icon="favorite" flat class="col-2 text-grey"/>
-                <q-btn flat class="col-6 btn-tocart" label="В корзину" />
+                <q-btn @click="useFavorite(product.id,$event)" icon="favorite" flat class="col-2 text-grey"/>
+                <q-btn @click="useCart(produ.id)" flat class="col-6 btn-tocart" label="В корзину" />
               </div>
           </div>
     </q-item>
@@ -40,6 +40,15 @@ const props = defineProps(['products']);
 const product = computed(()=>props.products);
 
 
+const useFavorite = (id,event)=>{
+  //условие есть ли этот товар в базе данных
+  event.target.classList.toggle('text-primary');
+  //добавление или удаление из базы данных
+}
+
+const useCart = (id)=>{
+  //добавление в базу данных
+}
 
 
 

@@ -5,9 +5,9 @@ export /* async */ function getClientOptions(/* {app, router, ...} */ options) {
     {
       link: createHttpLink({
         uri:
-          // process.env.GRAPHQL_URI ||
+          process.env.GRAPHQL_URI ||
           // Change to your graphql endpoint.
-          "https://qgczlcboewmzhjxdbzhb.supabase.co/graphql/v1",
+          "https://wanted-bull-47.hasura.app/v1/graphql",
       }),
       cache: new InMemoryCache(),
     }

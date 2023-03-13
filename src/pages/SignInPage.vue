@@ -7,7 +7,7 @@
 <script setup>
 import { useQuasar } from "quasar";
 import AuthenticationForm from "../components/AuthenticationForm.vue";
-import userApi from "../api/user";
+import userApi from "../sdk/user";
 import { useRouter } from "vue-router";
 
 const $q = useQuasar();

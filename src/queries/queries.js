@@ -1,12 +1,15 @@
 import gql from "graphql-tag";
 
-export const users = gql`
+export const products = gql`
   query {
-    users {
-      data {
-        id
-        user_name
-      }
+    products {
+      id
+      user_id
+      created_at
+      title
+      decription
+      price
+      quantity
     }
   }
 `;

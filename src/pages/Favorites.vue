@@ -6,7 +6,6 @@
               <q-img :src="require('../assets/img/'+product.img)"/>
             </q-item-section>
             <div class="col-sm-8 col-xs-12 relative-position q-pl-lg">
-              <!-- <div class="col-auto"> -->
                 <q-item-section class="product__title text-h5 q-mt-md text-weight-bold">
                 {{ product.name }}
               </q-item-section>
@@ -21,7 +20,6 @@
                 v-if="product.old_price">
                   От {{ product.old_price }} Р
                 </div>
-              <!-- </div> -->
               </div>
               <div class="absolute-bottom row q-ml-lg">
                 <div class="bg-white col-6 row justify-between items-center btns-area">

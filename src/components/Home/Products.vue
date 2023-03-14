@@ -3,11 +3,15 @@
     <q-item class="product block col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="product in products"
     :key="product.id">
           <div class="wrapper q-pa-sm">
+            <router-link class="block" :to="{name:'Product',params:{id: product.id,product: product}}">
               <q-item-section>
-              <q-img :src="require('../../assets/img/'+product.img)"/>
-            </q-item-section>
-            <q-item-section class="product__title q-mt-md text-weight-bold">
-              {{ product.name }}
+                  <q-img :src="require('../../assets/img/'+product.img)"/>
+              </q-item-section>
+            </router-link>
+            <q-item-section class="q-mt-md text-weight-bold">
+              <router-link class="product__title" :to="{name:'Product',params:{id: product.id}}">
+                {{ product.name }}
+              </router-link>
             </q-item-section>
             <q-item-section class="q-my-md">
               {{ product.description }}
@@ -84,5 +88,8 @@ const useCart = (id)=>{
   color: white
   text-transform: none
   border-radius: 13px
+.product__title
+  text-decoration: none
+  color: black
 
 </style>

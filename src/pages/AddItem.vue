@@ -10,7 +10,7 @@
     v-model="form.name"
     label="Название продукта"
     lazy-rules
-    :rules="[val => val && val.length > 0 || 'Пожалуйста напишите что-нибудь']"
+    :rules="textValidator"
   />
 
   <q-select
@@ -50,7 +50,7 @@
     v-model="form.description"
     label="Описание продукта"
     lazy-rules
-    :rules="[val => val && val.length > 0 || 'Пожалуйста напишите что-нибудь']"
+    :rules="textValidator"
   />
 
   <q-file outlined v-model="form.img" accept=".jpg, image/*">
@@ -71,8 +71,11 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import { useQuasar } from "quasar";
 
 const store = useStore();
+
+const $q = useQuasar();
 
 const categories = computed(() => store.getters["filter/PRODUCT_FILTER"]);
 
@@ -80,6 +83,8 @@ const getName=()=>{
   return categories.value.map((el)=>el.name)
 }
 
+const textValidator =(val)=> (val && val.length > 0) || 'Пожалуйста напишите что-нибудь';
+const selectValidator = (val)=>(val => val && val.length > 0) || 'Пожалуйста выберите категорию';
 //заполнение обьекта тестовое помимо значений по умолчанию будет добавлен динамический id и что-то надо придумать с картинкой уже потом видно будет
 
 const form = ref({

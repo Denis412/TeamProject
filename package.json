@@ -11,16 +11,24 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "@supabase/supabase-js": "^2.10.0",
+    "@vue/apollo-composable": "^4.0.0-beta.4",
     "axios": "^1.2.1",
     "core-js": "^3.6.5",
+    "gql": "^1.1.2",
+    "graphql-tag": "^2.12.6",
     "json-socket-server": "^0.0.4",
     "quasar": "^2.6.0",
+    "subscriptions-transport-ws": "^0.11.0",
+    "uuid": "^9.0.0",
     "vue": "^3.0.0",
+    "vue-avatar-upload": "^1.1.0",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.1"
   },
   "devDependencies": {
-    "@quasar/app-webpack": "^3.0.0"
+    "@quasar/app-webpack": "^3.0.0",
+    "@quasar/quasar-app-extension-apollo": "^2.0.0-beta.5",
+    "graphql_ppx": "^0.2.8"
   },
   "browserslist": [
     "last 10 Chrome versions",

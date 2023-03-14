@@ -21,7 +21,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
-    boot: ["axios"],
+    boot: ["axios", "apollo"],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
     css: ["app.scss"],
@@ -64,7 +64,26 @@ module.exports = configure(function (ctx) {
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
 
-      chainWebpack(/* chain */) {},
+      // chainWebpack(/* chain */) {},
+      chainWebpack(chain, { isServer, isClient }) {
+        chain.module
+          .rule("vue")
+          .use("vue-loader")
+          .loader("vue-loader")
+          .tap((options) => {
+            options.transpileOptions = {
+              transforms: {
+                dangerousTaggedTemplateString: true,
+              },
+            };
+            return options;
+          });
+        chain.module
+          .rule("gql")
+          .test(/\.(graphql|gql)$/)
+          .use("graphql-tag/loader")
+          .loader("graphql-tag/loader");
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer

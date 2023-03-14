@@ -12,6 +12,11 @@ const routes = [
         path:"additem",
         name:"AddItem",
         component: () => import("pages/AddItem.vue"),
+      },
+      {
+        path:"favorites",
+        name:"Favorites",
+        component: () => import("pages/Favorites.vue"),
       }
     ],
   },

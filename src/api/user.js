@@ -87,7 +87,7 @@ const logout = async () => {
   }
 };
 
-const update = async (data) => {
+const addFavorites = async (data) => {
   try {
     const user = await supabase.auth.getUser();
 
@@ -95,18 +95,38 @@ const update = async (data) => {
 
     const { data: _user, error } = await supabase
       .from("users")
-      .update(data)
+      .update({favorites:data})
       .match({ id: user.data.user.id })
       .single();
 
     if (error) throw error;
 
-    return _user;
+    return data;
   } catch (error) {
     throw error;
   }
 };
 
-const userApi = { get, register, login, logout, update };
+const deleteFavorites = async (data) => {
+  try {
+    const user = await supabase.auth.getUser();
+
+    if (!user.data.user) return;
+
+    const { data: _user, error } = await supabase
+      .from("users")
+      .update({favorites:null})
+      .match({ id: user.data.user.id })
+      .single();
+
+    if (error) throw error;
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const userApi = { get, register, login, logout, addFavorites, deleteFavorites };
 
 export default userApi;

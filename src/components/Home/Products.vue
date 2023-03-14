@@ -24,8 +24,8 @@
             <div class="buttons-area row q-ml-sm q-my-lg">
                 <q-btn  icon="compare_arrows" flat class="col-2 text-grey"/>
                 <q-btn icon="search" flat class="col-2 text-grey"/>
-                <q-btn @click="useFavorite(product.id,$event)" icon="favorite" flat class="col-2 text-grey"/>
-                <q-btn @click="useCart(produ.id)" flat class="col-6 btn-tocart" label="В корзину" />
+                <q-btn :class="{'text-primary':getClass(product.id),'text-grey':!getClass(product.id)}" @click="useFavorite(product.id,$event)" icon="favorite" flat class="col-2"/>
+                <q-btn @click="useCart(product.id)" flat class="col-6 btn-tocart" label="В корзину" />
               </div>
           </div>
     </q-item>
@@ -34,16 +34,28 @@
 
 <script setup>
 import {computed} from 'vue';
+import {useStore} from 'vuex';
+
+const store = useStore();
+
+const favorite = computed(()=>store.getters['user/CURRENT_USER'].favorites);
 
 const props = defineProps(['products']);
 
 const product = computed(()=>props.products);
 
 
-const useFavorite = (id,event)=>{
-  //условие есть ли этот товар в базе данных
-  event.target.classList.toggle('text-primary');
-  //добавление или удаление из базы данных
+const getClass = (id)=>{
+  return favorite.value === id
+}
+
+
+const useFavorite = async (id,event)=>{
+  try{
+  await store.dispatch("user/UPDATE_FAVORITES",id);
+  }catch (error) {
+    console.log(error);
+  }
 }
 
 const useCart = (id)=>{

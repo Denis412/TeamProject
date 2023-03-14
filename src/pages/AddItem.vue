@@ -94,9 +94,7 @@ const form = ref({
 
 const onSubmit = async () => {
   try {
-    console.log(store.getters["products/PRODUCTS"])
     await store.dispatch("products/FETCH_PRODUCTS",form.value);
-    console.log(store.getters["products/PRODUCTS"])
     $q.notify({
       type: "positive",
       message: "Товар добавлен",

@@ -24,7 +24,10 @@ const products = computed(()=>store.getters['products/PRODUCTS']);
 const productsBuffer = ref(products.value);
 
 const useFilter =(categoryName)=>{
-  productsBuffer.value = products.value.filter(el=>el.category==categoryName);
+  if(categoryName==='Все')
+    productsBuffer.value = products.value
+  else
+    productsBuffer.value = products.value.filter(el=>el.category==categoryName);
 }
 
 </script>

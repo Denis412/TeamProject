@@ -5,11 +5,7 @@ export const products = gql`
     products {
       id
       user_id
-      created_at
       title
-      decription
-      price
-      quantity
     }
   }
 `;

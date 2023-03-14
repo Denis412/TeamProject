@@ -88,6 +88,26 @@ const logout = async () => {
   }
 };
 
+const addFavorites = async (data) => {
+  try {
+    const user = await supabase.auth.getUser();
+
+    if (!user.data.user) return;
+
+    const { data: _user, error } = await supabase
+      .from("users")
+      .update({ favorites: data })
+      .match({ id: user.data.user.id })
+      .single();
+
+    if (error) throw error;
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const update = async (data) => {
   try {
     const user = await supabase.auth.getUser();
@@ -108,6 +128,26 @@ const update = async (data) => {
   }
 };
 
+const deleteFavorites = async (data) => {
+  try {
+    const user = await supabase.auth.getUser();
+
+    if (!user.data.user) return;
+
+    const { data: _user, error } = await supabase
+      .from("users")
+      .update({ favorites: null })
+      .match({ id: user.data.user.id })
+      .single();
+
+    if (error) throw error;
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const uploadAvatar = async () => {
   try {
     const user = await supabase.auth.getUser();
@@ -116,17 +156,6 @@ const uploadAvatar = async () => {
 
     console.log("serialize", await get());
     const _user = await get();
-
-    // const { data, error } = await supabase.storage
-    //   .from("avatars")
-    //   .upload(`${serializeUser(user.data.user).avatar_url}`, fileImage.value, {
-    //     cacheControl: "no-cache",
-    //     upsert: true,
-    //   });
-
-    // if (error) throw error;
-
-    // console.log("data", data);
 
     return { avatar_url: _user.avatar_url };
   } catch (error) {
@@ -169,8 +198,10 @@ const userApi = {
   get,
   register,
   login,
-  logout,
   update,
+  logout,
+  addFavorites,
+  deleteFavorites,
   uploadAvatar,
   updateAvatar,
 };

@@ -1,15 +1,14 @@
 <template>
-  <q-page class="flex flex-center">
-    <button>Добавить продукт</button>
-    {{ result }}
-    <UploadAvatar />
+  <q-page>
+    <!-- <p class="text-center">{{ currentUser.user_name }}</p> -->
+    <Assortment />
   </q-page>
 </template>
 
 <script setup>
+import Assortment from "src/components/Home/Assortment.vue";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
-import UploadAvatar from "../components/UploadAvatar.vue";
 import { useQuery } from "@vue/apollo-composable";
 import { products } from "src/queries/queries";
 

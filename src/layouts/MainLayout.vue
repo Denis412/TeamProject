@@ -2,6 +2,16 @@
   <q-layout view="lHh Lpr lFf">
     <mainHeader />
 
+    <!-- <q-drawer
+      v-model="rightDrawerOpen"
+      side="right"
+      overlay=""
+      show-if-above
+      bordered
+    >
+      <VNavLinks />
+    </q-drawer> -->
+
     <q-page-container>
       <router-view v-slot="{ Component }">
         <keep-alive>
@@ -16,11 +26,9 @@
 import { provide, ref } from "vue";
 import mainHeader from "../components/mainHeader.vue";
 
-const leftDrawerOpen = ref(false);
+const rightDrawerOpen = ref(false);
 
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-};
-
-provide("toggleLeftDrawer", toggleLeftDrawer);
+provide("toggleRightDrawer", () => {
+  rightDrawerOpen.value = !rightDrawerOpen.value;
+});
 </script>

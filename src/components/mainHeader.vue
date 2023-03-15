@@ -18,16 +18,16 @@
           <q-item-section class="link">+7 (900) 232 32-32</q-item-section>
         </q-item>
 
-        <VNavItem title="Избранное" name="favorites" />
+        <VNavItem class="favorites" title="Избранное" name="favorites" />
 
         <q-item clickable class="cart" tag="a">
           <q-item-section
             style="flex-direction: row"
             class="fit justify-center items-center"
-            >Корзина<span style="margin-left: 10px" class="cartCount"
-              >3</span
-            ></q-item-section
           >
+            Корзина
+            <span style="margin-left: 10px" class="cartCount">3</span>
+          </q-item-section>
         </q-item>
 
         <q-btn
@@ -46,12 +46,9 @@
 import { ref } from "vue";
 import VNavLinks from "./VNavLinks.vue";
 import VNavItem from "./VNavItem.vue";
+import { inject } from "vue";
 
-const rightDrawerOpen = ref(false);
-
-const toggleRightDrawer = () => {
-  rightDrawerOpen.value = !rightDrawerOpen.value;
-};
+const toggleRightDrawer = inject("toggleRightDrawer");
 </script>
 
 <style lang="scss">
@@ -60,23 +57,23 @@ const toggleRightDrawer = () => {
   padding: 30px 0;
   font-size: 18px;
   background: #f6f9ff;
+
+  &-image {
+    width: 155px;
+    height: 58px;
+  }
 }
-.header-image {
-  width: 155px;
-  height: 58px;
-}
+
 .cart {
   border-radius: 13px;
+  background: rgba(254, 179, 2, 0.45);
+  color: #fff;
 
   &:hover {
     background-color: $primary;
   }
 }
-.cart,
-.cart-mobile {
-  background: rgba(254, 179, 2, 0.45);
-  color: #fff;
-}
+
 .cartCount {
   display: block;
   background: #fff;
@@ -96,11 +93,6 @@ const toggleRightDrawer = () => {
 }
 
 @media (max-width: 1130px) {
-  .header-image {
-    width: 78px;
-    height: 26px;
-  }
-
   .menu-mobile {
     display: block;
   }
@@ -115,7 +107,19 @@ const toggleRightDrawer = () => {
 @media (max-width: 800px) {
   .header {
     padding: 5px 0;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 550px) {
+  .header {
+    padding: 5px 0;
     font-size: 12px;
+
+    &-image {
+      width: 78px;
+      height: 26px;
+    }
   }
 }
 </style>

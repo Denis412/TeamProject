@@ -7,20 +7,16 @@
 
 <script setup>
 import Assortment from "src/components/Home/Assortment.vue";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
-import { useQuery } from "@vue/apollo-composable";
-import { products } from "src/queries/queries";
 
 const store = useStore();
 
 const currentUser = computed(() => store.getters["user/CURRENT_USER"]);
-const { result } = useQuery(products, null, { clientId: "default" });
 
-onMounted(() => {
+
+onMounted(async() => {
   console.log("current user session", currentUser.value);
-
-  console.log("result", result);
 });
 </script>
 

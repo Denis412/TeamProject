@@ -5,30 +5,39 @@
     </div>
     <ProductFilter @useFilter="useFilter"/>
     <Products
-    :products="productsBuffer"/>
+    :products="products"/>
     </div>
 </template>
 
 <script setup>
-import {computed,ref} from 'vue';
+import {computed,ref,reactive, watch} from 'vue';
 import {useStore} from 'vuex';
 import ProductFilter from "./ProductFilter.vue";
 import Products from "./Products.vue";
+import { useQuery } from "@vue/apollo-composable";
+import { filtredProduct} from "src/queries/queries";
 
-let category = '';
+const category = ref({text:"Все"})
+
+const useFilter =(categoryName)=>{
+  category.value.text = categoryName
+}
+
+const queryProducts = useQuery(computed(()=>filtredProduct(category.value.text)),category);
+
+
+const products = computed(() => queryProducts.result.value?.products ?? [])
+
 
 const store = useStore();
 
-const products = computed(()=>store.getters['products/PRODUCTS']);
 
-const productsBuffer = ref(products.value);
 
-const useFilter =(categoryName)=>{
-  if(categoryName==='Все')
-    productsBuffer.value = products.value
-  else
-    productsBuffer.value = products.value.filter(el=>el.category==categoryName);
-}
+
+
+
+
+
 
 </script>
 

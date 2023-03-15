@@ -3,14 +3,14 @@
     <q-item class="product block col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="product in products"
     :key="product.id">
           <div class="wrapper q-pa-sm">
-            <router-link class="block" :to="{name:'Product',params:{id: product.id,product: product}}">
+            <router-link class="block" :to="{name:'Product',params:{id: product.id}}">
               <q-item-section>
-                  <q-img :src="require('../../assets/img/'+product.img)"/>
+                  <q-img :src="require('../../assets/img/'+product.image)"/>
               </q-item-section>
             </router-link>
             <q-item-section class="q-mt-md text-weight-bold">
               <router-link class="product__title" :to="{name:'Product',params:{id: product.id}}">
-                {{ product.name }}
+                {{ product.title }}
               </router-link>
             </q-item-section>
             <q-item-section class="q-my-md">
@@ -46,8 +46,7 @@ const favorite = computed(()=>store.getters['user/CURRENT_USER'].favorites);
 
 const props = defineProps(['products']);
 
-const product = computed(()=>props.products);
-
+const products = computed(()=>props.products);
 
 const getClass = (id)=>{
   return favorite.value === id

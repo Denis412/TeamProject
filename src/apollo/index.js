@@ -1,4 +1,7 @@
 import { createHttpLink, InMemoryCache } from "@apollo/client/core";
+import Clerk from "@clerk/clerk-js";
+// import { setContext } from "@apollo/client/link/context";
+
 export /* async */ function getClientOptions(/* {app, router, ...} */ options) {
   return Object.assign(
     // General options.

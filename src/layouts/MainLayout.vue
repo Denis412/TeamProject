@@ -32,3 +32,9 @@ provide("toggleRightDrawer", () => {
   rightDrawerOpen.value = !rightDrawerOpen.value;
 });
 </script>
+
+<style lang="scss">
+.max-site {
+  max-width: $max-size-site;
+}
+</style>

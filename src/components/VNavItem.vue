@@ -19,9 +19,4 @@ const { title, name } = defineProps({
 });
 </script>
 
-<style lang="scss">
-.header-item {
-  &:hover {
-  }
-}
-</style>
+<style lang="scss"></style>

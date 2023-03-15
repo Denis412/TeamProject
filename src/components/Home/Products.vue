@@ -24,7 +24,7 @@
         <div class="buttons-area row q-ml-sm q-my-lg">
           <q-btn icon="compare_arrows" flat class="col-2 text-grey" />
           <q-btn icon="search" flat class="col-2 text-grey" />
-          <q-btn
+          <!-- <q-btn
             :class="{
               'text-primary': getClass(product.id),
               'text-grey': !getClass(product.id),
@@ -33,7 +33,7 @@
             icon="favorite"
             flat
             class="col-2"
-          />
+          /> -->
           <q-btn
             @click="useCart(product.id)"
             flat
@@ -52,13 +52,13 @@ import { useStore } from "vuex";
 
 const store = useStore();
 
-const favorite = computed(() => store.getters["user/CURRENT_USER"].favorites);
+// const favorite = computed(() => store.getters["user/CURRENT_USER"].favorites);
 
 const products = inject("products");
 
-const getClass = (id) => {
-  return favorite.value === id;
-};
+// const getClass = (id) => {
+//   return favorite.value === id;
+// };
 
 const useFavorite = async (id, event) => {
   try {

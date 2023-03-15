@@ -30,6 +30,14 @@
           </q-item-section>
         </q-item>
 
+        <q-item id="auth-links">
+          <q-btn @click="userApi.login"> Войти </q-btn>
+        </q-item>
+
+        <q-btn @click="get">Ge user</q-btn>
+
+        <q-item id="user-button"></q-item>
+
         <q-btn
           class="menu-mobile justify-center items-center"
           dense
@@ -47,8 +55,19 @@ import { ref } from "vue";
 import VNavLinks from "./VNavLinks.vue";
 import VNavItem from "./VNavItem.vue";
 import { inject } from "vue";
+import userApi from "../sdk/user";
+import Clerk from "@clerk/clerk-js";
 
 const toggleRightDrawer = inject("toggleRightDrawer");
+
+const get = async () => {
+  console.log(window.Clerk.user);
+  console.log(window.Clerk.user);
+
+  const token = await window.Clerk.session.getToken();
+
+  console.log(token);
+};
 </script>
 
 <style lang="scss">
@@ -92,7 +111,7 @@ const toggleRightDrawer = inject("toggleRightDrawer");
   }
 }
 
-@media (max-width: 1130px) {
+@media (max-width: 1145px) {
   .menu-mobile {
     display: block;
   }

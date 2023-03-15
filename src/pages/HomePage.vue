@@ -1,5 +1,6 @@
 <template>
   <q-page>
+    <!-- <HeaderPage /> -->
     <!-- <p class="text-center">{{ currentUser.user_name }}</p> -->
     <Assortment />
   </q-page>
@@ -7,6 +8,7 @@
 
 <script setup>
 import Assortment from "src/components/Home/Assortment.vue";
+import HeaderPage from "src/components/HeaderPage.vue";
 import { computed, isReactive, isRef, onMounted, provide } from "vue";
 import { useStore } from "vuex";
 import { useQuery } from "@vue/apollo-composable";

@@ -9,6 +9,8 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@clerk/clerk-js": "^4.32.3",
+    "@clerk/nextjs": "^4.11.9",
     "@quasar/extras": "^1.0.0",
     "@supabase/supabase-js": "^2.10.0",
     "@vue/apollo-composable": "^4.0.0-beta.4",

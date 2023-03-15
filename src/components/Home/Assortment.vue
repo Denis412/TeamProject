@@ -10,12 +10,11 @@
 </template>
 
 <script setup>
-import {computed,ref,reactive, watch} from 'vue';
-import {useStore} from 'vuex';
+import {computed,ref} from 'vue';
 import ProductFilter from "./ProductFilter.vue";
 import Products from "./Products.vue";
 import { useQuery } from "@vue/apollo-composable";
-import { filtredProduct} from "src/queries/queries";
+import {filtredProduct} from "src/queries/queries";
 
 const category = ref({text:"Все"})
 
@@ -25,19 +24,7 @@ const useFilter =(categoryName)=>{
 
 const queryProducts = useQuery(computed(()=>filtredProduct(category.value.text)),category);
 
-
 const products = computed(() => queryProducts.result.value?.products ?? [])
-
-
-const store = useStore();
-
-
-
-
-
-
-
-
 
 </script>
 

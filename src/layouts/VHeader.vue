@@ -131,7 +131,7 @@ export default {
   }
 }
 
-@media (max-width: 1130px) {
+@media (max-width: 1150px) {
   .header-image {
     width: 78px;
     height: 26px;

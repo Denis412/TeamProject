@@ -1,10 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <VHeader />
-
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <VNavLinks />
-    </q-drawer>
+    <mainHeader />
 
     <q-page-container>
       <router-view v-slot="{ Component }">
@@ -18,8 +14,7 @@
 
 <script setup>
 import { provide, ref } from "vue";
-import VNavLinks from "../layouts/VNavLinks.vue";
-import VHeader from "./VHeader.vue";
+import mainHeader from "../components/mainHeader.vue";
 
 const leftDrawerOpen = ref(false);
 

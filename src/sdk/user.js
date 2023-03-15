@@ -27,12 +27,16 @@ const register = async ({ email, password, user_name }) => {
     const { data: user, error } = await supabase.auth.signUp({
       email,
       password,
+      user_metadata: {
+        user_name,
+        password,
+      },
     });
 
-    user.user.user_metadata = {
-      user_name,
-      password,
-    };
+    // user.user.user_metadata = {
+    //   user_name,
+    //   password,
+    // };
 
     console.log(user.user.user_metadata);
 

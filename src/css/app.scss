@@ -5,8 +5,15 @@
 
 .link {
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.hoverPrimary {
+  &:hover {
+    background-color: $primary-hover;
   }
 }

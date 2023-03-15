@@ -1,20 +1,33 @@
 <template>
   <q-list>
-    <q-item-label header> Доступные страницы </q-item-label>
+    <router-link v-for="navLink in navLinks" :key="navLink.id"
+      style="text-decoration: none; color: black"
+      to="/"
+    >
+      <q-item clickable tag="a" target="_blank" :href=navLink.link>
+        <q-item-section v-show="navLink.icon" style="padding-right: 5px; min-width: 0px;" avatar>
+          <q-icon :name=navLink.icon />
+        </q-item-section>
 
-    <VNavItem v-for="link in pagesLinks" :key="link.title" v-bind="link" />
+        <q-item-section>
+          <q-item-label>{{ navLink.title }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </router-link>
   </q-list>
 </template>
 
-<script setup>
+<script>
 import VNavItem from "../components/VNavItem.vue";
-
-const pagesLinks = [
-  {
-    title: "Home",
-    caption: "quasar.dev",
-    icon: "home",
-    link: "https://quasar.dev",
-  },
-];
+export default {
+    props: {
+        navLinks: {
+            type: Array,
+            required: true
+        }
+    },
+};
 </script>
+
+<style>
+</style>

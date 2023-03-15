@@ -1,11 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <VHeader />
-
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <VNavLinks />
-    </q-drawer>
-
+  <q-layout view="hHh lpR ffr">
+    <v-header/>
     <q-page-container>
       <router-view v-slot="{ Component }">
         <keep-alive>
@@ -13,19 +8,22 @@
         </keep-alive>
       </router-view>
     </q-page-container>
+    <v-footer/>
   </q-layout>
 </template>
 
-<script setup>
-import { provide, ref } from "vue";
-import VNavLinks from "../layouts/VNavLinks.vue";
-import VHeader from "./VHeader.vue";
+<script>
+import VHeader from '../layouts/VHeader.vue';
+import VFooter from '../layouts/VFooter.vue';
 
-const leftDrawerOpen = ref(false);
-
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
+export default {
+    components: {
+        VHeader, VFooter
+    },
 };
 
-provide("toggleLeftDrawer", toggleLeftDrawer);
 </script>
+
+<style>
+
+</style>

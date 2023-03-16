@@ -22,5 +22,7 @@ export function priceValidator(){
   return{
     price:(val)=>
     (val !== null && val !== '') || 'Пожалуйста введите цену',
+    minPrice:(val)=>
+    (val >= 0) || 'Пожалуйста введите реальную цену'
   };
 }

@@ -29,19 +29,10 @@
     lazy-rules
     :rules="[
       price,
-      val => val >= 0 || 'Пожалуйста введите реальную цену'
+      minPrice
     ]"
   />
 
-  <q-input
-    filled
-    type="number"
-    v-model="form.old_price"
-    hint="Не обязательное поле"
-    label="Старая цена"
-    lazy-rules
-    :rules="[price]"
-  />
 
   <q-input
     filled
@@ -87,7 +78,7 @@ const getName=()=>{
 
 const {text} = textValidator();
 const {select} = selectValidator();
-const {price} = priceValidator();
+const {price,minPrice} = priceValidator();
 
 //заполнение обьекта тестовое помимо значений по умолчанию будет добавлен динамический id и что-то надо придумать с картинкой уже потом видно будет
 
@@ -95,7 +86,6 @@ const form = ref({
   id: 6,
   name: "DFGG",
   price: 0,
-  old_price: null,
   description:'SDGF',
   img: 'product.png',
   category: null

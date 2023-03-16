@@ -1,8 +1,10 @@
 // import userApi from "../../api/user";
+import { GetProducts } from "src/queries/queries";
 
-export async function FETCH_PRODUCTS({ commit },product) {
+export function FETCH_PRODUCTS({ commit },products) {
   try {
-    commit("UPDATE_PRODUCTS",product);
+    console.log(products)
+    commit("UPDATE_PRODUCTS",products);
   } catch (error) {
     throw error;
   }

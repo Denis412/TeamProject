@@ -1,5 +1,6 @@
 <template>
   <q-page>
+    <!-- <HeaderPage /> -->
     <!-- <p class="text-center">{{ currentUser.user_name }}</p> -->
     <Assortment />
   </q-page>
@@ -14,8 +15,7 @@ const store = useStore();
 
 const currentUser = computed(() => store.getters["user/CURRENT_USER"]);
 
-
-onMounted(async() => {
+onMounted(async () => {
   console.log("current user session", currentUser.value);
 });
 </script>

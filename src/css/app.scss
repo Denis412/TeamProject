@@ -5,8 +5,31 @@
 
 .link {
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.large-text {
+  font-size: 10rem;
+}
+
+.big-text {
+  font-size: 1.5rem;
+}
+
+.lh-50 {
+  line-height: 50px;
+}
+
+.q-px-large {
+  padding: 0 120px;
+}
+
+.hoverPrimary {
+  &:hover {
+    background-color: $primary-hover;
   }
 }

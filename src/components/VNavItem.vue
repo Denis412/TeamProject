@@ -1,28 +1,22 @@
 <template>
-  <div>
+  <q-item clickable>
     <router-link
       style="text-decoration: none; color: black"
-      :to="{ name: title }"
+      class="flex items-center"
+      :to="{ name: name }"
     >
-      <q-item clickable tag="a" target="_blank" :href="link">
-        <q-item-section v-if="icon" avatar>
-          <q-icon :name="icon" />
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label>{{ title }}</q-item-label>
-          <q-item-label caption>{{ caption }}</q-item-label>
-        </q-item-section>
-      </q-item>
+      <q-item-section>
+        <q-item-label>{{ title }}</q-item-label>
+      </q-item-section>
     </router-link>
-  </div>
+  </q-item>
 </template>
 
 <script setup>
-const { title, caption, icon, link } = defineProps({
+const { title, name } = defineProps({
   title: String,
-  caption: String,
-  icon: String,
-  link: String,
+  name: String,
 });
 </script>
+
+<style lang="scss"></style>

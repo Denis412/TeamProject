@@ -45,7 +45,6 @@ export const filtredProduct = (category) => {
           description
           user_id
           price
-          old_price
           quantity
           image
           category
@@ -63,7 +62,6 @@ export const filtredProduct = (category) => {
           description
           user_id
           price
-          old_price
           quantity
           image
           category
@@ -77,9 +75,9 @@ export const filtredProduct = (category) => {
 //CATEGORIES
 
 export const getCategories = gql`
-query {
-  categories {
-    category_name
+  query {
+    categories {
+      category_name
+    }
   }
-}
 `;

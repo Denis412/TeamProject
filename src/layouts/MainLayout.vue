@@ -1,10 +1,16 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <VHeader />
+    <mainHeader />
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <!-- <q-drawer
+      v-model="rightDrawerOpen"
+      side="right"
+      overlay=""
+      show-if-above
+      bordered
+    >
       <VNavLinks />
-    </q-drawer>
+    </q-drawer> -->
 
     <q-page-container>
       <router-view/>
@@ -14,14 +20,17 @@
 
 <script setup>
 import { provide, ref } from "vue";
-import VNavLinks from "../layouts/VNavLinks.vue";
-import VHeader from "./VHeader.vue";
+import mainHeader from "../components/mainHeader.vue";
 
-const leftDrawerOpen = ref(false);
+const rightDrawerOpen = ref(false);
 
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-};
-
-provide("toggleLeftDrawer", toggleLeftDrawer);
+provide("toggleRightDrawer", () => {
+  rightDrawerOpen.value = !rightDrawerOpen.value;
+});
 </script>
+
+<style lang="scss">
+.max-site {
+  max-width: $max-size-site;
+}
+</style>

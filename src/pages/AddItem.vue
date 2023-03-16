@@ -42,31 +42,38 @@
     :rules="[text]"
   />
 
-  <q-file outlined v-model="form.img" accept=".jpg, image/*">
-      <template v-slot:prepend>
-        <q-icon name="attach_file" />
-      </template>
-  </q-file>
+      <q-file outlined v-model="form.img" accept=".jpg, image/*">
+        <template v-slot:prepend>
+          <q-icon name="attach_file" />
+        </template>
+      </q-file>
 
-  <div>
-    <q-btn class="block" label="Submit" type="submit" color="primary" style="margin: 0 auto;"/>
+      <div>
+        <q-btn
+          class="block"
+          label="Submit"
+          type="submit"
+          color="primary"
+          style="margin: 0 auto"
+        />
+      </div>
+    </q-form>
+    <router-link :to="{ name: 'Home' }">поехали</router-link>
   </div>
-</q-form>
-<router-link :to="{ name: 'Home' }">поехали</router-link>
-
-</div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
 import { useQuasar } from "quasar";
 import { useQuery } from "@vue/apollo-composable";
 import { getCategories } from "src/queries/queries";
 import { textValidator,selectValidator,priceValidator } from "../use/validators";
 
-const queryCategories =useQuery(getCategories);
-const categories = computed(() => queryCategories.result.value?.categories ?? []);
+const queryCategories = useQuery(getCategories);
+const categories = computed(
+  () => queryCategories.result.value?.categories ?? []
+);
 
 const store = useStore();
 
@@ -93,7 +100,7 @@ const form = ref({
 
 const onSubmit = async () => {
   try {
-    await store.dispatch("products/FETCH_PRODUCTS",form.value);
+    await store.dispatch("products/FETCH_PRODUCTS", form.value);
     $q.notify({
       type: "positive",
       message: "Товар добавлен",

@@ -21,14 +21,6 @@ export /* async */ function getClientOptions(/* {app, router, ...} */ options) {
     };
   });
 
-  // link: createHttpLink({
-  //   uri:
-  //     process.env.GRAPHQL_URI ||
-  //     // Change to your graphql endpoint.
-  //     "https://wanted-bull-47.hasura.app/v1/graphql",
-  // }),
-  // cache: new InMemoryCache(),
-
   return Object.assign(
     // General options.
     {

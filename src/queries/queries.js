@@ -45,7 +45,6 @@ export const filtredProduct = (category) => {
           description
           user_id
           price
-          old_price
           quantity
           image
           category
@@ -63,7 +62,6 @@ export const filtredProduct = (category) => {
           description
           user_id
           price
-          old_price
           quantity
           image
           category

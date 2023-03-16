@@ -7,11 +7,12 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import ProductFilter from "./ProductFilter.vue";
 import Products from "./Products.vue";
 import { useQuery } from "@vue/apollo-composable";
 import { filtredProduct } from "src/queries/queries";
+import gql from "graphql-tag";
 
 const category = ref({ text: "Все" });
 
@@ -24,7 +25,21 @@ const queryProducts = useQuery(
   category
 );
 
+const GET_DATA = gql`
+  query {
+    products {
+      title
+    }
+  }
+`;
+
 const products = computed(() => queryProducts.result.value?.products ?? []);
+
+onMounted(() => {
+  const { result } = useQuery(GET_DATA);
+
+  console.log("result query", result);
+});
 </script>
 
 <style lang="scss" scoped></style>

@@ -8,8 +8,8 @@
         Категории
       </div>
       <q-list>
-        <q-item class="q-pa-md" :class="{'active-category':getCategory(category.name)}" v-for="category in categories" :key="category.id">
-          {{ category.name }}
+        <q-item class="q-pa-md" :class="{'active-category':getCategory(category.category_name)}" v-for="category in categories" :key="category.category_name">
+          {{ category.category_name }}
         </q-item>
       </q-list>
     </div>
@@ -36,23 +36,25 @@
 import { computed, ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useQuery } from "@vue/apollo-composable";
-import { getProductsById } from "src/queries/queries";
-import { useStore } from "vuex";
+import { getProductsById,getCategories } from "src/queries/queries";
 
-const store = useStore();
-
-const categories = computed(() => store.getters["filter/PRODUCT_FILTER"]);
+const queryCategories =useQuery(getCategories);
+const categories = computed(() => queryCategories.result.value?.categories ?? []);
 
 const route = useRoute();
 const id = ref({ id: +route.params.id });
 
-const queryProduct = useQuery(getProductsById, id);
+const queryProduct = useQuery(computed(()=>getProductsById), id);
+const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 
-const product = computed(() => queryProduct.result.value?.products[0] ?? [])
+// watch(queryProduct.loading, () => {
+//   console.log(queryProduct.result.value)
+//   console.log(product.value.title);
+//   console.log(categories.value)
+// })
 
-watch(queryProduct.loading, () => {
-  console.log(queryProduct)
-  console.log(product.value.title);
+watch(queryCategories.loading, () => {
+  console.log(queryCategories.result)
 })
 
 const getCategory=(name)=>{

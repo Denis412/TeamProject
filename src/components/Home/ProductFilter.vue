@@ -1,9 +1,14 @@
 <template>
   <q-list class="row wrap justify-center btn-group">
-    <q-item v-for="(btn,index) in filterBtns"
-    :key="btn.id">
-      <button ref="button" @click="useFilter(index,btn.name)" class="btn-group__item no-border">
-      {{btn.name }}
+    <q-item>
+      <button ref="button" @click="useFilter(0,'Все')" class="active btn-group__item no-border">
+        Все
+      </button>
+    </q-item>
+    <q-item v-for="(btn,index) in categories"
+    :key="btn.category_name">
+      <button ref="button" @click="useFilter(index+1,btn.category_name)" class="btn-group__item no-border">
+      {{btn.category_name }}
     </button>
     </q-item>
   </q-list>
@@ -11,15 +16,16 @@
 
 <script setup>
 import { computed, ref, defineEmits } from "vue";
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
+import { useQuery } from "@vue/apollo-composable";
+import { getCategories } from "src/queries/queries";
+
+const queryCategories =useQuery(getCategories);
+const categories = computed(() => queryCategories.result.value?.categories ?? []);
 
 const emit = defineEmits(['useFilter']);
 
-const store = useStore();
-
-const filterBtns = computed(() => store.getters["filter/PRODUCT_FILTER"]);
-
-const button=ref();
+const button=computed(()=>document.querySelectorAll('.btn-group__item'))
 
 const useFilter = (index,categoryName)=>{
   button.value.forEach(el => {

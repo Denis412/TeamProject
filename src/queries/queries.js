@@ -73,3 +73,13 @@ export const filtredProduct = (category) => {
     return data;
   }
 };
+
+//CATEGORIES
+
+export const getCategories = gql`
+query {
+  categories {
+    category_name
+  }
+}
+`;

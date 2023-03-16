@@ -72,15 +72,20 @@
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useQuasar } from "quasar";
+import { useQuery } from "@vue/apollo-composable";
+import { getCategories } from "src/queries/queries";
+
+const queryCategories =useQuery(getCategories);
+const categories = computed(() => queryCategories.result.value?.categories ?? []);
 
 const store = useStore();
 
 const $q = useQuasar();
 
-const categories = computed(() => store.getters["filter/PRODUCT_FILTER"]);
+// const categories = computed(() => store.getters["filter/PRODUCT_FILTER"]);
 
 const getName=()=>{
-  return categories.value.map((el)=>el.name)
+  return categories.value.map((el)=>el.category_name)
 }
 
 const textValidator =(val)=> (val && val.length > 0) || 'Пожалуйста напишите что-нибудь';

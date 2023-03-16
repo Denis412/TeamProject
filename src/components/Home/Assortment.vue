@@ -18,27 +18,26 @@ const category = ref({ text: "Все" });
 
 const useFilter = (categoryName) => {
   category.value.text = categoryName;
+  console.log("result query", queryProducts.error);
 };
 
 const queryProducts = useQuery(
-  computed(() => filtredProduct(category.value.text)),
-  category
-);
+  computed(() => filtredProduct(category.value.text)),category);
 
-const GET_DATA = gql`
-  query {
-    products {
-      title
-    }
-  }
-`;
+// const GET_DATA = gql`
+//   query {
+//     products {
+//       title
+//     }
+//   }
+// `;
 
 const products = computed(() => queryProducts.result.value?.products ?? []);
 
 onMounted(() => {
-  const { result } = useQuery(GET_DATA);
 
-  console.log("result query", result);
+
+  console.log("result query", products.value);
 });
 </script>
 

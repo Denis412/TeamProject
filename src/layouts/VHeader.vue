@@ -36,7 +36,9 @@
 
     </q-toolbar>
 
-    <q-drawer v-model="rightDrawerOpen" :width="250" side="right" overlay bordered>
+  </q-header>
+
+  <q-drawer show-if-above v-model="rightDrawerOpen" :width="250" side="right" bordered>
     <v-nav-links :nav-links="navLinks" />
 
           <router-link style="text-decoration: none; color: black;" :to="{}">
@@ -52,8 +54,6 @@
       </q-item>
     </router-link>
   </q-drawer>
-
-  </q-header>
 </template>
 
 <script>

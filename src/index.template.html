@@ -66,6 +66,11 @@
             // Mount user button component
             Clerk.mountUserButton(userButton);
             userButton.style.margin = "auto";
+
+            sessionStorage.setItem(
+              "token",
+              await Clerk.session.getToken({ template: "hasura" })
+            );
           }
         } catch (err) {
           console.error("Error starting Clerk: ", err);

@@ -1,17 +1,38 @@
 import { createHttpLink, InMemoryCache } from "@apollo/client/core";
+import { setContext } from "@apollo/client/link/context";
 import Clerk from "@clerk/clerk-js";
 // import { setContext } from "@apollo/client/link/context";
 
 export /* async */ function getClientOptions(/* {app, router, ...} */ options) {
+  const httpLink = createHttpLink({
+    uri: "https://wanted-bull-47.hasura.app/v1/graphql",
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    const token = sessionStorage.getItem("token");
+
+    console.log("tok", token);
+
+    return {
+      headers: {
+        ...headers,
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    };
+  });
+
+  // link: createHttpLink({
+  //   uri:
+  //     process.env.GRAPHQL_URI ||
+  //     // Change to your graphql endpoint.
+  //     "https://wanted-bull-47.hasura.app/v1/graphql",
+  // }),
+  // cache: new InMemoryCache(),
+
   return Object.assign(
     // General options.
     {
-      link: createHttpLink({
-        uri:
-          process.env.GRAPHQL_URI ||
-          // Change to your graphql endpoint.
-          "https://wanted-bull-47.hasura.app/v1/graphql",
-      }),
+      link: authLink.concat(httpLink),
       cache: new InMemoryCache(),
     }
     // Specific Quasar mode options.

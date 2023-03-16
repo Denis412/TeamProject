@@ -64,7 +64,7 @@ const get = async () => {
   console.log(window.Clerk.user);
   console.log(window.Clerk.user);
 
-  const token = await window.Clerk.session.getToken();
+  const token = await window.Clerk.session.getToken({ template: "hasura" });
 
   console.log(token);
 };

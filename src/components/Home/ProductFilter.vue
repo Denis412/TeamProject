@@ -16,7 +16,6 @@
 
 <script setup>
 import { computed, ref, defineEmits } from "vue";
-// import { useStore } from "vuex";
 import { useQuery } from "@vue/apollo-composable";
 import { getCategories } from "src/queries/queries";
 

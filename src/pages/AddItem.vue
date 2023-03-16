@@ -10,7 +10,7 @@
     v-model="form.name"
     label="Название продукта"
     lazy-rules
-    :rules="textValidator"
+    :rules="[text]"
   />
 
   <q-select
@@ -18,7 +18,7 @@
   v-model="form.category"
   :options="getName()"
   label="Категория товара"
-  :rules="[val => val && val.length > 0 || 'Пожалуйста выберите категорию']"
+  :rules="[select]"
   />
 
   <q-input
@@ -28,7 +28,7 @@
     label="Текущая цена"
     lazy-rules
     :rules="[
-      val => val !== null && val !== '' || 'Пожалуйста введите цену',
+      price,
       val => val >= 0 || 'Пожалуйста введите реальную цену'
     ]"
   />
@@ -40,9 +40,7 @@
     hint="Не обязательное поле"
     label="Старая цена"
     lazy-rules
-    :rules="[
-      val => val >= 0 || 'Пожалуйста введите реальную цену'
-    ]"
+    :rules="[price]"
   />
 
   <q-input
@@ -50,7 +48,7 @@
     v-model="form.description"
     label="Описание продукта"
     lazy-rules
-    :rules="textValidator"
+    :rules="[text]"
   />
 
   <q-file outlined v-model="form.img" accept=".jpg, image/*">
@@ -74,6 +72,7 @@ import { useStore } from 'vuex';
 import { useQuasar } from "quasar";
 import { useQuery } from "@vue/apollo-composable";
 import { getCategories } from "src/queries/queries";
+import { textValidator,selectValidator,priceValidator } from "../use/validators";
 
 const queryCategories =useQuery(getCategories);
 const categories = computed(() => queryCategories.result.value?.categories ?? []);
@@ -82,14 +81,14 @@ const store = useStore();
 
 const $q = useQuasar();
 
-// const categories = computed(() => store.getters["filter/PRODUCT_FILTER"]);
-
 const getName=()=>{
   return categories.value.map((el)=>el.category_name)
 }
 
-const textValidator =(val)=> (val && val.length > 0) || 'Пожалуйста напишите что-нибудь';
-const selectValidator = (val)=>(val => val && val.length > 0) || 'Пожалуйста выберите категорию';
+const {text} = textValidator();
+const {select} = selectValidator();
+const {price} = priceValidator();
+
 //заполнение обьекта тестовое помимо значений по умолчанию будет добавлен динамический id и что-то надо придумать с картинкой уже потом видно будет
 
 const form = ref({
@@ -99,7 +98,7 @@ const form = ref({
   old_price: null,
   description:'SDGF',
   img: 'product.png',
-  category: 'SFGD'
+  category: null
 })
 
 const onSubmit = async () => {

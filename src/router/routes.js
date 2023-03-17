@@ -50,7 +50,6 @@ const routes = [
       },
     ],
   },
-
   {
     path: "/:catchAll(.*)*",
     component: () => import("pages/MIAErrorNotFound.vue"),

@@ -1,5 +1,10 @@
 <template>
   <q-page>
+    <div class="flex justify-end q-mt-md">
+      <router-link :to="{ name: 'AddItem' }" class="link link-btn text-black">
+        <q-btn> Добавить товар </q-btn>
+      </router-link>
+    </div>
     <Assortment />
   </q-page>
 </template>

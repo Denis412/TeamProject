@@ -1,102 +1,110 @@
 <template>
-  <div class="q-pa-md" style="max-width: 400px; margin: 0 auto">
-    <q-form @submit="onSubmit" class="q-gutter-md">
-      <q-input
-        filled
-        v-model="form.title"
-        label="Название продукта"
-        lazy-rules
-        :rules="[textValidator]"
-      />
+  <q-page class="flex column">
+    <router-link
+      class="link link-btn text-black q-mt-md text-center"
+      :to="{ name: 'home' }"
+    >
+      <q-btn>Вернуться на главную</q-btn>
+    </router-link>
 
-      <q-select
-        filled
-        v-model="form.category"
-        :options="getName()"
-        label="Категория товара"
-        :rules="[required]"
-      />
+    <q-page-container class="flex justify-around">
+      <div>
+        <div class="text-h5 text-center">Превью карточки товара</div>
+        <MIAPreviewProductItem :product="product" />
+      </div>
 
-      <q-input
-        filled
-        type="number"
-        v-model="form.price"
-        label="Текущая цена"
-        lazy-rules
-        :rules="[required, isNumber, minValue(0)]"
-      />
+      <div class="q-pa-md" style="max-width: 400px; width: 400px">
+        <q-form @submit="onSubmit" class="q-gutter-md">
+          <q-input
+            filled
+            v-model="form.title"
+            label="Название продукта"
+            lazy-rules
+            :rules="[required]"
+          />
 
-      <q-input
-        filled
-        type="number"
-        v-model="form.old_price"
-        hint="Не обязательное поле"
-        label="Старая цена"
-        lazy-rules
-        :rules="[minValue(0)]"
-      />
+          <q-select
+            filled
+            v-model="form.category"
+            :options="categoriesNames"
+            label="Категория товара"
+            :rules="[required]"
+          />
 
-      <q-input
-        filled
-        v-model="form.description"
-        label="Описание продукта"
-        lazy-rules
-        :rules="[textValidator]"
-      />
+          <q-input
+            filled
+            type="number"
+            v-model="form.price"
+            label="Текущая цена"
+            lazy-rules
+            :rules="[required, isNumber, minValue(0)]"
+          />
 
-      <!-- <q-file outlined v-model="form.img" accept=".jpg, image/*">
+          <q-input
+            filled
+            type="number"
+            v-model="form.old_price"
+            hint="Не обязательное поле"
+            label="Старая цена"
+            lazy-rules
+            :rules="[minValue(0)]"
+          />
+
+          <q-input
+            filled
+            v-model="form.description"
+            label="Описание продукта"
+            lazy-rules
+            :rules="[required]"
+          />
+
+          <!-- <q-file outlined v-model="form.img" accept=".jpg, image/*">
         <template v-slot:prepend>
           <q-icon name="attach_file" />
         </template>
       </q-file> -->
 
-      <div>
-        <q-btn
-          class="block"
-          label="Submit"
-          type="submit"
-          color="primary"
-          style="margin: 0 auto"
-        />
+          <div>
+            <q-btn
+              class="block"
+              label="Добавить товар"
+              type="submit"
+              color="primary"
+              style="margin: 0 auto"
+            />
+          </div>
+        </q-form>
       </div>
-    </q-form>
-    <router-link :to="{ name: 'home' }">Вернуться на главную</router-link>
-  </div>
+    </q-page-container>
+  </q-page>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useStore } from "vuex";
+import { ref, reactive, computed } from "vue";
 import { useQuasar } from "quasar";
 import { useQuery, useMutation } from "@vue/apollo-composable";
 import { getCategories } from "src/graphql-operations/queries";
 import { addProductToCatalog } from "../graphql-operations/mutations";
 import { useValidators } from "src/use/validators";
+import MIAPreviewProductItem from "src/components/MIAPreviewProductItem.vue";
 
-const { required, minValue, isNumber } = useValidators();
-
-const queryCategories = useQuery(getCategories);
-const categories = computed(
-  () => queryCategories.result.value?.categories ?? []
-);
-
-const store = useStore();
 const $q = useQuasar();
 
+const queryCategories = useQuery(getCategories);
 const {
   mutate: addProduct,
   loading: isProductLoading,
   error: iseProductAddedError,
 } = useMutation(addProductToCatalog);
 
-const getName = () => {
-  return categories.value.map((category) => category.category_name);
-};
+const categories = computed(
+  () => queryCategories.result.value?.categories ?? []
+);
+const categoriesNames = computed(() =>
+  categories.value.map((category) => category.category_name)
+);
 
-const textValidator = (val) =>
-  (val && val.length > 0) || "Пожалуйста напишите что-нибудь";
-const selectValidator = (val) =>
-  ((val) => val && val.length > 0) || "Пожалуйста выберите категорию";
+const { required, minValue, isNumber } = useValidators();
 
 const form = ref({
   title: "",
@@ -106,6 +114,8 @@ const form = ref({
   image: "product.png",
   category: "",
 });
+
+const product = reactive(form.value);
 
 const onSubmit = async () => {
   try {
@@ -131,4 +141,9 @@ const onSubmit = async () => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.form-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+</style>

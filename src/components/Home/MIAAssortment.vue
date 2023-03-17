@@ -1,9 +1,7 @@
 <template>
-  <div class="q-pt-xl q-px-md">
+  <div>
     <div class="text-h3 text-center">Наш ассортимент</div>
     <ProductFilter @useFilter="useFilter" />
-
-    <router-link :to="{ name: 'AddItem' }">Добавить товар</router-link>
 
     <div v-if="loading" class="text-h3 text-center q-mt-xl">
       Загрузка товаров...

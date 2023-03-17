@@ -10,6 +10,12 @@
   &:hover {
     text-decoration: underline;
   }
+
+  &-btn {
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
 
 .large-text {

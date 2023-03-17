@@ -54,8 +54,8 @@
 
 <script setup>
 import { ref } from "vue";
-import VNavLinks from "./VNavLinks.vue";
-import VNavItem from "./VNavItem.vue";
+import VNavLinks from "./MIANavLinks.vue";
+import VNavItem from "./MIANavItem.vue";
 import { inject } from "vue";
 import userApi from "../sdk/user";
 import Clerk from "@clerk/clerk-js";

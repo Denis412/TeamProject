@@ -20,7 +20,7 @@
 
 <script setup>
 import { provide, ref } from "vue";
-import mainHeader from "../components/mainHeader.vue";
+import mainHeader from "components/MIAMainHeader.vue";
 
 const rightDrawerOpen = ref(false);
 

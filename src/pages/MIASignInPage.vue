@@ -6,7 +6,7 @@
 
 <script setup>
 import { useQuasar } from "quasar";
-import AuthenticationForm from "../components/AuthenticationForm.vue";
+import AuthenticationForm from "components/MIAAuthenticationForm.vue";
 import userApi from "../sdk/user";
 import { useRouter } from "vue-router";
 

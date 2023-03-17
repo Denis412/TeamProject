@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import Assortment from "src/components/Home/Assortment.vue";
+import Assortment from "components/Home/MIAAssortment.vue";
 import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 </script>

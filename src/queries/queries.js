@@ -17,6 +17,14 @@ import gql from "graphql-tag";
 //   }
 // `;
 
+export const getProductsInFavorites = gql`
+  query {
+    favorites {
+      products
+    }
+  }
+`;
+
 export const getProductsById = gql`
   query ($id: bigint!) {
     products(where: { id: { _eq: $id } }) {

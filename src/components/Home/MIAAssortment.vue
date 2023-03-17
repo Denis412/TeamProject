@@ -8,8 +8,8 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import ProductFilter from "./ProductFilter.vue";
-import Products from "./Products.vue";
+import ProductFilter from "./MIAProductFilter.vue";
+import Products from "./MIAProducts.vue";
 import { useQuery } from "@vue/apollo-composable";
 import { filtredProduct } from "src/queries/queries";
 import gql from "graphql-tag";

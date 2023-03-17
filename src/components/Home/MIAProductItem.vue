@@ -67,3 +67,25 @@ const useFavorite = async () => {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+.wrapper
+  background: #F6F9FF
+  border-radius: 26px
+.product
+  min-height: 504px
+  margin-bottom: 56px
+.price-area
+  display: flex
+  font-size: 16px
+  .old-price
+    text-decoration: line-through
+.btn-tocart
+  background: #feb302
+  color: white
+  text-transform: none
+  border-radius: 13px
+.product__title
+  text-decoration: none
+  color: black
+</style>

@@ -12,15 +12,18 @@
           use-chips
           stack-label
           label="Сортировать по дате:"
+          @update:model-value="dateSort"
         />
         <q-select
-        class="col-6"
+          class="col-6"
           filled
           v-model="price"
           :options="['Сначала дорогое', 'Сначала дешевое']"
           use-chips
           stack-label
           label="Сортировать цене:"
+          @update:model-value="priceSort"
+
         />
       </div>
       <div class="col-6">
@@ -54,20 +57,7 @@ const useFilter = (categoryName) => {
   category.value.text = categoryName;
 };
 
-
-const queryProducts = useQuery(computed(() => filtredProduct(category.value.text)), category);
-
-const searchData = ref('');
-
-const search=()=>{
-    return products.value.filter(e=>e.title.toLowerCase().includes(searchData.value.toLowerCase()))
-}
-
-let products = computed(() => queryProducts.result.value?.products ?? []);
-const date = ref();
-const price = ref();
-
-watch(date, () => {
+const dateSort=()=>{
   if (date.value === 'Сначала новое') {
     const queryProducts = useQuery(computed(() => getProductByDateDesc(category.value.text)), category);
     products = computed(() => queryProducts.result.value?.products ?? []);
@@ -76,9 +66,10 @@ watch(date, () => {
     const queryProducts = useQuery(computed(() => filtredProduct(category.value.text)), category);
     products = computed(() => queryProducts.result.value?.products ?? []);
   }
-})
+  price.value=null;
+}
 
-watch(price, () => {
+const priceSort=()=>{
   if (price.value === 'Сначала дорогое') {
     const queryProducts = useQuery(computed(() => getProductByPriceDesc(category.value.text)), category);
     products = computed(() => queryProducts.result.value?.products ?? []);
@@ -91,7 +82,20 @@ watch(price, () => {
     const queryProducts = useQuery(computed(() => filtredProduct(category.value.text)), category);
     products = computed(() => queryProducts.result.value?.products ?? []);
   }
-})
+  date.value=null;
+}
+
+const queryProducts = useQuery(computed(() => filtredProduct(category.value.text)), category);
+
+const searchData = ref('');
+
+const search=()=>{
+    return products.value.filter(e=>e.title.toLowerCase().includes(searchData.value.toLowerCase()))
+}
+
+let products = computed(() => queryProducts.result.value?.products ?? []);
+const date = ref();
+const price = ref();
 
 onMounted(() => {
 

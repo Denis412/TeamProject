@@ -2,7 +2,10 @@
   <div class="q-pt-xl q-px-md">
     <div class="text-h3 text-center">Наш ассортимент</div>
     <ProductFilter @useFilter="useFilter" />
-    <q-select
+    <div class="row">
+      <div class="col-6 row">
+        <q-select
+          class="col-6"
           filled
           v-model="date"
           :options="['Сначала новое', 'Сначала старое']"
@@ -11,6 +14,7 @@
           label="Сортировать по дате:"
         />
         <q-select
+        class="col-6"
           filled
           v-model="price"
           :options="['Сначала дорогое', 'Сначала дешевое']"
@@ -18,7 +22,9 @@
           stack-label
           label="Сортировать цене:"
         />
-        <input type="text" v-model="searchData">
+      </div>
+      <div class="col-6">
+        <input type="text" v-model="searchData" style="width: 100%;">
         <div v-show="searchData.length>2">
           <router-link :to="{ name: 'Product', params: { id: product.id } }" v-for="product in search()"
           :key="product.id"
@@ -26,6 +32,8 @@
             {{ product.title }}
           </router-link>
         </div>
+      </div>
+    </div>
     <Products :products="products" />
   </div>
 </template>

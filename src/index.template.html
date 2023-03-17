@@ -71,6 +71,15 @@
               "token",
               await Clerk.session.getToken({ template: "hasura" })
             );
+
+            setInterval(
+              async () =>
+                sessionStorage.setItem(
+                  "token",
+                  await Clerk.session.getToken({ template: "hasura" })
+                ),
+              1_000
+            );
           }
         } catch (err) {
           console.error("Error starting Clerk: ", err);

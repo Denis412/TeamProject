@@ -55,10 +55,6 @@ import { inject } from "vue";
 import userApi from "../sdk/user";
 
 const toggleRightDrawer = inject("toggleRightDrawer");
-
-const login = async () => {
-  userApi.login();
-};
 </script>
 
 <style lang="scss">

@@ -31,12 +31,14 @@
         </q-item>
 
         <q-item id="auth-links">
-          <q-btn @click="userApi.login"> Войти </q-btn>
+          <q-btn @click="login"> Войти </q-btn>
         </q-item>
 
         <q-btn @click="get">Ge user</q-btn>
 
         <q-item id="user-button"></q-item>
+
+        <div id="sign-in"></div>
 
         <q-btn
           class="menu-mobile justify-center items-center"
@@ -57,8 +59,14 @@ import VNavItem from "./VNavItem.vue";
 import { inject } from "vue";
 import userApi from "../sdk/user";
 import Clerk from "@clerk/clerk-js";
+import { useStore } from "vuex";
 
+const store = useStore();
 const toggleRightDrawer = inject("toggleRightDrawer");
+
+const login = async () => {
+  userApi.login();
+};
 
 const get = async () => {
   console.log(window.Clerk.user);

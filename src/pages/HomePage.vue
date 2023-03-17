@@ -10,14 +10,6 @@
 import Assortment from "src/components/Home/Assortment.vue";
 import { computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
-
-const store = useStore();
-
-const currentUser = computed(() => store.getters["user/CURRENT_USER"]);
-
-onMounted(async () => {
-  console.log("current user session", currentUser.value);
-});
 </script>
 
 <style lang="scss">

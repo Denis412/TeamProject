@@ -49,7 +49,7 @@ const register = async ({ email, password, user_name }) => {
   // }
 };
 
-const login = async ({ email, password }) => {
+const login = async () => {
   window.Clerk.openSignIn();
 };
 

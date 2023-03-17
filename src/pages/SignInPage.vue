@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center q-pa-md">
+  <q-page id="sign-in" class="flex flex-center q-pa-md">
     <AuthenticationForm type="signIn" :onSubmit="onSubmit" />
   </q-page>
 </template>

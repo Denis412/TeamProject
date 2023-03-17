@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pt-xl q-px-md">
+  <div>
     <div class="text-h3 text-center">Наш ассортимент</div>
     <ProductFilter @useFilter="useFilter" />
     <div class="row">
@@ -23,15 +23,17 @@
           stack-label
           label="Сортировать цене:"
           @update:model-value="priceSort"
-
         />
       </div>
       <div class="col-6">
-        <input type="text" v-model="searchData" style="width: 100%;">
-        <div v-show="searchData.length>2">
-          <router-link :to="{ name: 'Product', params: { id: product.id } }" v-for="product in search()"
-          :key="product.id"
-          style="width: 20px;height: 20px;">
+        <input type="text" v-model="searchData" style="width: 100%" />
+        <div v-show="searchData.length > 2">
+          <router-link
+            :to="{ name: 'Product', params: { id: product.id } }"
+            v-for="product in search()"
+            :key="product.id"
+            style="width: 20px; height: 20px"
+          >
             {{ product.title }}
           </router-link>
         </div>
@@ -47,59 +49,97 @@ import ProductFilter from "./MIAProductFilter.vue";
 import Products from "./MIAProducts.vue";
 import { useQuery, provideApolloClient } from "@vue/apollo-composable";
 import ApolloClient from "src/apollo/apollo-client.js";
-import { filtredProduct, getProductByDateDesc, getProductByPriceDesc, getProductByPriceAsc } from "src/queries/queries";
+import {
+  filtredProduct,
+  getProductByDateDesc,
+  getProductByPriceDesc,
+  getProductByPriceAsc,
+} from "src/queries/queries";
 
 provideApolloClient(ApolloClient);
 
 const category = ref({ text: "Все" });
 
+const {
+  mutate,
+  loading: loadingAdded,
+  error: errorAdded,
+} = useMutation(addProductToCatalog);
+
 const useFilter = (categoryName) => {
   category.value.text = categoryName;
 };
 
-const dateSort=()=>{
-  if (date.value === 'Сначала новое') {
-    const queryProducts = useQuery(computed(() => getProductByDateDesc(category.value.text)), category);
+const dateSort = () => {
+  if (date.value === "Сначала новое") {
+    const queryProducts = useQuery(
+      computed(() => getProductByDateDesc(category.value.text)),
+      category
+    );
+    products = computed(() => queryProducts.result.value?.products ?? []);
+  } else {
+    const queryProducts = useQuery(
+      computed(() => filtredProduct(category.value.text)),
+      category
+    );
     products = computed(() => queryProducts.result.value?.products ?? []);
   }
-  else {
-    const queryProducts = useQuery(computed(() => filtredProduct(category.value.text)), category);
-    products = computed(() => queryProducts.result.value?.products ?? []);
-  }
-  price.value=null;
-}
+  price.value = null;
+};
 
-const priceSort=()=>{
-  if (price.value === 'Сначала дорогое') {
-    const queryProducts = useQuery(computed(() => getProductByPriceDesc(category.value.text)), category);
+const priceSort = () => {
+  if (price.value === "Сначала дорогое") {
+    const queryProducts = useQuery(
+      computed(() => getProductByPriceDesc(category.value.text)),
+      category
+    );
+    products = computed(() => queryProducts.result.value?.products ?? []);
+  } else if (price.value === "Сначала дешевое") {
+    const queryProducts = useQuery(
+      computed(() => getProductByPriceAsc(category.value.text)),
+      category
+    );
+    products = computed(() => queryProducts.result.value?.products ?? []);
+  } else {
+    const queryProducts = useQuery(
+      computed(() => filtredProduct(category.value.text)),
+      category
+    );
     products = computed(() => queryProducts.result.value?.products ?? []);
   }
-  else if (price.value === 'Сначала дешевое') {
-    const queryProducts = useQuery(computed(() => getProductByPriceAsc(category.value.text)), category);
+  date.value = null;
+};
+
+const dateSort = () => {
+  if (date.value === "Сначала новое") {
+    const queryProducts = useQuery(
+      computed(() => getProductByDateDesc(category.value.text)),
+      category
+    );
+    products = computed(() => queryProducts.result.value?.products ?? []);
+  } else {
+    const queryProducts = useQuery(
+      computed(() => filtredProduct(category.value.text)),
+      category
+    );
     products = computed(() => queryProducts.result.value?.products ?? []);
   }
-  else {
-    const queryProducts = useQuery(computed(() => filtredProduct(category.value.text)), category);
-    products = computed(() => queryProducts.result.value?.products ?? []);
-  }
-  date.value=null;
-}
+  price.value = null;
+};
 
-const queryProducts = useQuery(computed(() => filtredProduct(category.value.text)), category);
+const searchData = ref("");
 
-const searchData = ref('');
-
-const search=()=>{
-    return products.value.filter(e=>e.title.toLowerCase().includes(searchData.value.toLowerCase()))
-}
+const search = () => {
+  return products.value.filter((e) =>
+    e.title.toLowerCase().includes(searchData.value.toLowerCase())
+  );
+};
 
 let products = computed(() => queryProducts.result.value?.products ?? []);
 const date = ref();
 const price = ref();
 
 onMounted(() => {
-
-
   console.log("result query", products.value);
 });
 </script>

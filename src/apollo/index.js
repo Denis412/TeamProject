@@ -11,8 +11,6 @@ export /* async */ function getClientOptions(/* {app, router, ...} */ options) {
   const authLink = setContext((_, { headers }) => {
     const token = sessionStorage.getItem("token");
 
-    console.log("tok", token);
-
     return {
       headers: {
         ...headers,

@@ -1,23 +1,16 @@
 <template>
   <q-page>
-    <!-- <HeaderPage /> -->
-    <!-- <p class="text-center">{{ currentUser.user_name }}</p> -->
+    <div class="flex justify-end q-mt-md">
+      <router-link :to="{ name: 'AddItem' }" class="link link-btn text-black">
+        <q-btn> Добавить товар </q-btn>
+      </router-link>
+    </div>
     <Assortment />
   </q-page>
 </template>
 
 <script setup>
 import Assortment from "components/Home/MIAAssortment.vue";
-import { computed, onMounted, watch } from "vue";
-import { useStore } from "vuex";
-
-const store = useStore();
-
-const currentUser = computed(() => store.getters["user/CURRENT_USER"]);
-
-onMounted(async () => {
-  console.log("current user session", currentUser.value);
-});
 </script>
 
 <style lang="scss">

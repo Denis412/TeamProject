@@ -1,12 +1,12 @@
 <template>
-  <q-layout view="hHh lpR ffr">
+  <q-layout view="hhh lpR ffr">
     <v-header/>
     <q-page-container>
-      <router-view v-slot="{ Component }">
+      <!-- <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component" />
         </keep-alive>
-      </router-view>
+      </router-view> -->
     </q-page-container>
     <v-footer/>
   </q-layout>

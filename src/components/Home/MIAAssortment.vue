@@ -110,23 +110,6 @@ const priceSort = () => {
   date.value = null;
 };
 
-const dateSort = () => {
-  if (date.value === "Сначала новое") {
-    const queryProducts = useQuery(
-      computed(() => getProductByDateDesc(category.value.text)),
-      category
-    );
-    products = computed(() => queryProducts.result.value?.products ?? []);
-  } else {
-    const queryProducts = useQuery(
-      computed(() => filtredProduct(category.value.text)),
-      category
-    );
-    products = computed(() => queryProducts.result.value?.products ?? []);
-  }
-  price.value = null;
-};
-
 const searchData = ref("");
 
 const search = () => {

@@ -22,10 +22,9 @@
 </template>
 
 <script setup>
-import { computed, ref, defineEmits } from "vue";
-// import { useStore } from "vuex";
+import { computed, defineEmits } from "vue";
 import { useQuery } from "@vue/apollo-composable";
-import { getCategories } from "src/queries/queries";
+import { getCategories } from "src/graphql-operations/queries";
 
 const queryCategories = useQuery(getCategories);
 const categories = computed(

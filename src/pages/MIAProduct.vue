@@ -4,27 +4,28 @@
   </div>
   <div class="row q-pa-lg">
     <div class="col-3 q-pa-lg categories-area">
-      <div class="q-pa-md" style="font-weight: 700;">
-        Категории
-      </div>
+      <div class="q-pa-md" style="font-weight: 700">Категории</div>
       <q-list>
-        <q-item class="q-pa-md" :class="{'active-category':getCategory(category.category_name)}" v-for="category in categories" :key="category.category_name">
+        <q-item
+          class="q-pa-md"
+          :class="{ 'active-category': getCategory(category.category_name) }"
+          v-for="category in categories"
+          :key="category.category_name"
+        >
           {{ category.category_name }}
         </q-item>
       </q-list>
     </div>
     <div class="col-8 offset-1 row product-information">
       <div class="col-5">
-        <q-img :src="require('../assets/img/'+product.image)"/>
+        <q-img :src="require('../assets/img/' + product.image)" />
       </div>
       <div class="col-6 offset-1 relative-position">
         <p>
           {{ product.description }}
         </p>
         <div class="buy-area text-h4 absolute-bottom text-red text-weight-bold">
-          <div>
-            {{ product.price }} Р
-          </div>
+          <div>{{ product.price }} Р</div>
           <q-btn flat class="btn-tocart q-mt-xl" label="В корзину" />
         </div>
       </div>
@@ -33,18 +34,23 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, ref, onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
-import { getProductsById,getCategories } from "src/queries/queries";
+import { getProductsById, getCategories } from "src/graphql-operations/queries";
 
-const queryCategories =useQuery(getCategories);
-const categories = computed(() => queryCategories.result.value?.categories ?? []);
+const queryCategories = useQuery(getCategories);
+const categories = computed(
+  () => queryCategories.result.value?.categories ?? []
+);
 
 const route = useRoute();
 const id = ref({ id: +route.params.id });
 
-const queryProduct = useQuery(computed(()=>getProductsById), id);
+const queryProduct = useQuery(
+  computed(() => getProductsById),
+  id
+);
 const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 
 // watch(queryProduct.loading, () => {
@@ -54,19 +60,14 @@ const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 // })
 
 watch(queryCategories.loading, () => {
-  console.log(queryCategories.result)
-})
+  console.log(queryCategories.result);
+});
 
-const getCategory=(name)=>{
-  return name===product.value.category
-}
+const getCategory = (name) => {
+  return name === product.value.category;
+};
 
-onMounted(() => {
-
-})
-
-
-
+onMounted(() => {});
 </script>
 
 <style lang="sass" scoped>

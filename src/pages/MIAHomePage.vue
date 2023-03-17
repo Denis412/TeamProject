@@ -1,15 +1,16 @@
 <template>
   <q-page>
-    <!-- <HeaderPage /> -->
-    <!-- <p class="text-center">{{ currentUser.user_name }}</p> -->
+    <div class="flex justify-end q-mt-md">
+      <router-link :to="{ name: 'AddItem' }" class="link link-btn text-black">
+        <q-btn> Добавить товар </q-btn>
+      </router-link>
+    </div>
     <Assortment />
   </q-page>
 </template>
 
 <script setup>
 import Assortment from "components/Home/MIAAssortment.vue";
-import { computed, onMounted, watch } from "vue";
-import { useStore } from "vuex";
 </script>
 
 <style lang="scss">

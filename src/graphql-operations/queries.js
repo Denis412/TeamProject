@@ -18,7 +18,7 @@ import gql from "graphql-tag";
 // `;
 
 export const getProductsInFavorites = gql`
-  query getProductsInFavorites {
+  query {
     favorites {
       products
     }

@@ -51,22 +51,6 @@ const routes = [
     ],
   },
   {
-    path: "/auth",
-    component: () => import("layouts/AuthenticationLayout.vue"),
-    children: [
-      {
-        path: "login",
-        name: "signIn",
-        component: () => import("pages/SignInPage.vue"),
-      },
-      {
-        path: "registration",
-        name: "signUp",
-        component: () => import("pages/SignUpPage.vue"),
-      },
-    ],
-  },
-  {
     path: "/:catchAll(.*)*",
     component: () => import("pages/MIAErrorNotFound.vue"),
   },

@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, ref } from "vue";
 import ProductFilter from "./MIAProductFilter.vue";
 import Products from "./MIAProducts.vue";
 import { useQuery, provideApolloClient } from "@vue/apollo-composable";
@@ -54,17 +54,11 @@ import {
   getProductByDateDesc,
   getProductByPriceDesc,
   getProductByPriceAsc,
-} from "src/queries/queries";
+} from "../../graphql-operations/queries";
 
 provideApolloClient(ApolloClient);
 
 const category = ref({ text: "Все" });
-
-const {
-  mutate,
-  loading: loadingAdded,
-  error: errorAdded,
-} = useMutation(addProductToCatalog);
 
 const useFilter = (categoryName) => {
   category.value.text = categoryName;
@@ -109,6 +103,11 @@ const priceSort = () => {
   }
   date.value = null;
 };
+
+const queryProducts = useQuery(
+  computed(() => filtredProduct(category.value.text)),
+  category
+);
 
 const searchData = ref("");
 

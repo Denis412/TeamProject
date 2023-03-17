@@ -1,23 +1,53 @@
 const routes = [
   {
     path: "/",
-    component: () => import("layouts/MainLayout.vue"),
+    component: () => import("layouts/MIAMainLayout.vue"),
     children: [
       {
-        path: "/",
-        name: "Home",
-        component: () => import("pages/HomePage.vue"),
+        path: "",
+        name: "home",
+        component: () => import("pages/MIAHomePage.vue"),
       },
       {
-        path:"additem",
-        name:"AddItem",
-        component: () => import("pages/AddItem.vue"),
+        path: "catalog",
+        name: "catalog",
+        component: () => import("pages/MIAHomePage.vue"),
       },
       {
-        path:"favorites",
-        name:"Favorites",
-        component: () => import("pages/Favorites.vue"),
-      }
+        path: "about-us",
+        name: "about-us",
+        component: () => import("pages/MIAHomePage.vue"),
+      },
+      {
+        path: "about-shipping",
+        name: "about-shipping",
+        component: () => import("pages/MIAHomePage.vue"),
+      },
+      {
+        path: "shops",
+        name: "shops",
+        component: () => import("pages/MIAHomePage.vue"),
+      },
+      {
+        path: "contacts",
+        name: "contacts",
+        component: () => import("pages/MIAHomePage.vue"),
+      },
+      {
+        path: "additem",
+        name: "AddItem",
+        component: () => import("pages/MIAAddItem.vue"),
+      },
+      {
+        path: "favorites",
+        name: "favorites",
+        component: () => import("pages/MIAFavorites.vue"),
+      },
+      {
+        path: "product/:id",
+        name: "Product",
+        component: () => import("pages/MIAProduct.vue"),
+      },
     ],
   },
   {
@@ -38,7 +68,7 @@ const routes = [
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => import("pages/ErrorNotFound.vue"),
+    component: () => import("pages/MIAErrorNotFound.vue"),
   },
 ];
 

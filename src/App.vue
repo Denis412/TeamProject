@@ -11,5 +11,6 @@ const store = useStore();
 onMounted(() => {
   console.log("App");
   store.dispatch("user/FETCH_CURRENT_USER");
+  store.dispatch("products/FETCH_PRODUCTS");
 });
 </script>

@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import VNavItem from "../components/VNavItem.vue";
+import VNavItem from "./MIANavItem.vue";
 
 const pagesLinks = [
   {

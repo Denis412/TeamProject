@@ -43,8 +43,8 @@
 
 <script setup>
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
-import ProductFilter from "./ProductFilter.vue";
-import Products from "./Products.vue";
+import ProductFilter from "./MIAProductFilter.vue";
+import Products from "./MIAProducts.vue";
 import { useQuery, provideApolloClient } from "@vue/apollo-composable";
 import ApolloClient from "src/apollo/apollo-client.js";
 import { filtredProduct, getProductByDateDesc, getProductByPriceDesc, getProductByPriceAsc } from "src/queries/queries";

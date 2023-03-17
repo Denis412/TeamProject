@@ -13,8 +13,13 @@
 </template>
 
 <script setup>
-import { provideApolloClient, useMutation } from "@vue/apollo-composable";
-import { addProductToFavorites } from "../../queries/mutations";
+import {
+  provideApolloClient,
+  useMutation,
+  useSubscription,
+} from "@vue/apollo-composable";
+import { addProductToFavorites } from "../../graphql-operations/mutations";
+import { getProductsInFavorites } from "../../graphql-operations/subscriptions";
 import apolloClient from "../../../apollo-client";
 import { onMounted } from "vue";
 
@@ -26,6 +31,7 @@ const { mutate, loading, error } = useMutation(addProductToFavorites);
 
 const useFavorite = async () => {
   const user = window.Clerk.user;
+  if (!user) return;
 
   provideApolloClient(apolloClient);
 

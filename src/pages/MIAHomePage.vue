@@ -1,15 +1,11 @@
 <template>
   <q-page>
-    <!-- <HeaderPage /> -->
-    <!-- <p class="text-center">{{ currentUser.user_name }}</p> -->
     <Assortment />
   </q-page>
 </template>
 
 <script setup>
 import Assortment from "components/Home/MIAAssortment.vue";
-import { computed, onMounted, watch } from "vue";
-import { useStore } from "vuex";
 </script>
 
 <style lang="scss">

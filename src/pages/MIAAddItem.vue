@@ -74,7 +74,7 @@ import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
 import { useQuery } from "@vue/apollo-composable";
-import { getCategories } from "src/queries/queries";
+import { getCategories } from "src/graphql-operations/queries";
 
 const queryCategories = useQuery(getCategories);
 const categories = computed(

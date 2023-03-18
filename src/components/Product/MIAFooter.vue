@@ -45,6 +45,8 @@ const useFavorite = async () => {
   const user = window.Clerk.user;
   if (!user) return;
 
+  console.log(window.Clerk.user);
+
   classes.value.isFavorite = !classes.value.isFavorite;
 
   if (result.value.favorites && result.value.favorites.length) {

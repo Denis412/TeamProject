@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <mainHeader />
+    <mainHeader @openProfile="openDialogEvent" />
 
     <!-- <q-drawer
       v-model="rightDrawerOpen"
@@ -10,6 +10,8 @@
       bordered
     >
       <VNavLinks />
+
+
     </q-drawer> -->
 
     <q-page-container class="q-pa-md">
@@ -21,6 +23,7 @@
 <script setup>
 import { provide, ref } from "vue";
 import mainHeader from "components/MIAMainHeader.vue";
+import MIAUserProfile from "src/components/UserProfile/MIAUserProfile.vue";
 
 const rightDrawerOpen = ref(false);
 

@@ -1,11 +1,13 @@
 <template>
-  <q-item-section class="q-my-md">
-    {{ description }}
-  </q-item-section>
-  <div class="price-area row q-ml-sm">
-    <div class="price col-4 text-red">От {{ price }} Р</div>
-    <div class="old-price col-4 text-grey" v-if="old_price">
-      От {{ old_price }} Р
+  <div>
+    <q-item-section class="q-my-md">
+      {{ description }}
+    </q-item-section>
+    <div class="price-area row q-ml-sm">
+      <div class="price col-4 text-red">От {{ price }} Р</div>
+      <div class="old-price col-4 text-grey" v-if="old_price">
+        От {{ old_price }} Р
+      </div>
     </div>
   </div>
 </template>

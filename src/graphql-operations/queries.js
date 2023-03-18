@@ -21,7 +21,6 @@ export const getFavorites = gql`
         price
         quantity
         title
-        user_id
       }
     }
   }

@@ -28,14 +28,7 @@
             От {{ product.product.old_price }} Р
           </div>
         </div>
-        <div class="absolute-bottom row q-ml-lg">
-          <div
-            class="bg-white col-6 row justify-between items-center btns-area"
-          >
-            <q-btn size="20px" flat icon="remove" />
-            23
-            <q-btn size="20px" flat icon="add" />
-          </div>
+        <div class="absolute-bottom flex justify-end row q-ml-lg">
           <q-btn
             @click="useCart(product.product.id)"
             flat

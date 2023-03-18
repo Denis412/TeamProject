@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 
 export const addProductToFavorites = gql`
   mutation addProductToFavorites($product: jsonb) {
-    insert_favorites1_one(object: { products: $product }) {
+    insert_favorites_one(object: { products: $product }) {
       products
     }
   }
@@ -12,7 +12,7 @@ export const addProductToFavorites = gql`
 
 export const updateFavorites = gql`
   mutation AddFavoriteProduct($user_id: String!, $product_id: jsonb!) {
-    update_favorites1(
+    update_favorites(
       where: { user_id: { _eq: $user_id } }
       _append: { products: $product_id }
     ) {

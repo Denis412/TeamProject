@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const getFavorites = gql`
   query {
-    favorites1 {
+    favorites {
       products
     }
   }

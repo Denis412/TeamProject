@@ -33,6 +33,7 @@ import {
   updateFavorites,
 } from "../../graphql-operations/mutations";
 import { getFavorites } from "../../graphql-operations/queries";
+import { resultKeyNameFromField } from "@apollo/client/utilities";
 
 const product = defineProps({
   product: Object,
@@ -58,8 +59,9 @@ const useFavorite = async () => {
 
   classes.value.isFavorite = !classes.value.isFavorite;
 
+  console.log(result.value.favorites.length);
   try {
-    if (result.value) {
+    if (result.value && result.value.favorites.length) {
       const { data } = await updateFavoriteProducts({
         user_id: user.id,
         product_id: product.product.id,

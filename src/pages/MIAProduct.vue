@@ -2,8 +2,8 @@
   <div class="text-h3 text-center q-mt-lg">
     {{ product.title }}
   </div>
-  <div class="row q-pa-lg">
-    <div class="col-3 q-pa-lg categories-area">
+  <div class="row wrap q-pa-lg">
+    <div class="col-sm-3 col-xs-12 q-pa-lg categories-area">
       <div class="q-pa-md" style="font-weight: 700">Категории</div>
       <q-list>
         <q-item
@@ -16,11 +16,11 @@
         </q-item>
       </q-list>
     </div>
-    <div class="col-8 offset-1 row product-information">
-      <div class="col-5">
+    <div class="col-sm-8 col-xs-12 offset-1 row wrap product-information">
+      <div class="col-md-5 col-sm-12 q-mb-lg">
         <q-img :src="require('../assets/img/' + product.image)" />
       </div>
-      <div class="col-6 offset-1 relative-position">
+      <div class="col-md-6 offset-1 relative-position text-information">
         <p>
           {{ product.description }}
         </p>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watch } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
 import { getProductsById, getCategories } from "src/graphql-operations/queries";
@@ -47,27 +47,20 @@ const categories = computed(
 const route = useRoute();
 const id = ref({ id: +route.params.id });
 
+onMounted(() => {
+  console.log(product.user_id);
+  console.log(window.Clerk.user.id);
+});
+
 const queryProduct = useQuery(
   computed(() => getProductsById),
   id
 );
 const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 
-// watch(queryProduct.loading, () => {
-//   console.log(queryProduct.result.value)
-//   console.log(product.value.title);
-//   console.log(categories.value)
-// })
-
-watch(queryCategories.loading, () => {
-  console.log(queryCategories.result);
-});
-
 const getCategory = (name) => {
   return name === product.value.category;
 };
-
-onMounted(() => {});
 </script>
 
 <style lang="sass" scoped>
@@ -83,7 +76,9 @@ onMounted(() => {});
   background: #feb302
   color: #fff
 .product-information
-  height: 70vh
+  min-height: 70vh
+.text-information
+  min-height: 30vh
 .btn-tocart
   background: #feb302
   color: white

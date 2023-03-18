@@ -7,3 +7,24 @@ export function useValidators() {
     isNumber: (val) => !isNaN(val) || "Введите число!",
   };
 }
+
+export function textValidator(){
+  return{
+    text:(val)=>
+      (val && val.length > 0) || 'Пожалуйста напишите что-нибудь',
+  };
+}
+export function selectValidator(){
+  return{
+    select:(val)=>
+      (val && val.length > 0) || 'Пожалуйста выберите категорию',
+  };
+}
+export function priceValidator(){
+  return{
+    price:(val)=>
+    (val !== null && val !== '') || 'Пожалуйста введите цену',
+    minPrice:(val)=>
+    (val >= 0) || 'Пожалуйста введите реальную цену'
+  };
+}

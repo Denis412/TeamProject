@@ -19,12 +19,14 @@
 </template>
 
 <script setup>
-import { provideApolloClient, useMutation } from "@vue/apollo-composable";
-import { reactive, ref } from "vue";
-import {
-  addProductToFavorites,
-  removeProductFromFavorites,
-} from "../../graphql-operations/mutations";
+import { useMutation, useQuery } from "@vue/apollo-composable";
+import { useQuasar } from "quasar";
+import { ref } from "vue";
+import { addProductInFavorite } from "../../graphql-operations/mutations";
+import { checkProduct } from "../../graphql-operations/queries";
+
+const $q = useQuasar();
+
 const product = defineProps({
   product: Object,
 });
@@ -33,31 +35,32 @@ const classes = ref({
   isFavorite: false,
 });
 
-const { mutate, loading, error } = useMutation(addProductToFavorites);
-const {
-  mutate: deleteProduct,
-  loading: _loading,
-  error: _error,
-} = useMutation(removeProductFromFavorites);
+const { mutate: addProduct } = useMutation(addProductInFavorite);
+
+const { result } = useQuery(checkProduct, {
+  productId: product.product.id,
+});
 
 const useFavorite = async () => {
   const user = window.Clerk.user;
   if (!user) return;
 
+  console.log(window.Clerk.user);
+
   classes.value.isFavorite = !classes.value.isFavorite;
 
-  if (!classes.value.isFavorite) {
-    const { data, loading, errors } = await deleteProduct({
-      id: 169,
+  if (result.value.favorites && result.value.favorites.length) {
+    $q.notify({
+      type: "warning",
+      message: "Товар уже есть в избранном!",
     });
 
     return;
   }
 
   try {
-    const { data, loading, errors } = await mutate({
-      user_id: user.id,
-      product: JSON.stringify({ id: product.product.id }),
+    const { data } = await addProduct({
+      productId: product.product.id,
     });
   } catch (error) {
     console.log(error);

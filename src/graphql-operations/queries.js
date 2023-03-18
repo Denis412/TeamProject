@@ -1,26 +1,9 @@
 import gql from "graphql-tag";
 
-// export const products = gql`
-//   query {
-//     products {
-//       id
-//       created_at
-//       title
-//       description
-//       user_id
-//       price
-//       old_price
-//       quantity
-//       image
-//       category
-//     }
-//   }
-// `;
-
-export const getProductsInFavorites = gql`
-  query {
-    favorites {
-      products
+export const checkProduct = gql`
+  query checkProduct($productId: bigint!) {
+    favorites(where: { product_id: { _eq: $productId } }) {
+      id
     }
   }
 `;
@@ -31,8 +14,8 @@ export const getProductsById = gql`
       id
       created_at
       title
-      description
       user_id
+      description
       price
       old_price
       quantity
@@ -51,7 +34,6 @@ export const filtredProduct = (category) => {
           created_at
           title
           description
-          user_id
           price
           quantity
           image
@@ -68,11 +50,133 @@ export const filtredProduct = (category) => {
           created_at
           title
           description
-          user_id
           price
           quantity
           image
           category
+        }
+      }
+    `;
+    return data;
+  }
+};
+
+export const getProductByDateDesc = (category) => {
+  if (category === "Все") {
+    const data = gql`
+      query {
+        products(order_by: { created_at: desc }) {
+          id
+          category
+          created_at
+          description
+          image
+          old_price
+          price
+          quantity
+          title
+        }
+      }
+    `;
+    return data;
+  } else {
+    const data = gql`
+      query ($text: String!) {
+        products(
+          order_by: { created_at: desc }
+          where: { category: { _eq: $text } }
+        ) {
+          id
+          category
+          created_at
+          description
+          image
+          old_price
+          price
+          quantity
+          title
+        }
+      }
+    `;
+    return data;
+  }
+};
+
+export const getProductByPriceDesc = (category) => {
+  if (category === "Все") {
+    const data = gql`
+      query {
+        products(order_by: { price: desc }) {
+          id
+          category
+          created_at
+          description
+          image
+          old_price
+          price
+          quantity
+          title
+        }
+      }
+    `;
+    return data;
+  } else {
+    const data = gql`
+      query ($text: String!) {
+        products(
+          order_by: { price: desc }
+          where: { category: { _eq: $text } }
+        ) {
+          id
+          category
+          created_at
+          description
+          image
+          old_price
+          price
+          quantity
+          title
+        }
+      }
+    `;
+    return data;
+  }
+};
+
+export const getProductByPriceAsc = (category) => {
+  if (category === "Все") {
+    const data = gql`
+      query {
+        products(order_by: { price: asc }) {
+          id
+          category
+          created_at
+          description
+          image
+          old_price
+          price
+          quantity
+          title
+        }
+      }
+    `;
+    return data;
+  } else {
+    const data = gql`
+      query ($text: String!) {
+        products(
+          order_by: { price: asc }
+          where: { category: { _eq: $text } }
+        ) {
+          id
+          category
+          created_at
+          description
+          image
+          old_price
+          price
+          quantity
+          title
         }
       }
     `;

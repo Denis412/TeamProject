@@ -31,10 +31,12 @@
         </q-item>
 
         <q-item id="auth-links">
-          <q-btn @click="login"> Войти </q-btn>
+          <q-btn @click="userApi.login"> Войти </q-btn>
         </q-item>
 
-        <q-item id="user-button"></q-item>
+        <div class="q-ml-md" @click="toggleShowProfileSettings">
+          <div id="user-button"></div>
+        </div>
 
         <q-btn
           class="menu-mobile justify-center items-center"
@@ -45,20 +47,29 @@
         />
       </div>
     </q-toolbar>
+
+    <q-dialog v-model="showProfileSettings" position="top">
+      <MIAUserProfile />
+    </q-dialog>
   </q-header>
 </template>
 
 <script setup>
 import VNavLinks from "./MIANavLinks.vue";
 import VNavItem from "./MIANavItem.vue";
-import { inject } from "vue";
+import { inject, ref } from "vue";
 import userApi from "../sdk/user";
+import MIAUserProfile from "./UserProfile/MIAUserProfile.vue";
 
 const toggleRightDrawer = inject("toggleRightDrawer");
 
-const login = async () => {
-  userApi.login();
+const showProfileSettings = ref(false);
+
+const toggleShowProfileSettings = () => {
+  showProfileSettings.value = !showProfileSettings.value;
 };
+
+const emit = defineEmits(["openProfile"]);
 </script>
 
 <style lang="scss">

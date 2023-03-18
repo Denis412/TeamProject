@@ -1,9 +1,8 @@
-import { ApolloClient /*, createHttpLink */ } from "@apollo/client/core";
+// import { ApolloClient /*, createHttpLink */ } from "@apollo/client/core";
 import { ApolloClients } from "@vue/apollo-composable";
 import { boot } from "quasar/wrappers";
-import { getClientOptions } from "src/apollo";
-import apolloClient from "../../apollo-client";
-
+// import { getClientOptions } from "src/apollo";
+import apolloClient from 'src/apollo/apollo-client.js'
 export default boot(
   /* async */ ({ app }) => {
     // Default client.

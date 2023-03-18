@@ -4,6 +4,7 @@ const startClerk = async () => {
   const Clerk = window.Clerk;
 
   try {
+    // Load Clerk environment and session if available
     await Clerk.load();
 
     const userButton = document.getElementById("user-button");
@@ -18,6 +19,20 @@ const startClerk = async () => {
       // Mount user button component
       Clerk.mountUserButton(userButton);
       userButton.style.margin = "auto";
+
+      sessionStorage.setItem(
+        "token",
+        await Clerk.session.getToken({ template: "hasura" })
+      );
+
+      setInterval(
+        async () =>
+          sessionStorage.setItem(
+            "token",
+            await Clerk.session.getToken({ template: "hasura" })
+          ),
+        1_000
+      );
     }
   } catch (err) {
     console.error("Error starting Clerk: ", err);

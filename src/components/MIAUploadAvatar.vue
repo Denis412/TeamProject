@@ -6,21 +6,16 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
-import userApi from "../sdk/user";
 
 const store = useStore();
 const currentUser = computed(() => store.getters["user/CURRENT_USER"]);
 
+const imageUrl = ref("");
+
 const updateAvatar = async (event) => {
-  try {
-    await userApi.updateAvatar(event.target.files[0]);
-    currentUser.value = await userApi.get();
-  } catch (error) {
-    console.log(error);
-  }
-  console.log("user", await userApi.get());
+  console.log(event);
 };
 </script>
 

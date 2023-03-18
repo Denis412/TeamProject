@@ -1,17 +1,19 @@
 <template>
-  <router-link class="block" :to="{ name: 'Product', params: { id: id } }">
-    <q-item-section>
-      <q-img :src="require('../../assets/img/' + image)" />
-    </q-item-section>
-  </router-link>
-  <q-item-section class="q-mt-md text-weight-bold">
-    <router-link
-      class="product__title"
-      :to="{ name: 'Product', params: { id: id } }"
-    >
-      {{ title }}
+  <div>
+    <router-link class="block" :to="{ name: 'Product', params: { id: id } }">
+      <q-item-section>
+        <q-img :src="require('../../assets/img/' + image)" />
+      </q-item-section>
     </router-link>
-  </q-item-section>
+    <q-item-section class="q-mt-md text-weight-bold">
+      <router-link
+        class="product__title"
+        :to="{ name: 'Product', params: { id: id } }"
+      >
+        {{ title }}
+      </router-link>
+    </q-item-section>
+  </div>
 </template>
 
 <script setup>

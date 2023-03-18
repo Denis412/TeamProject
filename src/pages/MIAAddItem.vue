@@ -13,8 +13,18 @@
         <MIAPreviewProductItem :product="product" />
       </div>
 
-      <div class="q-pa-md" style="max-width: 400px; width: 400px">
+      <div class="q-pa-md" style="max-width: 500px; width: 500px">
         <q-form @submit="onSubmit" class="q-gutter-md">
+          <div>
+            <q-uploader
+              url="../assets/img/"
+              label="Загрузить картинку"
+              color="primary"
+              multiple
+              max-files="4"
+              class="w-100p"
+            />
+          </div>
           <q-input
             filled
             v-model="form.title"
@@ -31,24 +41,26 @@
             :rules="[required]"
           />
 
-          <q-input
-            filled
-            type="number"
-            v-model="form.price"
-            label="Текущая цена"
-            lazy-rules
-            :rules="[required, isNumber, minValue(0)]"
-          />
+          <div class="flex justify-between">
+            <q-input
+              filled
+              type="number"
+              v-model="form.price"
+              label="Текущая цена"
+              lazy-rules
+              :rules="[required, isNumber, minValue(0)]"
+            />
 
-          <q-input
-            filled
-            type="number"
-            v-model="form.old_price"
-            hint="Не обязательное поле"
-            label="Старая цена"
-            lazy-rules
-            :rules="[minValue(0)]"
-          />
+            <q-input
+              filled
+              type="number"
+              v-model="form.old_price"
+              class="q-ml-md"
+              label="Старая цена"
+              lazy-rules
+              :rules="[minValue(0)]"
+            />
+          </div>
 
           <q-input
             filled
@@ -87,6 +99,7 @@ import { getCategories } from "src/graphql-operations/queries";
 import { addProductToCatalog } from "../graphql-operations/mutations";
 import { useValidators } from "src/use/validators";
 import MIAPreviewProductItem from "src/components/MIAPreviewProductItem.vue";
+import MIAUploadAvatar from "src/components/MIAUploadAvatar.vue";
 
 const $q = useQuasar();
 

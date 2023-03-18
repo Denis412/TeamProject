@@ -19,12 +19,21 @@
 </template>
 
 <script setup>
-import { provideApolloClient, useMutation } from "@vue/apollo-composable";
+import {
+  provideApolloClient,
+  useMutation,
+  useQuery,
+  useSubscription,
+} from "@vue/apollo-composable";
+import { useQuasar } from "quasar";
 import { reactive, ref } from "vue";
 import {
   addProductToFavorites,
   removeProductFromFavorites,
+  updateFavorites,
 } from "../../graphql-operations/mutations";
+import { getFavorites } from "../../graphql-operations/queries";
+
 const product = defineProps({
   product: Object,
 });
@@ -34,11 +43,14 @@ const classes = ref({
 });
 
 const { mutate, loading, error } = useMutation(addProductToFavorites);
+const { mutate: updateFavoriteProducts } = useMutation(updateFavorites);
 const {
   mutate: deleteProduct,
   loading: _loading,
   error: _error,
 } = useMutation(removeProductFromFavorites);
+
+const { result } = useQuery(getFavorites);
 
 const useFavorite = async () => {
   const user = window.Clerk.user;
@@ -46,19 +58,17 @@ const useFavorite = async () => {
 
   classes.value.isFavorite = !classes.value.isFavorite;
 
-  if (!classes.value.isFavorite) {
-    const { data, loading, errors } = await deleteProduct({
-      id: 169,
-    });
-
-    return;
-  }
-
   try {
-    const { data, loading, errors } = await mutate({
-      user_id: user.id,
-      product: JSON.stringify({ id: product.product.id }),
-    });
+    if (result.value) {
+      const { data } = await updateFavoriteProducts({
+        user_id: user.id,
+        product_id: product.product.id,
+      });
+    } else {
+      const { data, loading, errors } = await mutate({
+        product: product.product.id,
+      });
+    }
   } catch (error) {
     console.log(error);
   }

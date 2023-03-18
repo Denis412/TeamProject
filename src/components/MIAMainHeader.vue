@@ -34,7 +34,9 @@
           <q-btn @click="userApi.login"> Войти </q-btn>
         </q-item>
 
-        <q-item id="user-button"></q-item>
+        <div class="q-ml-md">
+          <q-item id="user-button"></q-item>
+        </div>
 
         <q-btn
           class="menu-mobile justify-center items-center"

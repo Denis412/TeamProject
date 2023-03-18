@@ -1,21 +1,12 @@
 import gql from "graphql-tag";
 
-// export const products = gql`
-//   query {
-//     products {
-//       id
-//       created_at
-//       title
-//       description
-//       user_id
-//       price
-//       old_price
-//       quantity
-//       image
-//       category
-//     }
-//   }
-// `;
+export const getFavorites = gql`
+  query {
+    favorites1 {
+      products
+    }
+  }
+`;
 
 export const getProductsById = gql`
   query ($id: bigint!) {
@@ -89,8 +80,11 @@ export const getProductByDateDesc = (category) => {
     return data;
   } else {
     const data = gql`
-      query($text: String!) {
-        products(order_by: { created_at: desc }, where: {category: {_eq: $text}}) {
+      query ($text: String!) {
+        products(
+          order_by: { created_at: desc }
+          where: { category: { _eq: $text } }
+        ) {
           id
           category
           created_at
@@ -127,8 +121,11 @@ export const getProductByPriceDesc = (category) => {
     return data;
   } else {
     const data = gql`
-      query($text: String!) {
-        products(order_by: { price: desc }, where: {category: {_eq: $text}}) {
+      query ($text: String!) {
+        products(
+          order_by: { price: desc }
+          where: { category: { _eq: $text } }
+        ) {
           id
           category
           created_at
@@ -165,8 +162,11 @@ export const getProductByPriceAsc = (category) => {
     return data;
   } else {
     const data = gql`
-      query($text: String!) {
-        products(order_by: { price: asc }, where: {category: {_eq: $text}}) {
+      query ($text: String!) {
+        products(
+          order_by: { price: asc }
+          where: { category: { _eq: $text } }
+        ) {
           id
           category
           created_at

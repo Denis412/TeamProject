@@ -13,13 +13,15 @@ const updateProfile = async ({
   phoneNumber,
   password,
 }) => {
-  window.Clerk.user.update({
+  await window.Clerk.user.update({
     firstName,
     lastName,
   });
 };
 
-const logout = async () => {};
+const logout = async () => {
+  await window.Clerk.signOut();
+};
 
 const addFavorites = async (data) => {};
 

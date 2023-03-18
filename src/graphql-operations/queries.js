@@ -8,6 +8,25 @@ export const checkProduct = gql`
   }
 `;
 
+export const getFavorites = gql`
+  query {
+    favorites {
+      product {
+        id
+        description
+        created_at
+        category
+        image
+        old_price
+        price
+        quantity
+        title
+        user_id
+      }
+    }
+  }
+`;
+
 export const getProductsById = gql`
   query ($id: bigint!) {
     products(where: { id: { _eq: $id } }) {

@@ -1,11 +1,19 @@
 <template>
-  <q-card style="width: 350px">
+  <q-card>
     <q-linear-progress :value="1" color="primary" />
 
-    <q-card-section class="row items-center no-wrap"> Hello </q-card-section>
+    <q-card-section class="items-center no-wrap">
+      <MIAProfileHeader />
+      <MIAProfileMain />
+      <MIAProfileFooter />
+    </q-card-section>
   </q-card>
 </template>
 
-<script setup></script>
+<script setup>
+import MIAProfileHeader from "./MIAProfileHeader.vue";
+import MIAProfileMain from "./MIAProfileMain.vue";
+import MIAProfileFooter from "./MIAProfileFooter.vue";
+</script>
 
 <style></style>

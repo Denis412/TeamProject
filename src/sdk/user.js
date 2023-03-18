@@ -6,6 +6,19 @@ const login = async ({ email, password }) => {
   window.Clerk.openSignIn();
 };
 
+const updateProfile = async ({
+  firstName,
+  lastName,
+  email,
+  phoneNumber,
+  password,
+}) => {
+  window.Clerk.user.update({
+    firstName,
+    lastName,
+  });
+};
+
 const logout = async () => {};
 
 const addFavorites = async (data) => {};
@@ -28,6 +41,7 @@ const userApi = {
   deleteFavorites,
   uploadAvatar,
   updateAvatar,
+  updateProfile,
 };
 
 export default userApi;

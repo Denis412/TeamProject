@@ -25,6 +25,7 @@
           @update:model-value="priceSort"
         />
       </div>
+
       <div class="col-6">
         <input type="text" v-model="searchData" style="width: 100%" />
         <div v-show="searchData.length > 2">

@@ -2,28 +2,17 @@ import gql from "graphql-tag";
 
 // title, description, user_id, price, quantity, category, image, old_price
 
-export const addProductToFavorites = gql`
-  mutation addProductToFavorites($product: jsonb) {
-    insert_favorites_one(object: { products: $product }) {
-      products
+export const addProductInFavorite = gql`
+  mutation enrollProds($productId: bigint!) {
+    insert_favorites_one(object: { product_id: $productId }) {
+      id
+      user_id
+      product_id
     }
   }
 `;
 
-export const updateFavorites = gql`
-  mutation AddFavoriteProduct($user_id: String!, $product_id: jsonb!) {
-    update_favorites(
-      where: { user_id: { _eq: $user_id } }
-      _append: { products: $product_id }
-    ) {
-      affected_rows
-      returning {
-        products
-        user_id
-      }
-    }
-  }
-`;
+// export default deleteProductInFavorite = gql``;
 
 export const addProductToCatalog = gql`
   mutation addProductToCatalog(

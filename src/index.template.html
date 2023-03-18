@@ -69,14 +69,14 @@
 
             sessionStorage.setItem(
               "token",
-              await Clerk.session.getToken({ template: "hasura" })
+              await Clerk.session?.getToken({ template: "hasura" })
             );
 
             setInterval(
               async () =>
                 sessionStorage.setItem(
                   "token",
-                  await Clerk.session.getToken({ template: "hasura" })
+                  await Clerk.session?.getToken({ template: "hasura" })
                 ),
               1_000
             );

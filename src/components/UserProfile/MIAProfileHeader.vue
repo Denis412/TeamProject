@@ -1,8 +1,6 @@
 <template>
-  <header>
-    <div style="width: 40px; height: 40px">
-      <q-img :src="profileImageUrl" ratio="16/9" />
-    </div>
+  <header class="flex justify-center w-100p">
+    <q-img class="avatar-image q-mb-md" :src="profileImageUrl" />
   </header>
 </template>
 
@@ -17,3 +15,11 @@ onMounted(() => {
   console.log(profileImageUrl.value);
 });
 </script>
+
+<style>
+.avatar-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+</style>

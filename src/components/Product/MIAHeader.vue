@@ -1,8 +1,8 @@
 <template>
   <div>
     <router-link class="block" :to="{ name: 'Product', params: { id: id } }">
-      <q-item-section>
-        <q-img :src="image" />
+      <q-item-section class="product-image-container">
+        <q-img class="product-image" :src="image" />
       </q-item-section>
     </router-link>
     <q-item-section class="q-mt-md text-weight-bold">
@@ -28,4 +28,13 @@ const { id, image, title } = defineProps({
 .product__title
   text-decoration: none
   color: black
+
+.product-image-container
+  width: 100%
+  height: 300px
+
+.product-image
+  width: 100%
+  height: 100%
+  object-fit: cover
 </style>

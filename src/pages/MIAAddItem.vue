@@ -16,14 +16,15 @@
       <div class="q-pa-md" style="max-width: 500px; width: 500px">
         <q-form @submit="onSubmit" class="q-gutter-md">
           <div>
-            <q-uploader
-              url="../assets/img/"
+            <!-- <q-uploader
+              url="https://qgczlcboewmzhjxdbzhb.supabase.co/storage/v1/object/public/images/"
               label="Загрузить картинку"
               color="primary"
               multiple
               max-files="4"
               class="w-100p"
-            />
+            /> -->
+            <MIAUploadAvatar @updateUrl="uploadPhoto" />
           </div>
           <q-input
             filled
@@ -70,12 +71,6 @@
             :rules="[required]"
           />
 
-          <!-- <q-file outlined v-model="form.img" accept=".jpg, image/*">
-        <template v-slot:prepend>
-          <q-icon name="attach_file" />
-        </template>
-      </q-file> -->
-
           <div>
             <q-btn
               class="block"
@@ -100,15 +95,12 @@ import { addProductToCatalog } from "../graphql-operations/mutations";
 import { useValidators } from "src/use/validators";
 import MIAPreviewProductItem from "src/components/MIAPreviewProductItem.vue";
 import MIAUploadAvatar from "src/components/MIAUploadAvatar.vue";
+import supabase from "src/lib/supabaseClient";
 
 const $q = useQuasar();
 
 const queryCategories = useQuery(getCategories);
-const {
-  mutate: addProduct,
-  loading: isProductLoading,
-  error: iseProductAddedError,
-} = useMutation(addProductToCatalog);
+const { mutate: addProduct } = useMutation(addProductToCatalog);
 
 const categories = computed(
   () => queryCategories.result.value?.categories ?? []
@@ -117,7 +109,12 @@ const categoriesNames = computed(() =>
   categories.value.map((category) => category.category_name)
 );
 
+const image_url = ref("");
 const { required, minValue, isNumber } = useValidators();
+
+const uploadPhoto = (imageUrl) => {
+  image_url.value = imageUrl;
+};
 
 const form = ref({
   title: "",
@@ -126,6 +123,7 @@ const form = ref({
   description: "",
   image: "product.png",
   category: "",
+  quantity: 1,
 });
 
 const product = reactive(form.value);
@@ -140,9 +138,16 @@ const onSubmit = async () => {
       old_price: form.value.old_price,
       quantity: form.value.quantity,
       category: form.value.category,
-      image: form.value.image,
-      quantity: 1,
+      image: image_url.value,
     });
+
+    form.value.title = "";
+    form.value.description = "";
+    form.value.price = 0;
+    form.value.old_price = 0;
+    form.value.quantity = 0;
+    form.value.category = "";
+    form.value.image = "";
 
     $q.notify({
       type: "positive",

@@ -2,7 +2,7 @@
   <div>
     <router-link class="block" :to="{ name: 'Product', params: { id: id } }">
       <q-item-section>
-        <q-img :src="require('../../assets/img/' + image)" />
+        <q-img :src="image" />
       </q-item-section>
     </router-link>
     <q-item-section class="q-mt-md text-weight-bold">

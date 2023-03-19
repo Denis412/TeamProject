@@ -18,7 +18,7 @@
     </div>
     <div class="col-sm-8 col-xs-12 offset-1 row wrap product-information">
       <div class="col-md-5 col-sm-12 q-mb-lg">
-        <q-img :src="require('../assets/img/' + product.image)" />
+        <q-img :src="product.image" />
       </div>
       <div class="col-md-6 offset-1 relative-position text-information">
         <p>

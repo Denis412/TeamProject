@@ -8,7 +8,7 @@
       :key="product.product.id"
     >
       <q-item-section class="col-sm-4 col-xs-12">
-        <q-img :src="require('src/assets/img/product.png')" />
+        <q-img :src="product.product.image" />
       </q-item-section>
       <div class="col-sm-8 col-xs-12 relative-position q-pl-lg">
         <q-item-section class="product__title text-h5 q-mt-md text-weight-bold">

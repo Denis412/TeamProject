@@ -1,18 +1,11 @@
 <template>
-  <div>
-    <input type="file" accept="image/*" @change="updateAvatar" />
-    <q-img :src="currentUser.avatar_url" />
-  </div>
+  <input type="file" accept="image/*" @change="updateAvatar" />
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
-import { useStore } from "vuex";
+import { ref } from "vue";
 import supabase from "src/lib/supabaseClient";
 import { v4 as uuidv4 } from "uuid";
-
-const store = useStore();
-const currentUser = computed(() => store.getters["user/CURRENT_USER"]);
 
 const emit = defineEmits(["imageUrl"]);
 
@@ -39,5 +32,3 @@ const updateAvatar = async (event) => {
   }
 };
 </script>
-
-<style></style>

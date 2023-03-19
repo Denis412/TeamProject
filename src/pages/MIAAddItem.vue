@@ -10,20 +10,12 @@
     <q-page-container class="flex justify-around">
       <div>
         <div class="text-h5 text-center">Превью карточки товара</div>
-        <MIAPreviewProductItem :product="product" />
+        <MIAPreviewProductItem :product="product" :imageUrl="image_url" />
       </div>
 
       <div class="q-pa-md" style="max-width: 500px; width: 500px">
         <q-form @submit="onSubmit" class="q-gutter-md">
           <div>
-            <!-- <q-uploader
-              url="https://qgczlcboewmzhjxdbzhb.supabase.co/storage/v1/object/public/images/"
-              label="Загрузить картинку"
-              color="primary"
-              multiple
-              max-files="4"
-              class="w-100p"
-            /> -->
             <MIAUploadAvatar @updateUrl="uploadPhoto" />
           </div>
           <q-input
@@ -121,7 +113,7 @@ const form = ref({
   price: 0,
   old_price: 0,
   description: "",
-  image: "product.png",
+  image: "",
   category: "",
   quantity: 1,
 });

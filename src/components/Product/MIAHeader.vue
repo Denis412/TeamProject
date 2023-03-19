@@ -28,14 +28,4 @@ const { id, image, title } = defineProps({
 .product__title
   text-decoration: none
   color: black
-
-.product-image-container
-  width: 100%
-  height: 300px
-
-.product-image
-  width: 100%
-  height: 100%
-  border-radius: 26px
-  object-fit: cover
 </style>

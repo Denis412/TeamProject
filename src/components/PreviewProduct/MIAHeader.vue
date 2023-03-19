@@ -1,6 +1,6 @@
 <template>
-  <q-item-section>
-    <q-img :src="require('../../assets/img/' + image)" />
+  <q-item-section class="product-image-container">
+    <q-img class="product-image" :src="image" />
   </q-item-section>
   <q-item-section class="q-mt-md text-weight-bold">
     {{ title }}

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-item-section class="q-my-md">
+    <q-item-section class="description q-my-md">
       {{ description }}
     </q-item-section>
     <div class="price-area row q-ml-sm">

@@ -30,6 +30,7 @@ const { product } = defineProps({
 .wrapper
   background: #F6F9FF
   border-radius: 26px
+  word-break: break-all
 .product
   min-height: 504px
   margin-bottom: 56px

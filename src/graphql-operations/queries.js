@@ -202,6 +202,44 @@ export const getProductByPriceAsc = (category) => {
   }
 };
 
+export const getSearchedItem = (category) =>{
+  if (category === "Все") {
+    const data = gql`
+    query ($searchData: String!){
+      products(where: {title: {_ilike: $searchData}}) {
+        id
+        category
+        created_at
+        description
+        image
+        old_price
+        price
+        quantity
+        title
+  }
+}`
+  return data;
+}
+ else {
+    const data = gql`
+      query($searchData: String!,$text: String!) {
+        products(where: {title: {_ilike: $searchData}, _and: {category: {_eq: $text}}}) {
+          id
+          category
+          created_at
+          description
+          image
+          old_price
+          price
+          quantity
+          title
+        }
+      }
+    `;
+    return data;
+  }
+}
+
 //CATEGORIES
 
 export const getCategories = gql`

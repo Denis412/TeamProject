@@ -26,17 +26,24 @@
         />
       </div>
 
-      <div class="col-6">
-        <input type="text" v-model="searchData" style="width: 100%" />
-        <div v-show="searchData.length > 2">
-          <router-link
-            :to="{ name: 'Product', params: { id: product.id } }"
-            v-for="product in search()"
-            :key="product.id"
-            style="width: 20px; height: 20px"
-          >
+      <div class="col-6 relative-position">
+        <q-input @keyup.enter="searchRequest" filled bottom-slots v-model="searchData" label="Поиск">
+        <template v-slot:append>
+          <q-btn @click.stop="searchRequest" icon="add" />
+        </template>
+      </q-input>
+        <div class="search-menu absolute"
+         v-show="searchData.length>2">
+          <div v-show="!search().length"
+          style="margin-bottom: 16px;">
+            Ничего не найдено
+          </div>
+         <div v-for="product in search()"
+         :key="product.id">
+          <router-link class="block" :to="{ name: 'Product', params: { id: product.id } }">
             {{ product.title }}
           </router-link>
+         </div>
         </div>
       </div>
     </div>
@@ -55,6 +62,7 @@ import {
   getProductByDateDesc,
   getProductByPriceDesc,
   getProductByPriceAsc,
+  getSearchedItem,
 } from "../../graphql-operations/queries";
 
 provideApolloClient(ApolloClient);
@@ -105,10 +113,6 @@ const priceSort = () => {
   date.value = null;
 };
 
-const queryProducts = useQuery(
-  computed(() => filtredProduct(category.value.text)),
-  category
-);
 
 const searchData = ref("");
 
@@ -118,13 +122,39 @@ const search = () => {
   );
 };
 
-let products = computed(() => queryProducts.result.value?.products ?? []);
+const searchRequest=()=>{
+  const searchBuffer = searchData.value;
+  products = computed(()=>useQuery(getSearchedItem(category.value.text), {
+    searchData: `%${searchBuffer}%`,
+    text: category.value.text
+  }).result.value?.products ?? []);
+}
+
+let products = computed(()=>useQuery(
+  computed(() => filtredProduct(category.value.text)),
+  category
+).result.value?.products ?? []);
+
 const date = ref();
 const price = ref();
-
-onMounted(() => {
-  console.log("result query", products.value);
-});
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.search-menu{
+  width: 100%;
+  background: #fff;
+  border: solid 1px grey;
+  border-radius: 0 0 20px 20px;
+  top: 56px;
+  z-index: 1;
+  padding: 16px 16px 0;
+}
+a{
+  text-decoration: none;
+  color: #000;
+  margin-bottom: 16px;
+  &:hover{
+    color: grey;
+  }
+}
+</style>

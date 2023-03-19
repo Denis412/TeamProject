@@ -2,7 +2,6 @@
   <q-list class="row wrap justify-center btn-group">
     <q-item>
       <button
-        ref="button"
         @click="useFilter(0, 'Все')"
         class="active btn-group__item no-border"
       >
@@ -11,7 +10,6 @@
     </q-item>
     <q-item v-for="(btn, index) in categories" :key="btn.category_name">
       <button
-        ref="button"
         @click="useFilter(index + 1, btn.category_name)"
         class="btn-group__item no-border"
       >

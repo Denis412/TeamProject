@@ -36,5 +36,6 @@ const { id, image, title } = defineProps({
 .product-image
   width: 100%
   height: 100%
+  border-radius: 26px
   object-fit: cover
 </style>

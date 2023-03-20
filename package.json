@@ -13,6 +13,7 @@
     "@quasar/extras": "^1.0.0",
     "@supabase/supabase-js": "^2.11.0",
     "@vue/apollo-composable": "^4.0.0-beta.4",
+    "amqplib": "^0.10.3",
     "axios": "^1.2.1",
     "core-js": "^3.6.5",
     "graphql-tag": "^2.12.6",

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <mainHeader @openProfile="openDialogEvent" />
+    <mainHeader />
 
     <!-- <q-drawer
       v-model="rightDrawerOpen"

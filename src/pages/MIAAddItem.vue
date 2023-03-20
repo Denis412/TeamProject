@@ -51,7 +51,6 @@
               class="q-ml-md"
               label="Старая цена"
               lazy-rules
-              :rules="[minValue(0)]"
             />
           </div>
 
@@ -87,7 +86,6 @@ import { addProductToCatalog } from "../graphql-operations/mutations";
 import { useValidators } from "src/use/validators";
 import MIAPreviewProductItem from "src/components/MIAPreviewProductItem.vue";
 import MIAUploadAvatar from "src/components/MIAUploadAvatar.vue";
-import supabase from "src/lib/supabaseClient";
 
 const $q = useQuasar();
 
@@ -122,7 +120,6 @@ const product = reactive(form.value);
 
 const onSubmit = async () => {
   try {
-    console.log(form);
     const { data } = await addProduct({
       title: form.value.title,
       description: form.value.description,

@@ -121,10 +121,6 @@ const search = () => {
 let products = computed(() => queryProducts.result.value?.products ?? []);
 const date = ref();
 const price = ref();
-
-onMounted(() => {
-  console.log("result query", products.value);
-});
 </script>
 
 <style lang="scss" scoped></style>

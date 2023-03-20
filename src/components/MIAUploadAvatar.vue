@@ -7,7 +7,7 @@ import { ref } from "vue";
 import supabase from "src/lib/supabaseClient";
 import { v4 as uuidv4 } from "uuid";
 
-const emit = defineEmits(["imageUrl"]);
+const emit = defineEmits(["updateUrl"]);
 
 const imageUrl = ref("");
 

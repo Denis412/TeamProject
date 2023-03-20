@@ -4,8 +4,8 @@
       <MIAHeader :image="imageUrl" :title="product.title" />
       <MIAMainContent
         :description="product.description"
-        :price="product.price"
-        :old_price="product.old_price"
+        :price="parseFloat(product.price)"
+        :old_price="parseFloat(product.old_price)"
       />
       <MIAFooter :product="product" />
     </div>

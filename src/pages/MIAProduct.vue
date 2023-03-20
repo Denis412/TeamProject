@@ -47,11 +47,6 @@ const categories = computed(
 const route = useRoute();
 const id = ref({ id: +route.params.id });
 
-onMounted(() => {
-  console.log(product.user_id);
-  console.log(window.Clerk.user.id);
-});
-
 const queryProduct = useQuery(
   computed(() => getProductsById),
   id

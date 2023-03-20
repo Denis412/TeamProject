@@ -1,10 +1,12 @@
 <template>
-  <q-item-section class="product-image-container">
-    <q-img class="product-image" :src="image" />
-  </q-item-section>
-  <q-item-section class="q-mt-md text-weight-bold">
-    {{ title }}
-  </q-item-section>
+  <header>
+    <q-item-section class="product-image-container">
+      <q-img class="product-image" :src="image" />
+    </q-item-section>
+    <q-item-section class="q-mt-md text-weight-bold">
+      {{ title }}
+    </q-item-section>
+  </header>
 </template>
 
 <script setup>

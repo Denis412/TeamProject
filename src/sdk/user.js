@@ -17,6 +17,14 @@ const updateProfile = async ({
     firstName,
     lastName,
   });
+
+  if (avatarImage) {
+    await window.Clerk.user.setProfileImage(avatarImage);
+  }
+
+  if (phoneNumber) {
+    await window.Clerk.user.createPhoneNumber(phoneNumber);
+  }
 };
 
 const logout = async () => {

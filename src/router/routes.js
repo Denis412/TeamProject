@@ -49,7 +49,7 @@ const routes = [
         component: () => import("pages/MIAProduct.vue"),
       },
       {
-        path: "chat",
+        path: "chat/:productId",
         name: "chat",
         component: () => import("pages/MIAChatPage.vue"),
       },

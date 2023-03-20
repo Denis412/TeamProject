@@ -11,6 +11,7 @@
     />
     <q-btn
       @click="useCart(product.id)"
+      u
       flat
       class="col-6 btn-tocart"
       label="В корзину"

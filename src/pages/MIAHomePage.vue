@@ -5,14 +5,12 @@
         <q-btn> Добавить товар </q-btn>
       </router-link>
     </div>
-    <router-link :to="{ name: 'chat' }">Chat</router-link>
     <Assortment />
   </q-page>
 </template>
 
 <script setup>
 import Assortment from "components/Home/MIAAssortment.vue";
-import MIAChat from "src/components/MIAChat.vue";
 </script>
 
 <style lang="scss">

@@ -1,32 +1,46 @@
 <template>
-  <div class="text-h3 text-center q-mt-lg">
-    {{ product.title }}
-  </div>
-  <div class="row wrap q-pa-lg">
-    <div class="col-sm-3 col-xs-12 q-pa-lg categories-area">
-      <div class="q-pa-md" style="font-weight: 700">Категории</div>
-      <q-list>
-        <q-item
-          class="q-pa-md"
-          :class="{ 'active-category': getCategory(category.category_name) }"
-          v-for="category in categories"
-          :key="category.category_name"
-        >
-          {{ category.category_name }}
-        </q-item>
-      </q-list>
+  <div>
+    <div class="text-h3 text-center q-mt-lg">
+      {{ product.title }}
     </div>
-    <div class="col-sm-8 col-xs-12 offset-1 row wrap product-information">
-      <div class="col-md-5 col-sm-12 q-mb-lg">
-        <q-img :src="product.image" />
+    <div class="row wrap q-pa-lg">
+      <div class="col-sm-3 col-xs-12 q-pa-lg categories-area">
+        <div class="q-pa-md" style="font-weight: 700">Категории</div>
+        <q-list>
+          <q-item
+            class="q-pa-md"
+            :class="{ 'active-category': getCategory(category.category_name) }"
+            v-for="category in categories"
+            :key="category.category_name"
+          >
+            {{ category.category_name }}
+          </q-item>
+        </q-list>
       </div>
-      <div class="col-md-6 offset-1 relative-position text-information">
-        <p>
-          {{ product.description }}
-        </p>
-        <div class="buy-area text-h4 absolute-bottom text-red text-weight-bold">
-          <div>{{ product.price }} Р</div>
-          <q-btn flat class="btn-tocart q-mt-xl" label="В корзину" />
+      <div class="col-sm-8 col-xs-12 offset-1 row wrap product-information">
+        <div class="col-md-5 col-sm-12 q-mb-lg">
+          <q-img :src="product.image" />
+        </div>
+        <div class="col-md-6 offset-1 relative-position text-information">
+          <p>
+            {{ product.description }}
+          </p>
+          <div
+            class="buy-area text-h4 absolute-bottom text-red text-weight-bold"
+          >
+            <div>{{ product.price }} Р</div>
+            <router-link
+              class="link link-btn"
+              :to="{ name: 'chat', params: { productId: product.id } }"
+            >
+              <q-btn
+                flat
+                class="bg-info text-white"
+                label="Написать продавцу"
+              />
+            </router-link>
+            <q-btn flat class="btn-tocart q-mt-xl" label="В корзину" />
+          </div>
         </div>
       </div>
     </div>

@@ -8,6 +8,20 @@ export const checkProduct = gql`
   }
 `;
 
+export const getMessagesInChat = gql`
+  query getMessagesInChat($id: Int!) {
+    chats(where: { id: { _eq: $id } }) {
+      messages {
+        id
+        sender_id
+        receiver_id
+        content
+        created_at
+      }
+    }
+  }
+`;
+
 export const getFavorites = gql`
   query {
     favorites {

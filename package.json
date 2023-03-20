@@ -18,6 +18,8 @@
     "core-js": "^3.6.5",
     "graphql-tag": "^2.12.6",
     "quasar": "^2.6.0",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "supabase": "^1.42.7",
     "uuid": "^9.0.0",
     "vue": "^3.0.0",

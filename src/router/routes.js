@@ -48,6 +48,11 @@ const routes = [
         name: "Product",
         component: () => import("pages/MIAProduct.vue"),
       },
+      {
+        path: "chat",
+        name: "chat",
+        component: () => import("pages/MIAChatPage.vue"),
+      },
     ],
   },
   {

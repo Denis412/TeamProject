@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import ProductFilter from "./MIAProductFilter.vue";
 import Products from "./MIAProducts.vue";
 import { useQuery, provideApolloClient } from "@vue/apollo-composable";
@@ -67,11 +67,20 @@ import {
 
 provideApolloClient(ApolloClient);
 
+//ОПРЕДЕЛЕНИЕ ФИЛЬТРУЕМОЙ КАТЕГОРИИ
+
 const category = ref({ text: "Все" });
 
 const useFilter = (categoryName) => {
   category.value.text = categoryName;
+  searchBuffer.value='';
+  console.log('zalupa')
 };
+
+//БЛОК СОРТИРОВКИ ПО ДАТЕ И ЦЕНЕ
+
+const date = ref();
+const price = ref();
 
 const dateSort = () => {
   if (date.value === "Сначала новое") {
@@ -114,7 +123,10 @@ const priceSort = () => {
 };
 
 
+//БЛОК ПОИСКА
+
 const searchData = ref("");
+const searchBuffer = ref("");
 
 const search = () => {
   return products.value.filter((e) =>
@@ -123,20 +135,18 @@ const search = () => {
 };
 
 const searchRequest=()=>{
-  const searchBuffer = searchData.value;
+  searchBuffer.value = searchData.value;
   products = computed(()=>useQuery(getSearchedItem(category.value.text), {
-    searchData: `%${searchBuffer}%`,
+    searchData: `%${searchBuffer.value}%`,
     text: category.value.text
   }).result.value?.products ?? []);
+  searchData.value = '';
 }
 
-let products = computed(()=>useQuery(
-  computed(() => filtredProduct(category.value.text)),
-  category
-).result.value?.products ?? []);
-
-const date = ref();
-const price = ref();
+let products = computed(()=>useQuery(getSearchedItem(category.value.text), {
+    searchData: `%${searchBuffer.value}%`,
+    text: category.value.text
+  }).result.value?.products ?? []);
 </script>
 
 <style lang="scss" scoped>

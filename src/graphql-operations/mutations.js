@@ -12,6 +12,16 @@ export const addProductInFavorite = gql`
   }
 `;
 
+export const addProductInCart = gql`
+  mutation Cart($productId: bigint!) {
+    insert_carts_one(object: { product_id: $productId }) {
+      id
+      user_id
+      product_id
+    }
+  }
+`;
+
 // export default deleteProductInFavorite = gql``;
 
 export const addProductToCatalog = gql`

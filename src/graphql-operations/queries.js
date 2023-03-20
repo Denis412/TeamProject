@@ -1,8 +1,16 @@
 import gql from "graphql-tag";
 
-export const checkProduct = gql`
+export const checkFavorites = gql`
   query checkProduct($productId: bigint!) {
     favorites(where: { product_id: { _eq: $productId } }) {
+      id
+    }
+  }
+`;
+
+export const checkCart = gql`
+  query checkProduct($productId: bigint!) {
+    carts(where: { product_id: { _eq: $productId } }) {
       id
     }
   }
@@ -11,6 +19,24 @@ export const checkProduct = gql`
 export const getFavorites = gql`
   query {
     favorites {
+      product {
+        id
+        description
+        created_at
+        category
+        image
+        old_price
+        price
+        quantity
+        title
+      }
+    }
+  }
+`;
+
+export const getCarts = gql`
+  query {
+    carts {
       product {
         id
         description

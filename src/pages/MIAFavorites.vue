@@ -42,10 +42,52 @@
 </template>
 
 <script setup>
-import { getFavorites, filtredProduct } from "../graphql-operations/queries";
-import { useQuery } from "@vue/apollo-composable";
+import { getFavorites } from "../graphql-operations/queries";
+import { useMutation, useQuery,provideApolloClient } from "@vue/apollo-composable";
+import { addProductInCart } from "src/graphql-operations/mutations";
+import { checkCart } from "../graphql-operations/queries";
+import ApolloClient from "src/apollo/apollo-client.js";
+import { useQuasar } from "quasar";
+
+provideApolloClient(ApolloClient);
+const $q = useQuasar();
 
 const { result, loading, error } = useQuery(getFavorites);
+
+const { mutate: addProductCart } = useMutation(addProductInCart);
+
+
+
+const useCart = async(id)=>{
+  const user = window.Clerk.user;
+  if (!user) return;
+
+  const { result: Cart } = useQuery(checkCart, {
+  productId: id,
+  });
+
+  console.log(id)
+
+  console.log(Cart)
+
+  if (Cart.value?.carts && Cart.value?.carts.length) {
+    $q.notify({
+      type: "warning",
+      message: "Товар уже есть в корзине!",
+    });
+
+    return;
+  }
+
+  $q.notify({
+      type: "positive",
+      message: "Товар добавлен в корзину!",
+    });
+
+  const { data } = await addProductCart({
+    productId: id,
+  });
+}
 </script>
 
 <style lang="sass" scoped>

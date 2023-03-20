@@ -20,16 +20,7 @@
 
         <VNavItem class="favorites" title="Избранное" name="favorites" />
 
-        <q-item clickable class="cart" tag="a">
-          <q-item-section
-            style="flex-direction: row"
-            class="fit justify-center items-center"
-          >
-            Корзина
-            <span style="margin-left: 10px" class="cartCount">3</span>
-          </q-item-section>
-        </q-item>
-
+        <Cart class="cart" title="Корзина" name="cart"/>
         <q-item id="auth-links">
           <q-btn @click="userApi.login"> Войти </q-btn>
         </q-item>
@@ -57,6 +48,7 @@
 <script setup>
 import VNavLinks from "./MIANavLinks.vue";
 import VNavItem from "./MIANavItem.vue";
+import Cart from "./MIACart.vue";
 import { inject, ref } from "vue";
 import userApi from "../sdk/user";
 import MIAUserProfile from "./UserProfile/MIAUserProfile.vue";
@@ -88,7 +80,7 @@ const emit = defineEmits(["openProfile"]);
 .cart {
   border-radius: 13px;
   background: rgba(254, 179, 2, 0.45);
-  color: #fff;
+  color: #fff !important;
 
   &:hover {
     background-color: $primary;

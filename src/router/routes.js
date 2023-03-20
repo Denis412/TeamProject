@@ -44,6 +44,11 @@ const routes = [
         component: () => import("pages/MIAFavorites.vue"),
       },
       {
+        path: "cart",
+        name: "cart",
+        component: () => import("pages/MIACart.vue"),
+      },
+      {
         path: "product/:id",
         name: "Product",
         component: () => import("pages/MIAProduct.vue"),

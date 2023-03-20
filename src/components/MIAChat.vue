@@ -29,31 +29,28 @@ const onConnect = () => {
 };
 
 const onMessage = (message) => {
-  const messageJSON = JSON.parse(message.body);
-
-  if (message.headers.to === user.id) {
-    messages.value.push(messageJSON);
-
-    console.log("message", messages.value);
-  }
+  if (message.headers.to === user.id)
+    messages.value.push(JSON.parse(message.body));
 };
 
 const sendMessage = () => {
-  const headers = {
-    to: user.id,
-  };
+  stompClient.send(
+    "/exchange/chat",
+    {
+      to: user.id,
+    },
+    JSON.stringify({
+      user: user.id,
+      text: message.value,
+    })
+  );
 
-  const sendMsg = {
-    user: user.id,
-    text: message.value,
-  };
-
-  stompClient.send("/exchange/chat", headers, JSON.stringify(sendMsg));
   message.value = "";
 };
 
 onMounted(() => {
   const socket = new WebSocket("ws://localhost:15674/ws");
+
   stompClient = Stomp.over(socket);
   stompClient.connect("guest", "guest", onConnect, (error) =>
     console.log(error)

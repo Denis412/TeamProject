@@ -68,7 +68,6 @@ const form = ref({
 
 const updateProfile = () => {
   userApi.updateProfile(form.value);
-
   $q.notify({
     type: "positive",
     message: "Изменения приняты!",

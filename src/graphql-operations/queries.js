@@ -69,6 +69,9 @@ export const getProductsById = gql`
   }
 `;
 
+
+
+
 export const filtredProduct = (category) => {
   if (category === "Все") {
     const data = gql`
@@ -265,6 +268,21 @@ export const getSearchedItem = (category) =>{
     return data;
   }
 }
+
+export const getByCategory = gql`
+      query ($text: String!) {
+        products(where: { category: { _eq: $text } }) {
+          id
+          created_at
+          title
+          description
+          price
+          quantity
+          image
+          category
+        }
+      }
+    `;
 
 //CATEGORIES
 

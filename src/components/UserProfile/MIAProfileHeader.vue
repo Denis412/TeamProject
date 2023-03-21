@@ -21,6 +21,7 @@ const profileImageUrl = ref("");
 
 onMounted(() => {
   profileImageUrl.value = window.Clerk.user.profileImageUrl;
+  console.log(window.Clerk.user.primaryEmailAddress.emailAddress)
 });
 </script>
 

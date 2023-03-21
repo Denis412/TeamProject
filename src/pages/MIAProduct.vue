@@ -31,13 +31,59 @@
       </div>
     </div>
   </div>
+  <div class="text-center text-h3">
+    Похожие товары
+  </div>
+  <div class="q-pa-lg">
+  <q-carousel
+      v-model="slide"
+      transition-prev="slide-right"
+      transition-next="slide-left"
+      swipeable
+      animated
+      control-color="primary"
+      navigation
+      padding
+      arrows
+      class="bg-grey-1 shadow-2 rounded-borders"
+    >
+      <q-carousel-slide :name="index + 1" class="column no-wrap" v-for="(items, index) in getSlides()" :key="items[index]">
+        <div class="row justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+              <div class="col-3" v-for="item in items" :key="item.id">
+                <router-link class="block" :to="{ name: 'Product', params: { id: item.id } }">
+                  <div class="img-container">
+                    <q-img class="rounded-borders img" :src="item.image"/>
+                  </div>
+                </router-link>
+                <div class="q-mt-md text-weight-bold">
+                  <router-link
+                    class="product__title"
+                    :to="{ name: 'Product', params: { id: item.id } }"
+                  >
+                    {{ item.title }}
+                  </router-link>
+                </div>
+                <div>
+                  {{ item.description }}
+                </div>
+                <div class="price-area row q-ml-sm">
+                  <div class="price col-4 text-red">От {{ item.price }} Р</div>
+                  <div class="old-price col-4 text-grey" v-if="item.old_price">
+                    От {{ item.old_price }} Р
+                  </div>
+                </div>
+              </div>
+        </div>
+      </q-carousel-slide>
+    </q-carousel>
+  </div>
 </template>
 
 <script setup>
 import { computed, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
-import { getProductsById, getCategories } from "src/graphql-operations/queries";
+import { getProductsById, getCategories, getByCategory } from "src/graphql-operations/queries";
 
 const queryCategories = useQuery(getCategories);
 const categories = computed(
@@ -47,15 +93,35 @@ const categories = computed(
 const route = useRoute();
 const id = ref({ id: +route.params.id });
 
+const slide = ref(1)
+
 const queryProduct = useQuery(
   computed(() => getProductsById),
   id
 );
 const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 
+const products = computed(() => useQuery(getByCategory, { text: product.value?.category }).result.value?.products ?? []);
+
 const getCategory = (name) => {
-  return name === product.value.category;
+  return name === product.value?.category;
 };
+
+const getSlides = () => {
+  let arr = [];
+  let arrItem = [];
+  products.value?.forEach((element, index) => {
+    arrItem.push(element);
+    if ((index + 1) % 4 == 0) {
+      arr.push(arrItem);
+      arrItem = [];
+    }
+  });
+  console.log(arr)
+  return arr
+
+
+}
 </script>
 
 <style lang="sass" scoped>
@@ -81,4 +147,19 @@ const getCategory = (name) => {
   border-radius: 13px
   width: 50%
   height: 50px
+
+.price-area
+  display: flex
+  font-size: 16px
+.old-price
+    text-decoration: line-through
+.img-container
+  height: 200px
+  width: 100%
+.img
+  height: 100%
+  width: 100%
+a
+  text-decoration: none
+  color: black
 </style>

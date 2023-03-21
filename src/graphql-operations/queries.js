@@ -38,6 +38,7 @@ export const getFavorites = gql`
 export const getCarts = gql`
   query {
     carts {
+    id
       product {
         id
         description

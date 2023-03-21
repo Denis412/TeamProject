@@ -102,7 +102,12 @@ const queryProduct = useQuery(
 
 const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 
+// const category = ref({ text: product?.value.category })
+
+// const {result,loading} = useQuery(()=>getByCategory, category)
+
 const products = computed(() => useQuery(getByCategory, { text: product.value?.category }).result.value?.products ?? []);
+
 
 const getCategory = (name) => {
   return name === product.value?.category;
@@ -120,6 +125,7 @@ const getSlides = () => {
   });
   return arr
 }
+
 </script>
 
 <style lang="sass" scoped>

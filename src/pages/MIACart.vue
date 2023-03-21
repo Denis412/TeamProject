@@ -29,6 +29,12 @@
               От {{ product.product.old_price }} Р
             </div>
           </div>
+          <q-btn
+            @click="deleteFromCarts(product.id)"
+            flat
+            class="btn-tocart bg-primary"
+            label="Удалить"
+          />
         </div>
       </q-item>
     </q-list>
@@ -45,9 +51,21 @@
 
 <script setup>
 import { getCarts } from "../graphql-operations/queries";
-import { useQuery } from "@vue/apollo-composable";
+import { removeProductFromCarts } from "src/graphql-operations/mutations";
+import { useQuery,useMutation } from "@vue/apollo-composable";
 
-const { result, loading, error } = useQuery(getCarts);
+const { result, loading, error, refetch } = useQuery(getCarts);
+
+const { mutate: deleteCartItem} = useMutation(removeProductFromCarts)
+
+const deleteFromCarts = async(id) =>{
+  const user = window.Clerk.user;
+  if (!user) return;
+  const { data } = await deleteCartItem({
+    id: id,
+  });
+  refetch();
+}
 
 const calcPrice = ()=>{
   let count = 0;

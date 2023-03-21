@@ -58,7 +58,7 @@ import { useQuasar } from "quasar";
 provideApolloClient(ApolloClient);
 const $q = useQuasar();
 
-const { result, loading, error,refetch } = useQuery(getFavorites);
+const { result, loading, error, refetch } = useQuery(getFavorites);
 
 const { mutate: addProductCart } = useMutation(addProductInCart);
 

@@ -62,3 +62,11 @@ export const removeProductFromFavorites = gql`
     }
   }
 `;
+
+export const removeProductFromCarts = gql`
+  mutation removeProductFromCarts($id: bigint!) {
+    delete_carts_by_pk(id: $id) {
+      id
+    }
+  }
+`;

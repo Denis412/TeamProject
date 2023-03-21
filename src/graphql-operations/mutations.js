@@ -26,6 +26,8 @@ export const createMessage = gql`
   mutation createMessage(
     $id: String!
     $receiver_id: String
+    $sender_avatar_url: String!
+    $sender_username: String!
     $content: String!
     $chat_id: Int!
   ) {
@@ -35,6 +37,8 @@ export const createMessage = gql`
         receiver_id: $receiver_id
         content: $content
         chat_id: $chat_id
+        sender_username: $sender_username
+        sender_avatar_url: $sender_avatar_url
       }
     ) {
       id

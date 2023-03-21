@@ -37,6 +37,24 @@ export const getChatId = gql`
   }
 `;
 
+export const checkChatId = gql`
+  query checkChat(
+    $receiver_id: String!
+    $sender_id: String!
+    $product_id: Int!
+  ) {
+    chats(
+      where: {
+        sender_id: { _eq: $sender_id }
+        receiver_id: { _eq: $receiver_id }
+        product_id: { _eq: $product_id }
+      }
+    ) {
+      id
+    }
+  }
+`;
+
 export const getFavorites = gql`
   query {
     favorites {

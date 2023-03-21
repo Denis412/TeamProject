@@ -27,7 +27,6 @@
 <script setup>
 import { onMounted, provide, ref } from "vue";
 import mainHeader from "components/MIAMainHeader.vue";
-import MIAUserProfile from "src/components/UserProfile/MIAUserProfile.vue";
 import stompClient from "../lib/stompClient";
 
 const rightDrawerOpen = ref(false);

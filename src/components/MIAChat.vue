@@ -1,5 +1,17 @@
 <template>
   <q-page-conainer>
+    <div v-if="loading">Загрузка сообщений...</div>
+    <div v-else>
+      <div v-for="chat in queryMessages" :key="chat.id">
+        <div v-for="message in chat.messages" :key="message.id">
+          <q-chat-message
+            :text="[message.content]"
+            :sent="checkSent(message)"
+          />
+        </div>
+      </div>
+    </div>
+
     <div v-for="message in messages" :key="message.id">
       <q-chat-message
         :avatar="message.avatar_url"
@@ -21,10 +33,14 @@
 </template>
 
 <script setup>
-import { inject, onMounted, ref } from "vue";
+import { inject, computed, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useMutation, useQuery } from "@vue/apollo-composable";
-import { getProductsById } from "../graphql-operations/queries";
+import { useMutation, useQuery, useSubscription } from "@vue/apollo-composable";
+import {
+  getProductsById,
+  checkChatId,
+  getMessagesInChat,
+} from "../graphql-operations/queries";
 import { createChat, createMessage } from "../graphql-operations/mutations";
 import stompClient from "src/lib/stompClient";
 import { v4 as uuidv4 } from "uuid";
@@ -40,35 +56,30 @@ const checkSent = (message) => {
   return message.user_id === user.id;
 };
 
-const {
-  result: product,
-  loading: getiingProduct,
-  error,
-} = useQuery(getProductsById, {
+const { result: product } = useQuery(getProductsById, {
   id: product_id,
 });
 
+const { result: chatId } = useQuery(checkChatId, {
+  sender_id: window.Clerk.user.id,
+  receiver_id: product.value.products[0].user_id,
+  product_id: product.value.products[0].id,
+});
+
+const queryMessages = computed(
+  () =>
+    useQuery(getMessagesInChat, {
+      id: chatId.value?.chats[0]?.id,
+    }).result.value?.chats
+);
+
 const user = window.Clerk.user;
-//let stompClient = null;
 const messages = inject("messages");
 const message = ref("");
 
-/*const queryMessages = computed(
-  () =>
-    useQuery(getMessagesInChat, {
-      id: +route.params.productId,
-    }).result.value?.messages
-);*/
-
-// const { result: queryMessages, loading } = useQuery(getMessagesInChat, {
-//   id: +route.params.productId,
-// });
-
-// const { mutate: createChate } = useMutation(createChat);
-// const { mutate: createMessagee } = useMutation(createMessage);
-
 const sendMessage = async () => {
   const currentProduct = product.value.products[0];
+  let currentChatId = chatId.value.chats[0]?.id;
 
   const messageData = {
     user_id: user.id,
@@ -78,7 +89,7 @@ const sendMessage = async () => {
   };
 
   if (currentProduct.user_id === user.id) {
-    stompClient.send(
+    await stompClient.send(
       "/exchange/chat",
       {
         to: messages.value[0].user_id,
@@ -86,7 +97,7 @@ const sendMessage = async () => {
       JSON.stringify(messageData)
     );
   } else {
-    stompClient.send(
+    await stompClient.send(
       "/exchange/chat",
       {
         to: currentProduct.user_id,
@@ -95,33 +106,36 @@ const sendMessage = async () => {
     );
   }
 
-  const { data } = await createChate({
-    receiver_id: currentProduct.user_id,
-    product_id: currentProduct.id,
-  });
+  console.log("current", chatId.value);
 
-  const { data: res } = await createMessagee({
-    id: `${uuidv4()}`,
-    receiver_id: currentProduct.user_id,
-    content: message.value,
-    chat_id: data.insert_chats_one.id,
-  });
+  if (!currentChatId) {
+    const { data } = await createChate({
+      receiver_id: currentProduct.user_id,
+      product_id: currentProduct.id,
+    });
+
+    currentChatId = data.insert_chats_one.id;
+
+    console.log(currentChatId);
+  }
+
+  try {
+    const res = await createMessagee({
+      id: `${uuidv4()}`,
+      receiver_id: currentProduct.user_id,
+      content: message.value,
+      chat_id: currentChatId,
+      sender_username: user.firstName,
+      sender_avatar_url: user.profileImageUrl,
+    });
+
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 
   messages.value.push(messageData);
 
   message.value = "";
 };
-
-onMounted(() => {
-  //amqp://guest:guest@172.24.96.1:5672
-  // const socket = new WebSocket("ws://192.168.77.1:15674/ws");
-  // stompClient = Stomp.over(socket);
-  // stompClient.connect("user1", "user1", onConnect, (error) =>
-  //   console.log(error)
-  // );
-  // console.log("query", queryMessages.value);
-  // messages.value = queryMessages.value?.messages;
-});
 </script>
-
-<style></style>

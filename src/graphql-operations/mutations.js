@@ -6,7 +6,6 @@ export const addProductInFavorite = gql`
   mutation enrollProds($productId: bigint!) {
     insert_favorites_one(object: { product_id: $productId }) {
       id
-      user_id
       product_id
     }
   }
@@ -16,7 +15,6 @@ export const addProductInCart = gql`
   mutation Cart($productId: bigint!) {
     insert_carts_one(object: { product_id: $productId }) {
       id
-      user_id
       product_id
     }
   }
@@ -58,12 +56,9 @@ export const addProductToCatalog = gql`
 `;
 
 export const removeProductFromFavorites = gql`
-  mutation removeProductFromFavorites($id: Int) {
-    delete_favorites1(where: { id: { _eq: $id } }) {
-      returning {
-        products
-        id
-      }
+  mutation removeProductFromFavorites($id: bigint!) {
+    delete_favorites_by_pk(id: $id) {
+      id
     }
   }
 `;

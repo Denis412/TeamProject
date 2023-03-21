@@ -35,6 +35,12 @@
             class="col-5 offset-1 btn-tocart bg-primary"
             label="В корзину"
           />
+          <q-btn
+            @click="deleteFromFavorites(product.id)"
+            flat
+            class="col-5 offset-1 btn-tocart bg-primary"
+            label="Удалить"
+          />
         </div>
       </div>
     </q-item>
@@ -44,7 +50,7 @@
 <script setup>
 import { getFavorites } from "../graphql-operations/queries";
 import { useMutation, useQuery,provideApolloClient } from "@vue/apollo-composable";
-import { addProductInCart } from "src/graphql-operations/mutations";
+import { addProductInCart, removeProductFromFavorites } from "src/graphql-operations/mutations";
 import { checkCart } from "../graphql-operations/queries";
 import ApolloClient from "src/apollo/apollo-client.js";
 import { useQuasar } from "quasar";
@@ -52,9 +58,20 @@ import { useQuasar } from "quasar";
 provideApolloClient(ApolloClient);
 const $q = useQuasar();
 
-const { result, loading, error } = useQuery(getFavorites);
+const { result, loading, error,refetch } = useQuery(getFavorites);
 
 const { mutate: addProductCart } = useMutation(addProductInCart);
+
+const { mutate: deleteFavorite} = useMutation(removeProductFromFavorites)
+
+const deleteFromFavorites = async(id) =>{
+  const user = window.Clerk.user;
+  if (!user) return;
+  const { data } = await deleteFavorite({
+    id: id,
+  });
+  refetch();
+}
 
 
 
@@ -65,10 +82,6 @@ const useCart = async(id)=>{
   const { result: Cart } = useQuery(checkCart, {
   productId: id,
   });
-
-  console.log(id)
-
-  console.log(Cart)
 
   if (Cart.value?.carts && Cart.value?.carts.length) {
     $q.notify({

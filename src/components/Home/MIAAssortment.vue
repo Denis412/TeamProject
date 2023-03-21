@@ -74,7 +74,6 @@ const category = ref({ text: "Все" });
 const useFilter = (categoryName) => {
   category.value.text = categoryName;
   searchBuffer.value='';
-  console.log('zalupa')
 };
 
 //БЛОК СОРТИРОВКИ ПО ДАТЕ И ЦЕНЕ

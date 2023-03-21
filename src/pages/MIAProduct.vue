@@ -99,6 +99,7 @@ const queryProduct = useQuery(
   computed(() => getProductsById),
   id
 );
+
 const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 
 const products = computed(() => useQuery(getByCategory, { text: product.value?.category }).result.value?.products ?? []);
@@ -117,10 +118,7 @@ const getSlides = () => {
       arrItem = [];
     }
   });
-  console.log(arr)
   return arr
-
-
 }
 </script>
 

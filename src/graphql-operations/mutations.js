@@ -70,3 +70,13 @@ export const removeProductFromCarts = gql`
     }
   }
 `;
+
+export const removeProductFromProducts = gql`
+  mutation removeProductFromCarts($id: bigint!) {
+    delete_products_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+
+

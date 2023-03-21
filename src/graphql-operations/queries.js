@@ -38,7 +38,7 @@ export const getFavorites = gql`
 export const getCarts = gql`
   query {
     carts {
-    id
+      id
       product {
         id
         description
@@ -71,8 +71,21 @@ export const getProductsById = gql`
   }
 `;
 
-
-
+export const getProductsByUser = gql`
+  query ($id: String!){
+    products(where: {user_id: {_eq: $id}}) {
+    category
+    created_at
+    description
+    id
+    image
+    old_price
+    price
+    quantity
+    title
+  }
+}
+`;
 
 export const filtredProduct = (category) => {
   if (category === "Все") {
@@ -233,28 +246,33 @@ export const getProductByPriceAsc = (category) => {
   }
 };
 
-export const getSearchedItem = (category) =>{
+export const getSearchedItem = (category) => {
   if (category === "Все") {
     const data = gql`
-    query ($searchData: String!){
-      products(where: {title: {_ilike: $searchData}}) {
-        id
-        category
-        created_at
-        description
-        image
-        old_price
-        price
-        quantity
-        title
-  }
-}`
-  return data;
-}
- else {
+      query ($searchData: String!) {
+        products(where: { title: { _ilike: $searchData } }) {
+          id
+          category
+          created_at
+          description
+          image
+          old_price
+          price
+          quantity
+          title
+        }
+      }
+    `;
+    return data;
+  } else {
     const data = gql`
-      query($searchData: String!,$text: String!) {
-        products(where: {title: {_ilike: $searchData}, _and: {category: {_eq: $text}}}) {
+      query ($searchData: String!, $text: String!) {
+        products(
+          where: {
+            title: { _ilike: $searchData }
+            _and: { category: { _eq: $text } }
+          }
+        ) {
           id
           category
           created_at
@@ -269,22 +287,22 @@ export const getSearchedItem = (category) =>{
     `;
     return data;
   }
-}
+};
 
 export const getByCategory = gql`
-      query ($text: String!) {
-        products(where: { category: { _eq: $text } }) {
-          id
-          created_at
-          title
-          description
-          price
-          quantity
-          image
-          category
-        }
-      }
-    `;
+  query ($text: String!) {
+    products(where: { category: { _eq: $text } }) {
+      id
+      created_at
+      title
+      description
+      price
+      quantity
+      image
+      category
+    }
+  }
+`;
 
 //CATEGORIES
 

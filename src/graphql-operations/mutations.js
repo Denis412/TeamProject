@@ -13,8 +13,10 @@ export const addProductInFavorite = gql`
 `;
 
 export const createChat = gql`
-  mutation createChat($id: Int!, $receiver_id: String) {
-    insert_chats_one(object: { id: $id, receiver_id: $receiver_id }) {
+  mutation createChat($receiver_id: String!, $product_id: Int!) {
+    insert_chats_one(
+      object: { receiver_id: $receiver_id, product_id: $product_id }
+    ) {
       id
     }
   }
@@ -23,7 +25,6 @@ export const createChat = gql`
 export const createMessage = gql`
   mutation createMessage(
     $id: String!
-    $sender_id: String!
     $receiver_id: String
     $content: String!
     $chat_id: Int!
@@ -31,12 +32,13 @@ export const createMessage = gql`
     insert_messages_one(
       object: {
         id: $id
-        sender_id: $sender_id
         receiver_id: $receiver_id
         content: $content
         chat_id: $chat_id
       }
-    )
+    ) {
+      id
+    }
   }
 `;
 

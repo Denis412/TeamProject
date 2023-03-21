@@ -1,7 +1,12 @@
 <template>
   <q-page-conainer>
     <div v-for="message in messages" :key="message.id">
-      {{ message.first_name }}: {{ message.text }}
+      <q-chat-message
+        :avatar="message.avatar_url"
+        :name="message.first_name"
+        :text="[message.text]"
+        :sent="checkSent(message)"
+      />
     </div>
 
     <q-form @submit="sendMessage">
@@ -16,19 +21,24 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import Stomp from "stompjs";
+import { inject, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useMutation, useQuery } from "@vue/apollo-composable";
-import {
-  getProductsById,
-  getMessagesInChat,
-} from "../graphql-operations/queries";
+import { getProductsById } from "../graphql-operations/queries";
 import { createChat, createMessage } from "../graphql-operations/mutations";
+import stompClient from "src/lib/stompClient";
 import { v4 as uuidv4 } from "uuid";
 
 const route = useRoute();
 const product_id = ref(+route.params.productId);
+
+const { mutate: createChate } = useMutation(createChat);
+const { mutate: createMessagee } = useMutation(createMessage);
+
+const checkSent = (message) => {
+  console.log("checkSent", message);
+  return message.user_id === user.id;
+};
 
 const {
   result: product,
@@ -39,8 +49,8 @@ const {
 });
 
 const user = window.Clerk.user;
-let stompClient = null;
-const messages = ref([]);
+//let stompClient = null;
+const messages = inject("messages");
 const message = ref("");
 
 /*const queryMessages = computed(
@@ -57,64 +67,59 @@ const message = ref("");
 // const { mutate: createChate } = useMutation(createChat);
 // const { mutate: createMessagee } = useMutation(createMessage);
 
-const onConnect = () => {
-  stompClient.subscribe("/queue/Chat", onMessage);
-};
-
-const onMessage = (message) => {
-  console.log(message);
-  if (message.headers.to === user.id)
-    messages.value.push(JSON.parse(message.body));
-};
-
 const sendMessage = async () => {
   const currentProduct = product.value.products[0];
-  console.log("product", currentProduct.id);
 
-  // const { data } = await createChate({
-  //   id: currentProduct.id,
-  //   receiver_id: currentProduct.user_id,
-  // });
+  const messageData = {
+    user_id: user.id,
+    avatar_url: user.profileImageUrl,
+    first_name: user.firstName,
+    text: message.value,
+  };
 
-  // console.log("data", data);
+  if (currentProduct.user_id === user.id) {
+    stompClient.send(
+      "/exchange/chat",
+      {
+        to: messages.value[0].user_id,
+      },
+      JSON.stringify(messageData)
+    );
+  } else {
+    stompClient.send(
+      "/exchange/chat",
+      {
+        to: currentProduct.user_id,
+      },
+      JSON.stringify(messageData)
+    );
+  }
 
-  console.log(currentProduct.id);
+  const { data } = await createChate({
+    receiver_id: currentProduct.user_id,
+    product_id: currentProduct.id,
+  });
 
-  stompClient.send(
-    "/exchange/chat",
-    {
-      to: user.id,
-    },
-    JSON.stringify({
-      user_id: user.id,
-      first_name: user.firstName,
-      text: message.value,
-    })
-  );
+  const { data: res } = await createMessagee({
+    id: `${uuidv4()}`,
+    receiver_id: currentProduct.user_id,
+    content: message.value,
+    chat_id: data.insert_chats_one.id,
+  });
 
-  // const { data: res } = createMessagee({
-  //   id: `${uuidv4()}`,
-  //   sender_id: user.id,
-  //   receiver_id: currentProduct.user_id,
-  //   content: message.value,
-  //   chat_id: currentProduct.id,
-  // });
-
-  // console.log("res", res);
+  messages.value.push(messageData);
 
   message.value = "";
 };
 
 onMounted(() => {
-  const socket = new WebSocket("ws://localhost:15674/ws");
-
-  stompClient = Stomp.over(socket);
-  stompClient.connect("guest", "guest", onConnect, (error) =>
-    console.log(error)
-  );
-
+  //amqp://guest:guest@172.24.96.1:5672
+  // const socket = new WebSocket("ws://192.168.77.1:15674/ws");
+  // stompClient = Stomp.over(socket);
+  // stompClient.connect("user1", "user1", onConnect, (error) =>
+  //   console.log(error)
+  // );
   // console.log("query", queryMessages.value);
-
   // messages.value = queryMessages.value?.messages;
 });
 </script>

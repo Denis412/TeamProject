@@ -22,6 +22,21 @@ export const getMessagesInChat = gql`
   }
 `;
 
+export const getChatId = gql`
+  query getChatId($user_id: String, $product_id: Int!) {
+    chats(
+      where: {
+        _and: {
+          product_id: { _eq: $product_id }
+          _or: { receiver_id: { _eq: $user_id }, sender_id: { _eq: $user_id } }
+        }
+      }
+    ) {
+      id
+    }
+  }
+`;
+
 export const getFavorites = gql`
   query {
     favorites {

@@ -25,14 +25,35 @@
 </template>
 
 <script setup>
-import { provide, ref } from "vue";
+import { onMounted, provide, ref } from "vue";
 import mainHeader from "components/MIAMainHeader.vue";
 import MIAUserProfile from "src/components/UserProfile/MIAUserProfile.vue";
+import stompClient from "../lib/stompClient";
 
 const rightDrawerOpen = ref(false);
 
+const messages = ref([]);
+provide("messages", messages);
+
 provide("toggleRightDrawer", () => {
   rightDrawerOpen.value = !rightDrawerOpen.value;
+});
+
+onMounted(() => {
+  const onMessage = (message) => {
+    const user = window.Clerk.user;
+
+    if (message.headers.to === user?.id)
+      messages.value.push(JSON.parse(message.body));
+  };
+
+  const onConnect = () => {
+    stompClient.subscribe("/queue/Chat", onMessage);
+  };
+
+  stompClient.connect("user1", "user1", onConnect, (error) =>
+    console.log(error)
+  );
 });
 </script>
 

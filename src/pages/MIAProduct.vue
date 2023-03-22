@@ -124,6 +124,7 @@ const getSlides = () => {
       arrItem = [];
     }
   });
+  console.log(arr)
   return arr
 }
 

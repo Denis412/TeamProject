@@ -81,7 +81,7 @@
 import { ref, reactive, computed } from "vue";
 import { useQuasar } from "quasar";
 import { useQuery, useMutation } from "@vue/apollo-composable";
-import { getCategories } from "src/graphql-operations/queries";
+import { getCategories,getSearchedItem } from "src/graphql-operations/queries";
 import { addProductToCatalog } from "../graphql-operations/mutations";
 import { useValidators } from "src/use/validators";
 import MIAPreviewProductItem from "src/components/MIAPreviewProductItem.vue";
@@ -89,8 +89,13 @@ import MIAUploadAvatar from "src/components/MIAUploadAvatar.vue";
 
 const $q = useQuasar();
 
+const searchBuffer = ref("");
+
 const queryCategories = useQuery(getCategories);
 const { mutate: addProduct } = useMutation(addProductToCatalog);
+const { result,refetch:refetchProducts } = useQuery(getSearchedItem("Все"), {
+    searchData: `%${searchBuffer.value}%`,
+  });
 
 const categories = computed(
   () => queryCategories.result.value?.categories ?? []
@@ -119,6 +124,7 @@ const form = ref({
 const product = reactive(form.value);
 
 const onSubmit = async () => {
+  console.log(result.value)
   try {
     const { data } = await addProduct({
       title: form.value.title,
@@ -145,6 +151,7 @@ const onSubmit = async () => {
   } catch (error) {
     console.log(error);
   }
+  refetchProducts();
 };
 </script>
 

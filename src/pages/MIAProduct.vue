@@ -16,11 +16,11 @@
         </q-item>
       </q-list>
     </div>
-    <div class="col-sm-8 col-xs-12 offset-1 row wrap product-information">
-      <div class="col-md-5 col-sm-12 q-mb-lg">
+    <div class="col-sm-8 col-xs-12 offset-md-1 row wrap product-information">
+      <div class="col-md-5 col-sm-12 col-xs-12 q-mb-lg">
         <q-img :src="product.image" />
       </div>
-      <div class="col-md-6 offset-1 relative-position text-information">
+      <div class="col-md-6 col-xs-12 offset-md-1 col-sm-12 relative-position text-information">
         <p>
           {{ product.description }}
         </p>

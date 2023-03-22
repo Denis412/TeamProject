@@ -1,5 +1,5 @@
 <template>
-  <q-list class="row wrap justify-between q-mt-xl products">
+  <q-list class="row wrap q-mt-xl products">
     <ProductItem
       v-for="product in products"
       :key="product.id"

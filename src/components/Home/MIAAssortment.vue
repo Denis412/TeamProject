@@ -3,7 +3,7 @@
     <div class="text-h3 text-center">Наш ассортимент</div>
     <ProductFilter @useFilter="useFilter" />
     <div class="row">
-      <div class="col-6 row">
+      <div class="col-12 col-sm-6 row">
         <q-select
           class="col-6"
           filled
@@ -26,7 +26,7 @@
         />
       </div>
 
-      <div class="col-6 relative-position">
+      <div class="col-12 col-sm-6 relative-position">
         <q-input @keyup.enter="searchRequest" filled bottom-slots v-model="searchData" label="Поиск">
         <template v-slot:append>
           <q-btn @click.stop="searchRequest" icon="add" />

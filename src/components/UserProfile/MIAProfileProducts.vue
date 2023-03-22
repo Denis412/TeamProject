@@ -2,10 +2,11 @@
       <q-list class="col-sm-10 col-12 q-mt-xl products row bg-white">
         <q-btn class="offset-sm-11 offset-10" icon="close" size="30px" flat round dense v-close-popup />
 
-    <div style="margin: 0 auto;" class="q-pb-xl flex-center text-h5" v-show="!result?.products.length">
+
+    <div v-if="loading">Загрузка...</div>
+    <div v-else-if="!result?.products.length&&!loading" style="margin: 0 auto;" class="q-pb-xl flex-center text-h5">
       Список товаров пуст
     </div>
-    <div v-if="loading">Загрузка...</div>
     <q-item
       v-else
       class="product q-pa-lg q-mb-lg row col-lg-12 col-12 wrap"

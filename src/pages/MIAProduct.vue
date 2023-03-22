@@ -45,11 +45,10 @@
       navigation
       padding
       arrows
-      class="bg-grey-1 shadow-2 rounded-borders"
     >
       <q-carousel-slide :name="index + 1" class="column no-wrap" v-for="(items, index) in getSlides()" :key="items[index]">
         <div class="row justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-              <div class="col-3" v-for="item in items" :key="item.id">
+              <div class="col-sm-3 col-6" v-for="item in items" :key="item.id">
                 <router-link class="block" :to="{ name: 'Product', params: { id: item.id } }">
                   <div class="img-container">
                     <q-img class="rounded-borders img" :src="item.image"/>
@@ -114,11 +113,13 @@ const getCategory = (name) => {
 };
 
 const getSlides = () => {
+  let i;
+  document.body.clientWidth>600?i=4:i=2;
   let arr = [];
   let arrItem = [];
   products.value?.forEach((element, index) => {
     arrItem.push(element);
-    if ((index + 1) % 4 == 0) {
+    if ((index + 1) % i == 0) {
       arr.push(arrItem);
       arrItem = [];
     }

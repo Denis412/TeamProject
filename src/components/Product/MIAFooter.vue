@@ -23,7 +23,8 @@ import { useMutation, useQuery } from "@vue/apollo-composable";
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 import { addProductInFavorite, addProductInCart } from "../../graphql-operations/mutations";
-import { checkFavorites, checkCart } from "../../graphql-operations/queries";
+import { checkFavorites, checkCart, getCarts, getFavorites } from "../../graphql-operations/queries";
+
 
 const $q = useQuasar();
 
@@ -37,6 +38,10 @@ const classes = ref({
 
 const { mutate: addProduct } = useMutation(addProductInFavorite);
 const { mutate: addProductCart } = useMutation(addProductInCart);
+
+const { refetch:cartRefetch } = useQuery(getCarts);
+const { refetch:favoritesRefetch } = useQuery(getFavorites);
+
 
 const { result: Favorites } = useQuery(checkFavorites, {
   productId: product.product.id,
@@ -70,12 +75,12 @@ const useFavorite = async () => {
   } catch (error) {
     console.log(error);
   }
+  favoritesRefetch();
 };
 
 const useCart = async()=>{
   const user = window.Clerk.user;
   if (!user) return;
-
   if (Cart.value.carts && Cart.value.carts.length) {
     $q.notify({
       type: "warning",
@@ -84,7 +89,6 @@ const useCart = async()=>{
 
     return;
   }
-
   $q.notify({
       type: "positive",
       message: "Товар добавлен в корзину!",
@@ -93,6 +97,7 @@ const useCart = async()=>{
   const { data } = await addProductCart({
     productId: product.product.id,
   });
+  cartRefetch();
 }
 </script>
 

@@ -46,7 +46,7 @@
       padding
       arrows
     >
-      <q-carousel-slide :name="index + 1" class="column no-wrap" v-for="(items, index) in getSlides()" :key="items[index]">
+      <q-carousel-slide :name="index + 1" class="column no-wrap" v-for="(items, index) in getSlides()"  :key="items[index]">
         <div class="row justify-start items-center q-gutter-xs q-col-gutter no-wrap">
               <div class="col-sm-3 col-6" v-for="item in items" :key="item.id">
                 <router-link class="block" :to="{ name: 'Product', params: { id: item.id } }">
@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, onMounted,watch } from "vue";
 import { useRoute } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
 import { getProductsById, getCategories, getByCategory } from "src/graphql-operations/queries";
@@ -99,25 +99,25 @@ const queryProduct = useQuery(
   id
 );
 
-const product = computed(() => queryProduct.result.value?.products[0] ?? []);
-
-// const category = ref({ text: product?.value.category })
-
-// const {result,loading} = useQuery(()=>getByCategory, category)
-
-const products = computed(() => useQuery(getByCategory, { text: product.value?.category }).result.value?.products ?? []);
-
-
 const getCategory = (name) => {
   return name === product.value?.category;
 };
 
+const product = computed(() => queryProduct.result.value?.products[0] ?? []);
+
+// const category = ref()
+
+// const {result,loading,onResult} = useQuery(()=>getByCategory, { text: product?.value.category })
+
+const products = computed(() => useQuery(()=>getByCategory, { text: product.value?.category }).result.value?.products ?? []);
+
 const getSlides = () => {
+  console.log(products.value)
   let i;
   document.body.clientWidth>600?i=4:i=2;
   let arr = [];
   let arrItem = [];
-  products.value?.forEach((element, index) => {
+  products.value.forEach((element, index) => {
     arrItem.push(element);
     if ((index + 1) % i == 0) {
       arr.push(arrItem);

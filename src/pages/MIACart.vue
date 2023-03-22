@@ -57,7 +57,7 @@ import { getCarts } from "../graphql-operations/queries";
 import { removeProductFromCarts } from "src/graphql-operations/mutations";
 import { useQuery,useMutation } from "@vue/apollo-composable";
 
-const { result, loading, error, refetch } = useQuery(getCarts);
+const { result, loading, error, refetch:cartRefetch } = useQuery(getCarts);
 
 const { mutate: deleteCartItem} = useMutation(removeProductFromCarts)
 
@@ -67,7 +67,7 @@ const deleteFromCarts = async(id) =>{
   const { data } = await deleteCartItem({
     id: id,
   });
-  refetch();
+  cartRefetch();
 }
 
 const calcPrice = ()=>{

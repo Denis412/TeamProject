@@ -54,7 +54,7 @@
 import { getFavorites } from "../graphql-operations/queries";
 import { useMutation, useQuery,provideApolloClient } from "@vue/apollo-composable";
 import { addProductInCart, removeProductFromFavorites } from "src/graphql-operations/mutations";
-import { checkCart } from "../graphql-operations/queries";
+import { checkCart,getCarts } from "../graphql-operations/queries";
 import ApolloClient from "src/apollo/apollo-client.js";
 import { useQuasar } from "quasar";
 
@@ -62,6 +62,8 @@ provideApolloClient(ApolloClient);
 const $q = useQuasar();
 
 const { result, loading, error, refetch } = useQuery(getFavorites);
+const { refetch:cartRefetch } = useQuery(getCarts);
+
 
 const { mutate: addProductCart } = useMutation(addProductInCart);
 
@@ -103,6 +105,7 @@ const useCart = async(id)=>{
   const { data } = await addProductCart({
     productId: id,
   });
+  cartRefetch()
 }
 </script>
 

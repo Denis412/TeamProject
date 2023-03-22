@@ -88,7 +88,7 @@ const updateProfile = () => {
   });
 };
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 .no-wrap
   flex-wrap: wrap
 </style>

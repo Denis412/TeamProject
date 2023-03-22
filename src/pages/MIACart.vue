@@ -2,6 +2,9 @@
   <div class="row">
     <q-list class="q-mt-xl products row col-8">
       <div v-if="loading">Загрузка...</div>
+      <div v-else-if="!loading&&!result?.carts.length" style="margin: 0 auto;" class="text-center text-h4">
+        Корзина пуста
+      </div>
       <q-item
         v-else
         class="product q-pa-lg q-mb-lg row offset-lg-2 col-lg-8 col-12"

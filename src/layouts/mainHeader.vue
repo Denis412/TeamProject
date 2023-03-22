@@ -57,36 +57,6 @@
         </div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer v-model="rightDrawerOpen" :width="250" side="right" overlay bordered>
-      <!-- drawer content -->
-      <q-list>
-        <q-item>
-          <q-item-section>Главная</q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>Каталог</q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>О нас</q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>О доставке</q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>Магазины</q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>Контакты</q-item-section>
-        </q-item>
-        <q-item class="favorites-mobile" clickable tag="a">
-          <q-item-section>Избранное</q-item-section>
-        </q-item>
-        <q-item class="cart-mobile" clickable tag="a">
-          <q-item-section style="flex-direction: row; justify-content: flex-start;" class="items-center">Корзина<span style="margin-left: 10px;" class="cartCount">3</span></q-item-section>
-        </q-item>
-      </q-list>
-    </q-drawer>
   </q-layout>
 </template>
 

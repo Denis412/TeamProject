@@ -5,7 +5,7 @@
       {{ description }}
       <q-btn @click="hideText" class="text-red float-right" flat icon="close" v-show="close"/>
     </p>
-    <q-btn @click="moreText" class="more-btn absolute-right z-top text-blue" flat icon="more_horiz" v-show="description.length>40"/>
+    <q-btn @click="moreText" class="more-btn absolute-right text-blue" flat icon="more_horiz" v-show="description.length>40"/>
     </div>
   </q-item-section>
   <div class="price-area row q-ml-sm">

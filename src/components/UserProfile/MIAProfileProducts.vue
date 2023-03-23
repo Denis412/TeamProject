@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { getProductsByUser } from "src/graphql-operations/queries";
+import { getProductsByUser,getSearchedItem } from "src/graphql-operations/queries";
 import { useQuery,useMutation } from "@vue/apollo-composable";
 import { removeProductFromProducts } from "src/graphql-operations/mutations";
 import { defineProps,ref } from "vue";
@@ -56,6 +56,10 @@ import { defineProps,ref } from "vue";
 const { user } = defineProps({
   user:Object,
 })
+
+const { refetch:refetchProducts } = useQuery(getSearchedItem("Все"), {
+    searchData: `%%`,
+  });
 
 const id = ref({id:user.id})
 
@@ -70,6 +74,7 @@ const deleteFromProducts = async(id) =>{
     id: id,
   });
   refetch();
+  refetchProducts();
 }
 </script>
 

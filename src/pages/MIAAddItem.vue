@@ -91,7 +91,7 @@ const $q = useQuasar();
 
 const queryCategories = useQuery(getCategories);
 const { mutate: addProduct } = useMutation(addProductToCatalog);
-const { result,refetch:refetchProducts } = useQuery(getSearchedItem("Все"), {
+const { refetch:refetchProducts } = useQuery(getSearchedItem("Все"), {
     searchData: `%%`,
   });
 
@@ -122,7 +122,6 @@ const form = ref({
 const product = reactive(form.value);
 
 const onSubmit = async () => {
-  console.log(result.value)
   try {
     const { data } = await addProduct({
       title: form.value.title,

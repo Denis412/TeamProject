@@ -37,15 +37,15 @@ const classes = ref({
 const { mutate: addProduct } = useMutation(addProductInFavorite);
 const { mutate: addProductCart } = useMutation(addProductInCart);
 
-const { refetch:cartRefetch } = useQuery(getCarts);
-const { refetch:favoritesRefetch } = useQuery(getFavorites);
+const { refetch: cartRefetch } = useQuery(getCarts);
+const { refetch: favoritesRefetch } = useQuery(getFavorites);
 
 
-const { result: Favorites,loading:favoritesCheckLoading } = useQuery(checkFavorites, {
+const { result: Favorites, loading: favoritesCheckLoading, refetch: favoritesCheckRefetch } = useQuery(checkFavorites, {
   productId: product.product.id,
 });
 
-const { result: Cart } = useQuery(checkCart, {
+const { result: Cart, refetch: cartsCheckRefetch } = useQuery(checkCart, {
   productId: product.product.id,
 });
 
@@ -66,7 +66,7 @@ const useFavorite = async () => {
 
     return;
   }
-  classes.value.isFavorite = !classes.value.isFavorite;
+  classes.value.isFavorite = true;
   try {
     const { data } = await addProduct({
       productId: product.product.id,
@@ -74,10 +74,11 @@ const useFavorite = async () => {
   } catch (error) {
     console.log(error);
   }
+  favoritesCheckRefetch();
   favoritesRefetch();
 };
 
-const useCart = async()=>{
+const useCart = async () => {
   const user = window.Clerk.user;
   if (!user) return;
   if (Cart.value.carts && Cart.value.carts.length) {
@@ -89,23 +90,29 @@ const useCart = async()=>{
     return;
   }
   $q.notify({
-      type: "positive",
-      message: "Товар добавлен в корзину!",
-    });
-
-  const { data } = await addProductCart({
-    productId: product.product.id,
+    type: "positive",
+    message: "Товар добавлен в корзину!",
   });
+
+  try {
+    const { data } = await addProductCart({
+      productId: product.product.id,
+    });
+  }
+  catch (error) {
+    console.log(error)
+  }
   cartRefetch();
+  сartsCheckRefetch();
 }
 
-const getFavoritesClasses = ()=>{
+const getFavoritesClasses = () => {
   if (Favorites.value?.favorites && Favorites.value?.favorites.length) {
-    classes.value.isFavorite = !classes.value.isFavorite;
+    classes.value.isFavorite = true;
   }
 }
 
-watch(favoritesCheckLoading,getFavoritesClasses)
+watch(favoritesCheckLoading, getFavoritesClasses)
 </script>
 
 <style lang="sass" scoped>

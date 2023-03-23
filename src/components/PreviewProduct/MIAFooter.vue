@@ -19,14 +19,6 @@ import { ref } from "vue";
 const product = defineProps({
   product: Object,
 });
-
-const classes = ref({
-  isFavorite: false,
-});
-
-const toggleFavorite = async () => {
-  classes.value.isFavorite = !classes.value.isFavorite;
-};
 </script>
 
 <style lang="sass" scoped>

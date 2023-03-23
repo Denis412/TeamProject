@@ -31,5 +31,5 @@ const { product, imageUrl } = defineProps({
 .product
   min-height: 504px
   margin-bottom: 56px
-  width: 400px
+  width: 340px
 </style>

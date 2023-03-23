@@ -13,7 +13,7 @@
         <MIAPreviewProductItem :product="product" :imageUrl="image_url" />
       </div>
 
-      <div class="q-pa-md" style="max-width: 500px; width: 500px">
+      <div class="q-pa-md" style="max-width: 500px;">
         <q-form @submit="onSubmit" class="q-gutter-md">
           <div>
             <MIAUploadAvatar @updateUrl="uploadPhoto" />

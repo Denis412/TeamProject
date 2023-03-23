@@ -55,9 +55,6 @@ const useFavorite = async () => {
   const user = window.Clerk.user;
   if (!user) return;
 
-  console.log(window.Clerk.user);
-
-
   if (Favorites.value.favorites && Favorites.value.favorites.length) {
     $q.notify({
       type: "warning",

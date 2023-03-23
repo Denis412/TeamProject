@@ -40,7 +40,7 @@
         Количество товаров: {{ result?.carts.length }}
       </div>
       <div class="text-red text-h6">
-        Общая цена: {{ calcPrice() }}
+        Общая цена: {{ calcPrice() }} Р
       </div>
     </div>
   </div>

@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import MIAHeader from "../components/Product/MIAHeader.vue";
+import MIAHeader from "../components/PreviewProduct/MIAHeader.vue";
 import MIAMainContent from "../components/Product/MIAMainContent.vue";
 import MIAFooter from "../components/PreviewProduct/MIAFooter.vue";
 

@@ -1,7 +1,5 @@
 <template>
   <div class="buttons-area row q-ml-sm q-my-lg">
-    <q-btn icon="compare_arrows" flat class="col-2 text-grey" />
-    <q-btn icon="search" flat class="col-2 text-grey" />
     <q-btn
       @click="useFavorite"
       :class="classes"
@@ -12,7 +10,7 @@
     <q-btn
       @click="useCart"
       flat
-      class="col-6 btn-tocart"
+      class="col-6 offset-4 btn-tocart"
       label="В корзину"
     />
   </div>

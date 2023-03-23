@@ -15,7 +15,7 @@
 
     <q-page-container class="q-pa-md">
       <router-view v-slot="{ Component }">
-        <keep-alive exclude="MIAProduct">
+        <keep-alive :key="$route.fullPath" exclude="MIAProduct">
           <component :is="Component" />
         </keep-alive>
       </router-view>

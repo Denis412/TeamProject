@@ -1,8 +1,8 @@
 <template>
   <div class="row">
-    <q-list class="q-mt-xl products row col-8">
+    <q-list class="q-mt-xl products row col-12 col-sm-8">
       <div v-if="loading">Загрузка...</div>
-      <div v-else-if="!loading&&!result?.carts.length" style="margin: 0 auto;" class="text-center text-h4">
+      <div v-else-if="!loading&&!result?.carts.length" class="absolute-center text-h4">
         Корзина пуста
       </div>
       <q-item
@@ -21,15 +21,9 @@
           <q-item-section class="q-my-md">
             {{ product.product.description }}
           </q-item-section>
-          <div class="price-area row q-ml-sm">
-            <div class="price col-4 text-h5 text-red">
+          <div class="price-area q-ml-sm">
+            <div class="price text-h5 text-red">
               От {{ product.product.price }} Р
-            </div>
-            <div
-              class="old-price text-h6 col-4 text-grey"
-              v-if="product.product.old_price"
-            >
-              От {{ product.product.old_price }} Р
             </div>
           </div>
           <q-btn
@@ -41,7 +35,7 @@
         </div>
       </q-item>
     </q-list>
-    <div class="col-4 q-mt-xl q-px-md">
+    <div v-if="result?.carts.length" class="cart-information col-sm-4 col-12 q-mt-xl q-px-md">
       <div class="quantity text-h5">
         Количество товаров: {{ result?.carts.length }}
       </div>
@@ -100,4 +94,7 @@ const calcPrice = ()=>{
   margin-bottom: 80px
   .old-price
     text-decoration: line-through
+@media (max-width: 600px)
+  .cart-information
+    order: -1
 </style>

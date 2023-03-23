@@ -7,7 +7,7 @@
       :class="classes"
       icon="favorite"
       flat
-      class="col-2"
+      class="col-2 text-grey"
     />
     <q-btn
       @click="useCart"
@@ -50,6 +50,13 @@ const { result: Favorites } = useQuery(checkFavorites, {
 const { result: Cart } = useQuery(checkCart, {
   productId: product.product.id,
 });
+
+// const getFavoritesClass = ()=>{
+//   if(Favorites.value.favorites.product.id===id)
+//     return true
+//   else
+//     false
+// }
 
 const useFavorite = async () => {
   const user = window.Clerk.user;
@@ -109,5 +116,5 @@ const useCart = async()=>{
   border-radius: 13px
 
 .isFavorite
-  color: #feb302
+  color: #feb302 !important
 </style>

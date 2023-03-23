@@ -87,6 +87,7 @@ import { getProductsById, getCategories, getByCategory, getCarts, checkCart } fr
 import { useQuasar } from "quasar";
 
 const $q = useQuasar();
+const slide = ref(1)
 
 const { refetch: cartRefetch } = useQuery(getCarts);
 const { mutate: addProductCart } = useMutation(addProductInCart);
@@ -148,7 +149,6 @@ const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 
 const products = computed(() => useQuery(() => getByCategory, { text: product.value?.category }).result.value?.products ?? []);
 
-const slide = ref(1)
 
 
 const getSlides = () => {

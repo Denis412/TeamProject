@@ -26,7 +26,7 @@
         </p>
         <div class="buy-area text-h4 absolute-bottom text-red text-weight-bold">
           <div>{{ product.price }} Р</div>
-          <q-btn flat class="btn-tocart q-mt-xl" label="В корзину" />
+          <q-btn @click="useCart(product.id)" flat class="btn-tocart q-mt-xl" label="В корзину" />
         </div>
       </div>
     </div>
@@ -81,8 +81,46 @@
 <script setup>
 import { computed, ref, onMounted,watch } from "vue";
 import { useRoute } from "vue-router";
-import { useQuery } from "@vue/apollo-composable";
-import { getProductsById, getCategories, getByCategory } from "src/graphql-operations/queries";
+import { useQuery,useMutation } from "@vue/apollo-composable";
+import { addProductInCart } from "src/graphql-operations/mutations";
+import { getProductsById, getCategories, getByCategory,getCarts,checkCart } from "src/graphql-operations/queries";
+import { useQuasar } from "quasar";
+
+const $q = useQuasar();
+
+const { refetch:cartRefetch } = useQuery(getCarts);
+const { mutate: addProductCart } = useMutation(addProductInCart);
+
+const useCart = async(id)=>{
+  const user = window.Clerk.user;
+  if (!user) return;
+
+  const { result: Cart,refetch:check } = useQuery(checkCart, {
+  productId: id,
+  });
+
+  if (Cart.value?.carts && Cart.value?.carts.length) {
+    $q.notify({
+      type: "warning",
+      message: "Товар уже есть в корзине!",
+    });
+
+    return;
+  }
+
+  $q.notify({
+      type: "positive",
+      message: "Товар добавлен в корзину!",
+    });
+
+  const { data } = await addProductCart({
+    productId: id,
+  });
+  cartRefetch()
+  check()
+}
+
+// import SimilarProduct from "src/components/ProductPage/MIASimilarProduct.vue";
 
 const queryCategories = useQuery(getCategories);
 const categories = computed(
@@ -91,8 +129,6 @@ const categories = computed(
 
 const route = useRoute();
 const id = ref({ id: +route.params.id });
-
-const slide = ref(1)
 
 const queryProduct = useQuery(
   computed(() => getProductsById),
@@ -103,16 +139,19 @@ const getCategory = (name) => {
   return name === product.value?.category;
 };
 
+
 const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 
-// const category = ref()
+// const category = ref({text: product?.value.category} )
 
-// const {result,loading,onResult} = useQuery(()=>getByCategory, { text: product?.value.category })
+// const {result,loading,onResult} = useQuery(()=>getByCategory, category)
 
 const products = computed(() => useQuery(()=>getByCategory, { text: product.value?.category }).result.value?.products ?? []);
 
+const slide = ref(1)
+
+
 const getSlides = () => {
-  console.log(products.value)
   let i;
   document.body.clientWidth>600?i=4:i=2;
   let arr = [];

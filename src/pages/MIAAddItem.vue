@@ -89,12 +89,10 @@ import MIAUploadAvatar from "src/components/MIAUploadAvatar.vue";
 
 const $q = useQuasar();
 
-const searchBuffer = ref("");
-
 const queryCategories = useQuery(getCategories);
 const { mutate: addProduct } = useMutation(addProductToCatalog);
 const { result,refetch:refetchProducts } = useQuery(getSearchedItem("Все"), {
-    searchData: `%${searchBuffer.value}%`,
+    searchData: `%%`,
   });
 
 const categories = computed(

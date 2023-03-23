@@ -1,24 +1,16 @@
 <template>
-  <div>
-    <router-link class="block" :to="{ name: 'Product', params: { id: id } }">
-      <q-item-section class="product-image-container">
-        <q-img class="product-image" :src="image" />
-      </q-item-section>
-    </router-link>
-    <q-item-section class="q-mt-md text-weight-bold">
-      <router-link
-        class="product__title"
-        :to="{ name: 'Product', params: { id: id } }"
-      >
-        {{ title }}
-      </router-link>
+  <header>
+    <q-item-section class="product-image-container">
+      <q-img class="product-image" :src="image" />
     </q-item-section>
-  </div>
+    <q-item-section class="q-mt-md text-weight-bold">
+      {{ title }}
+    </q-item-section>
+  </header>
 </template>
 
 <script setup>
-const { id, image, title } = defineProps({
-  id: Number,
+const { image, title } = defineProps({
   image: String,
   title: String,
 });

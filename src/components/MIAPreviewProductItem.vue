@@ -1,5 +1,5 @@
 <template>
-  <q-item class="product block col-lg-3 col-md-4 col-sm-6 col-xs-12">
+  <q-item class="product block">
     <div class="wrapper q-pa-sm">
       <MIAHeader :image="imageUrl" :title="product.title" />
       <MIAMainContent
@@ -13,8 +13,8 @@
 </template>
 
 <script setup>
-import MIAHeader from "../components/PreviewProduct/MIAHeader.vue";
-import MIAMainContent from "../components/PreviewProduct/MIAMainContent.vue";
+import MIAHeader from "../components/Product/MIAHeader.vue";
+import MIAMainContent from "../components/Product/MIAMainContent.vue";
 import MIAFooter from "../components/PreviewProduct/MIAFooter.vue";
 
 const { product, imageUrl } = defineProps({
@@ -27,7 +27,9 @@ const { product, imageUrl } = defineProps({
 .wrapper
   background: #F6F9FF
   border-radius: 26px
+  word-break: break-all
 .product
   min-height: 504px
   margin-bottom: 56px
+  width: 400px
 </style>

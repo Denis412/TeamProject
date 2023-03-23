@@ -102,7 +102,7 @@ const categoriesNames = computed(() =>
   categories.value.map((category) => category.category_name)
 );
 
-const image_url = ref("");
+const image_url = ref("https://qgczlcboewmzhjxdbzhb.supabase.co/storage/v1/object/public/avatars/1.jpg?t=2023-03-23T13%3A45%3A05.210Z");
 const { required, minValue, isNumber } = useValidators();
 
 const uploadPhoto = (imageUrl) => {

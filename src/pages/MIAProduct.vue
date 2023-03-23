@@ -79,24 +79,24 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted,watch } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useQuery,useMutation } from "@vue/apollo-composable";
+import { useQuery, useMutation } from "@vue/apollo-composable";
 import { addProductInCart } from "src/graphql-operations/mutations";
-import { getProductsById, getCategories, getByCategory,getCarts,checkCart } from "src/graphql-operations/queries";
+import { getProductsById, getCategories, getByCategory, getCarts, checkCart } from "src/graphql-operations/queries";
 import { useQuasar } from "quasar";
 
 const $q = useQuasar();
 
-const { refetch:cartRefetch } = useQuery(getCarts);
+const { refetch: cartRefetch } = useQuery(getCarts);
 const { mutate: addProductCart } = useMutation(addProductInCart);
 
-const useCart = async(id)=>{
+const useCart = async (id) => {
   const user = window.Clerk.user;
   if (!user) return;
 
-  const { result: Cart,refetch:check } = useQuery(checkCart, {
-  productId: id,
+  const { result: Cart, refetch: check } = useQuery(checkCart, {
+    productId: id,
   });
 
   if (Cart.value?.carts && Cart.value?.carts.length) {
@@ -109,9 +109,9 @@ const useCart = async(id)=>{
   }
 
   $q.notify({
-      type: "positive",
-      message: "Товар добавлен в корзину!",
-    });
+    type: "positive",
+    message: "Товар добавлен в корзину!",
+  });
 
   const { data } = await addProductCart({
     productId: id,
@@ -146,14 +146,14 @@ const product = computed(() => queryProduct.result.value?.products[0] ?? []);
 
 // const {result,loading,onResult} = useQuery(()=>getByCategory, category)
 
-const products = computed(() => useQuery(()=>getByCategory, { text: product.value?.category }).result.value?.products ?? []);
+const products = computed(() => useQuery(() => getByCategory, { text: product.value?.category }).result.value?.products ?? []);
 
 const slide = ref(1)
 
 
 const getSlides = () => {
   let i;
-  document.body.clientWidth>600?i=4:i=2;
+  document.body.clientWidth > 600 ? i = 4 : i = 2;
   let arr = [];
   let arrItem = [];
   products.value.forEach((element, index) => {

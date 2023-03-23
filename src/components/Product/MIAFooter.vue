@@ -103,7 +103,7 @@ const useCart = async () => {
     console.log(error)
   }
   cartRefetch();
-  сartsCheckRefetch();
+  cartsCheckRefetch();
 }
 
 const getFavoritesClasses = () => {

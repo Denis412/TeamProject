@@ -21,7 +21,7 @@
 <script setup>
 import { useMutation, useQuery } from "@vue/apollo-composable";
 import { useQuasar } from "quasar";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { addProductInFavorite, addProductInCart } from "../../graphql-operations/mutations";
 import { checkFavorites, checkCart, getCarts, getFavorites } from "../../graphql-operations/queries";
 
@@ -43,7 +43,7 @@ const { refetch:cartRefetch } = useQuery(getCarts);
 const { refetch:favoritesRefetch } = useQuery(getFavorites);
 
 
-const { result: Favorites } = useQuery(checkFavorites, {
+const { result: Favorites,loading:favoritesCheckLoading } = useQuery(checkFavorites, {
   productId: product.product.id,
 });
 
@@ -51,12 +51,7 @@ const { result: Cart } = useQuery(checkCart, {
   productId: product.product.id,
 });
 
-// const getFavoritesClass = ()=>{
-//   if(Favorites.value.favorites.product.id===id)
-//     return true
-//   else
-//     false
-// }
+
 
 const useFavorite = async () => {
   const user = window.Clerk.user;
@@ -64,7 +59,6 @@ const useFavorite = async () => {
 
   console.log(window.Clerk.user);
 
-  classes.value.isFavorite = !classes.value.isFavorite;
 
   if (Favorites.value.favorites && Favorites.value.favorites.length) {
     $q.notify({
@@ -74,7 +68,7 @@ const useFavorite = async () => {
 
     return;
   }
-
+  classes.value.isFavorite = !classes.value.isFavorite;
   try {
     const { data } = await addProduct({
       productId: product.product.id,
@@ -106,6 +100,14 @@ const useCart = async()=>{
   });
   cartRefetch();
 }
+
+const getFavoritesClasses = ()=>{
+  if (Favorites.value?.favorites && Favorites.value?.favorites.length) {
+    classes.value.isFavorite = !classes.value.isFavorite;
+  }
+}
+
+watch(favoritesCheckLoading,getFavoritesClasses)
 </script>
 
 <style lang="sass" scoped>

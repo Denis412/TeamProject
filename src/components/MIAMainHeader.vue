@@ -53,6 +53,7 @@ import { inject, ref } from "vue";
 import userApi from "../sdk/user";
 import MIAUserProfile from "./UserProfile/MIAUserProfile.vue";
 
+
 const toggleRightDrawer = inject("toggleRightDrawer");
 
 const showProfileSettings = ref(false);

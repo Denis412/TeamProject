@@ -2,17 +2,16 @@
   <q-layout view="lHh Lpr lFf">
     <mainHeader />
 
-    <!-- <q-drawer
+    <q-drawer
       v-model="rightDrawerOpen"
       side="right"
       overlay=""
-      show-if-above
       bordered
     >
       <VNavLinks />
 
 
-    </q-drawer> -->
+    </q-drawer>
 
     <q-page-container class="q-pa-md">
       <router-view v-slot="{ Component }">
@@ -28,6 +27,7 @@
 import { provide, ref } from "vue";
 import mainHeader from "components/MIAMainHeader.vue";
 import MIAUserProfile from "src/components/UserProfile/MIAUserProfile.vue";
+import VNavLinks from "src/components/MIANavLinks.vue";
 
 const rightDrawerOpen = ref(false);
 

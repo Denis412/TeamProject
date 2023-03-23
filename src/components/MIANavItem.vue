@@ -1,15 +1,17 @@
 <template>
-  <q-item clickable>
     <router-link
-      style="text-decoration: none; color: black"
+    style="text-decoration: none; color: black;"
       class="flex items-center"
       :to="{ name: name }"
     >
+    <q-item clickable style="width: 100%;">
+
       <q-item-section>
         <q-item-label>{{ title }}</q-item-label>
       </q-item-section>
+    </q-item>
+
     </router-link>
-  </q-item>
 </template>
 
 <script setup>

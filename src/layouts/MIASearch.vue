@@ -20,7 +20,7 @@ export default {};
 <style>
 .search-input {
   max-width: 531px;
-  background: #fff;
+  background: rgba(83, 141, 255, 0.05);
   border-radius: 10px;
   font-size: 23px;
   padding-left: 15px;

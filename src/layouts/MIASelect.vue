@@ -1,7 +1,7 @@
 <template>
     <div style="max-width: 350px">
         <q-select class="select-input" borderless v-model="model" :options="options" label="Сортировка" />
-      </div>
+    </div>
 </template>
 
 <script>
@@ -18,4 +18,11 @@ export default {
   font-size: 23px;
   padding-left: 15px;
 }
+
+@media (max-width: 800px) {
+  .select-input {
+    font-size: 16px;
+  }
+}
+
 </style>

@@ -33,4 +33,10 @@ export default {};
   width: 60px;
   border-radius: 10px;
 }
+
+@media (max-width: 800px) {
+  .search-input {
+    font-size: 16px;
+  }
+}
 </style>

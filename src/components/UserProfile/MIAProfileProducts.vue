@@ -13,10 +13,10 @@
       v-for="product in result?.products"
       :key="product.id"
     >
-      <q-item-section class="col-sm-4 col-xs-12">
+      <q-item-section class="col-sm-4 col-12">
         <q-img :src="product.image" />
       </q-item-section>
-      <div class="col-sm-8 col-xs-12 relative-position q-pl-lg">
+      <div class="col-sm-8 col-12 relative-position q-pl-lg">
         <q-item-section class="product__title text-h5 q-mt-md text-weight-bold">
           {{ product.title }}
         </q-item-section>
@@ -81,4 +81,6 @@ const deleteFromProducts = async(id) =>{
 <style lang="sass" scoped>
 .q-dialog__inner--minimized > div
   width: 80%
+.no-wrap
+  flex-wrap: wrap
 </style>

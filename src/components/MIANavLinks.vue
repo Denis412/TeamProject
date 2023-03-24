@@ -17,12 +17,12 @@ const pagesLinks = [
     name: "catalog",
   },
   {
-    title: "О нас",
-    name: "about-us",
+    title: "Корзина",
+    name: "cart",
   },
   {
-    title: "О доставке",
-    name: "about-shipping",
+    title: "Избранное",
+    name: "favorites",
   },
   {
     title: "Магазины",

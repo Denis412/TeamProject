@@ -9,18 +9,25 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@clerk/clerk-js": "^4.32.3",
     "@quasar/extras": "^1.0.0",
-    "@supabase/supabase-js": "^2.10.0",
+    "@supabase/supabase-js": "^2.11.0",
+    "@vue/apollo-composable": "^4.0.0-beta.4",
+    "amqplib": "^0.10.3",
     "axios": "^1.2.1",
     "core-js": "^3.6.5",
-    "json-socket-server": "^0.0.4",
+    "graphql-tag": "^2.12.6",
     "quasar": "^2.6.0",
+    "supabase": "^1.42.7",
+    "uuid": "^9.0.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.1"
   },
   "devDependencies": {
-    "@quasar/app-webpack": "^3.0.0"
+    "@quasar/app-webpack": "^3.0.0",
+    "@quasar/quasar-app-extension-apollo": "^2.0.0-beta.5",
+    "graphql_ppx": "^0.2.8"
   },
   "browserslist": [
     "last 10 Chrome versions",

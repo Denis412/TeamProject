@@ -1,34 +1,63 @@
 const routes = [
   {
     path: "/",
-    component: () => import("layouts/MainLayout.vue"),
+    component: () => import("layouts/MIAMainLayout.vue"),
     children: [
       {
-        path: "/",
-        name: "Home",
-        component: () => import("pages/HomePage.vue"),
-      },
-    ],
-  },
-  {
-    path: "/auth",
-    component: () => import("layouts/AuthenticationLayout.vue"),
-    children: [
-      {
-        path: "login",
-        name: "signIn",
-        component: () => import("pages/SignInPage.vue"),
+        path: "",
+        name: "home",
+        component: () => import("pages/MIAHomePage.vue"),
       },
       {
-        path: "registration",
-        name: "signUp",
-        component: () => import("pages/SignUpPage.vue"),
+        path: "catalog",
+        name: "catalog",
+        component: () => import("pages/MIAHomePage.vue"),
+      },
+      {
+        path: "about-us",
+        name: "about-us",
+        component: () => import("pages/MIAHomePage.vue"),
+      },
+      {
+        path: "about-shipping",
+        name: "about-shipping",
+        component: () => import("pages/MIAHomePage.vue"),
+      },
+      {
+        path: "shops",
+        name: "shops",
+        component: () => import("pages/MIAHomePage.vue"),
+      },
+      {
+        path: "contacts",
+        name: "contacts",
+        component: () => import("pages/MIAHomePage.vue"),
+      },
+      {
+        path: "additem",
+        name: "AddItem",
+        component: () => import("pages/MIAAddItem.vue"),
+      },
+      {
+        path: "favorites",
+        name: "favorites",
+        component: () => import("pages/MIAFavorites.vue"),
+      },
+      {
+        path: "cart",
+        name: "cart",
+        component: () => import("pages/MIACart.vue"),
+      },
+      {
+        path: "product/:id",
+        name: "Product",
+        component: () => import("pages/MIAProduct.vue"),
       },
     ],
   },
   {
     path: "/:catchAll(.*)*",
-    component: () => import("pages/ErrorNotFound.vue"),
+    component: () => import("pages/MIAErrorNotFound.vue"),
   },
 ];
 

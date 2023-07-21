@@ -8,12 +8,12 @@
         Все
       </button>
     </q-item>
-    <q-item v-for="(btn, index) in categories" :key="btn.category_name">
+    <q-item v-for="(btn, index) in categories" :key="btn.name">
       <button
-        @click="useFilter(index + 1, btn.category_name)"
+        @click="useFilter(index + 1, btn.name)"
         class="btn-group__item no-border"
       >
-        {{ btn.category_name }}
+        {{ btn.name }}
       </button>
     </q-item>
   </q-list>

@@ -3,19 +3,40 @@ import gql from "graphql-tag";
 // title, description, user_id, price, quantity, category, image, old_price
 
 export const addProductInFavorite = gql`
-  mutation enrollProds($productId: bigint!) {
-    insert_favorites_one(object: { product_id: $productId }) {
+  mutation enrollProds($input: CreateFavoriteInput!) {
+    createFavorite(input: $input) {
       id
-      product_id
+      product {
+        id
+      }
+    }
+  }
+`;
+
+export const signUp = gql`
+  mutation sign($input: SignUpInput!) {
+    SignUp(input: $input) {
+      id
+    }
+  }
+`;
+
+export const signIn = gql`
+  mutation sign($input: SignInInput!) {
+    SignIn(input: $input) {
+      user_id
+      access_token
     }
   }
 `;
 
 export const addProductInCart = gql`
-  mutation Cart($productId: bigint!) {
-    insert_carts_one(object: { product_id: $productId }) {
+  mutation Cart($input: CreateCartInput!) {
+    createCart(input: $input) {
       id
-      product_id
+      product {
+        id
+      }
     }
   }
 `;
@@ -23,60 +44,44 @@ export const addProductInCart = gql`
 // export default deleteProductInFavorite = gql``;
 
 export const addProductToCatalog = gql`
-  mutation addProductToCatalog(
-    $title: String!
-    $description: String!
-    $price: Int
-    $quantity: Int
-    $category: String!
-    $image: String!
-    $old_price: Int
-  ) {
-    insert_products_one(
-      object: {
-        title: $title
-        description: $description
-        price: $price
-        old_price: $old_price
-        quantity: $quantity
-        category: $category
-        image: $image
+  mutation addProductToCatalog($input: CreateProductInput!) {
+    createProduct(input: $input) {
+      user {
+        id
       }
-    ) {
-      user_id
       title
       description
       price
       old_price
       quantity
-      category
+      category {
+        id
+      }
       image
     }
   }
 `;
 
 export const removeProductFromFavorites = gql`
-  mutation removeProductFromFavorites($id: bigint!) {
-    delete_favorites_by_pk(id: $id) {
+  mutation removeProductFromFavorites($id: number!) {
+    removeFavorite(id: $id) {
       id
     }
   }
 `;
 
 export const removeProductFromCarts = gql`
-  mutation removeProductFromCarts($id: bigint!) {
-    delete_carts_by_pk(id: $id) {
+  mutation removeProductFromCarts($id: number!) {
+    removeCart(id: $id) {
       id
     }
   }
 `;
 
 export const removeProductFromProducts = gql`
-  mutation removeProductFromCarts($id: bigint!) {
-    delete_products_by_pk(id: $id) {
+  mutation removeProductFromCarts($id: number!) {
+    deleteProduct(id: $id) {
       id
     }
   }
 `;
-
-

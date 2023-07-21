@@ -4,8 +4,7 @@
 module.exports = {
   client: {
     service: {
-      name: "my-service",
-      url: "https://wanted-bull-47.hasura.app/v1/graphql",
+      url: "http://localhost:3000/graphql",
     },
     // Files processed by the extension
     includes: ["src/**/*.vue", "src/**/*.js", "src/**/*.ts"],

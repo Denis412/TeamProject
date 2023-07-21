@@ -20,9 +20,16 @@
 import { useMutation, useQuery } from "@vue/apollo-composable";
 import { useQuasar } from "quasar";
 import { ref, watch } from "vue";
-import { addProductInFavorite, addProductInCart } from "../../graphql-operations/mutations";
-import { checkFavorites, checkCart, getCarts, getFavorites } from "../../graphql-operations/queries";
-
+import {
+  addProductInFavorite,
+  addProductInCart,
+} from "../../graphql-operations/mutations";
+import {
+  checkFavorites,
+  checkCart,
+  getCarts,
+  getFavorites,
+} from "../../graphql-operations/queries";
 
 const $q = useQuasar();
 
@@ -40,16 +47,17 @@ const { mutate: addProductCart } = useMutation(addProductInCart);
 const { refetch: cartRefetch } = useQuery(getCarts);
 const { refetch: favoritesRefetch } = useQuery(getFavorites);
 
-
-const { result: Favorites, loading: favoritesCheckLoading, refetch: favoritesCheckRefetch } = useQuery(checkFavorites, {
+const {
+  result: Favorites,
+  loading: favoritesCheckLoading,
+  refetch: favoritesCheckRefetch,
+} = useQuery(checkFavorites, {
   productId: product.product.id,
 });
 
 const { result: Cart, refetch: cartsCheckRefetch } = useQuery(checkCart, {
   productId: product.product.id,
 });
-
-
 
 const useFavorite = async () => {
   const user = window.Clerk.user;
@@ -66,7 +74,14 @@ const useFavorite = async () => {
   classes.value.isFavorite = true;
   try {
     const { data } = await addProduct({
-      productId: product.product.id,
+      input: {
+        product: {
+          id: product.product.id,
+        },
+        user: {
+          id: user.id,
+        },
+      },
     });
   } catch (error) {
     console.log(error);
@@ -95,21 +110,20 @@ const useCart = async () => {
     const { data } = await addProductCart({
       productId: product.product.id,
     });
-  }
-  catch (error) {
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
   cartRefetch();
   cartsCheckRefetch();
-}
+};
 
 const getFavoritesClasses = () => {
   if (Favorites.value?.favorites && Favorites.value?.favorites.length) {
     classes.value.isFavorite = true;
   }
-}
+};
 
-watch(favoritesCheckLoading, getFavoritesClasses)
+watch(favoritesCheckLoading, getFavoritesClasses);
 </script>
 
 <style lang="sass" scoped>

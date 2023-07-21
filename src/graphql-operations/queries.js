@@ -1,16 +1,16 @@
 import gql from "graphql-tag";
 
 export const checkFavorites = gql`
-  query checkProduct($productId: bigint!) {
-    favorites(where: { product_id: { _eq: $productId } }) {
+  query checkProduct($where: PaginatorWhere) {
+    favorites(where: $where) {
       id
     }
   }
 `;
 
 export const checkCart = gql`
-  query checkProduct($productId: bigint!) {
-    carts(where: { product_id: { _eq: $productId } }) {
+  query checkProduct($where: PaginatorWhere) {
+    carts(where: $where) {
       id
     }
   }
@@ -24,7 +24,9 @@ export const getFavorites = gql`
         id
         description
         created_at
-        category
+        category {
+          name
+        }
         image
         old_price
         price
@@ -43,7 +45,9 @@ export const getCarts = gql`
         id
         description
         created_at
-        category
+        category {
+          name
+        }
         image
         old_price
         price
@@ -55,36 +59,58 @@ export const getCarts = gql`
 `;
 
 export const getProductsById = gql`
-  query ($id: bigint!) {
-    products(where: { id: { _eq: $id } }) {
+  query ($id: Int!) {
+    product(id: $id) {
       id
       created_at
       title
-      user_id
+      user {
+        id
+      }
       description
       price
       old_price
       quantity
       image
-      category
+      category {
+        name
+      }
     }
   }
 `;
 
+//export const getProductsByUser = gql`
+// query ($id: String!){
+//   products(where: {user_id: {_eq: $id}}) {
+//   category
+//   created_at
+//   description
+//   id
+//   image
+//   old_price
+//   price
+//   quantity
+//   title
+// }
+// }
+// `;
+
 export const getProductsByUser = gql`
-  query ($id: String!){
-    products(where: {user_id: {_eq: $id}}) {
-    category
-    created_at
-    description
-    id
-    image
-    old_price
-    price
-    quantity
-    title
+  query ($where: PaginattorWhere) {
+    products(where: $where) {
+      category {
+        name
+      }
+      created_at
+      description
+      id
+      image
+      old_price
+      price
+      quantity
+      title
+    }
   }
-}
 `;
 
 export const filtredProduct = (category) => {
@@ -99,15 +125,17 @@ export const filtredProduct = (category) => {
           price
           quantity
           image
-          category
+          category {
+            name
+          }
         }
       }
     `;
     return data;
   } else {
     const data = gql`
-      query ($text: String!) {
-        products(where: { category: { _eq: $text } }) {
+      query ($where: PaginatorWhere) {
+        products(where: $where) {
           id
           created_at
           title
@@ -115,7 +143,9 @@ export const filtredProduct = (category) => {
           price
           quantity
           image
-          category
+          category {
+            name
+          }
         }
       }
     `;
@@ -126,10 +156,12 @@ export const filtredProduct = (category) => {
 export const getProductByDateDesc = (category) => {
   if (category === "Все") {
     const data = gql`
-      query {
-        products(order_by: { created_at: desc }) {
+      query ($orderBy: PaginatorOrderBy) {
+        products(orderBy: $orderBy) {
           id
-          category
+          category {
+            name
+          }
           created_at
           description
           image
@@ -143,13 +175,12 @@ export const getProductByDateDesc = (category) => {
     return data;
   } else {
     const data = gql`
-      query ($text: String!) {
-        products(
-          order_by: { created_at: desc }
-          where: { category: { _eq: $text } }
-        ) {
+      query ($where: PaginatorWhere, $orderBy: PaginatorOrderBy) {
+        products(orderBy: $orderBy, where: $where) {
           id
-          category
+          category {
+            name
+          }
           created_at
           description
           image
@@ -167,10 +198,12 @@ export const getProductByDateDesc = (category) => {
 export const getProductByPriceDesc = (category) => {
   if (category === "Все") {
     const data = gql`
-      query {
-        products(order_by: { price: desc }) {
+      query ($where: PaginatorWhere, $orderBy: PaginatorOrderBy) {
+        products(where: $where, orderBy: $orderBy) {
           id
-          category
+          category {
+            name
+          }
           created_at
           description
           image
@@ -184,13 +217,12 @@ export const getProductByPriceDesc = (category) => {
     return data;
   } else {
     const data = gql`
-      query ($text: String!) {
-        products(
-          order_by: { price: desc }
-          where: { category: { _eq: $text } }
-        ) {
+      query ($orderBy: PaginatorOrderBy, $where: PaginatorWhere) {
+        products(orderBy: $orderBy, where: $where) {
           id
-          category
+          category {
+            name
+          }
           created_at
           description
           image
@@ -208,10 +240,12 @@ export const getProductByPriceDesc = (category) => {
 export const getProductByPriceAsc = (category) => {
   if (category === "Все") {
     const data = gql`
-      query {
-        products(order_by: { price: asc }) {
+      query ($orderBy: PaginatorOrderBy) {
+        products(orderBy: $orderBy) {
           id
-          category
+          category {
+            name
+          }
           created_at
           description
           image
@@ -225,13 +259,12 @@ export const getProductByPriceAsc = (category) => {
     return data;
   } else {
     const data = gql`
-      query ($text: String!) {
-        products(
-          order_by: { price: asc }
-          where: { category: { _eq: $text } }
-        ) {
+      query ($where: PaginatorWhere) {
+        products(orderBy: { price: asc }, where: $where) {
           id
-          category
+          category {
+            name
+          }
           created_at
           description
           image
@@ -249,10 +282,12 @@ export const getProductByPriceAsc = (category) => {
 export const getSearchedItem = (category) => {
   if (category === "Все") {
     const data = gql`
-      query ($searchData: String!) {
-        products(where: { title: { _ilike: $searchData } }) {
+      query ($where: PaginatorWhere) {
+        products(where: $where) {
           id
-          category
+          category {
+            name
+          }
           created_at
           description
           image
@@ -266,15 +301,12 @@ export const getSearchedItem = (category) => {
     return data;
   } else {
     const data = gql`
-      query ($searchData: String!, $text: String!) {
-        products(
-          where: {
-            title: { _ilike: $searchData }
-            _and: { category: { _eq: $text } }
-          }
-        ) {
+      query ($where: PaginatorWhere) {
+        products(where: $where) {
           id
-          category
+          category {
+            name
+          }
           created_at
           description
           image
@@ -290,8 +322,8 @@ export const getSearchedItem = (category) => {
 };
 
 export const getByCategory = gql`
-  query ($text: String!) {
-    products(where: { category: { _eq: $text } }) {
+  query ($where: PaginatorWhere) {
+    products(where: $where) {
       id
       created_at
       title
@@ -299,7 +331,9 @@ export const getByCategory = gql`
       price
       quantity
       image
-      category
+      category {
+        name
+      }
     }
   }
 `;
@@ -309,7 +343,8 @@ export const getByCategory = gql`
 export const getCategories = gql`
   query {
     categories {
-      category_name
+      id
+      name
     }
   }
 `;

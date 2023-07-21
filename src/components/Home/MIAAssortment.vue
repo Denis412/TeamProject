@@ -27,23 +27,29 @@
       </div>
 
       <div class="col-12 col-sm-6 relative-position">
-        <q-input @keyup.enter="searchRequest" filled bottom-slots v-model="searchData" label="Поиск">
-        <template v-slot:append>
-          <q-btn @click.stop="searchRequest" icon="add" />
-        </template>
-      </q-input>
-        <div class="search-menu absolute"
-         v-show="searchData.length>2">
-          <div v-show="!search().length"
-          style="margin-bottom: 16px;">
+        <q-input
+          @keyup.enter="searchRequest"
+          filled
+          bottom-slots
+          v-model="searchData"
+          label="Поиск"
+        >
+          <template v-slot:append>
+            <q-btn @click.stop="searchRequest" icon="add" />
+          </template>
+        </q-input>
+        <div class="search-menu absolute" v-show="searchData.length > 2">
+          <div v-show="!search().length" style="margin-bottom: 16px">
             Ничего не найдено
           </div>
-         <div v-for="product in search()"
-         :key="product.id">
-          <router-link class="block" :to="{ name: 'Product', params: { id: product.id } }">
-            {{ product.title }}
-          </router-link>
-         </div>
+          <div v-for="product in search()" :key="product.id">
+            <router-link
+              class="block"
+              :to="{ name: 'Product', params: { id: product.id } }"
+            >
+              {{ product.title }}
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -56,7 +62,7 @@ import { computed, ref } from "vue";
 import ProductFilter from "./MIAProductFilter.vue";
 import Products from "./MIAProducts.vue";
 import { useQuery, provideApolloClient } from "@vue/apollo-composable";
-import ApolloClient from "src/apollo/apollo-client.js";
+import apolloClient from "src/apollo/apollo-client.js";
 import {
   filtredProduct,
   getProductByDateDesc,
@@ -65,15 +71,39 @@ import {
   getSearchedItem,
 } from "../../graphql-operations/queries";
 
-provideApolloClient(ApolloClient);
+provideApolloClient(apolloClient);
 
 //ОПРЕДЕЛЕНИЕ ФИЛЬТРУЕМОЙ КАТЕГОРИИ
 
 const category = ref({ text: "Все" });
+let products = computed(
+  () =>
+    useQuery(getSearchedItem(category.value.text), {
+      // where: {
+      //   column: "title",
+      //   operator: "_eq",
+      //   value: searchBuffer.value,
+      // },
+    }).result.value?.products ?? []
+);
 
 const useFilter = (categoryName) => {
+  console.log("hi", category.value);
   category.value.text = categoryName;
-  searchBuffer.value='';
+  const queryProducts = useQuery(filtredProduct(category.value.text), {
+    where: {
+      column: "category->name",
+      operator: "_eq",
+      value: category.value.text,
+    },
+  });
+
+  products = computed(() => {
+    console.log("result", queryProducts.result.value);
+    return queryProducts.result.value?.products ?? [];
+  });
+
+  searchBuffer.value = "";
 };
 
 //БЛОК СОРТИРОВКИ ПО ДАТЕ И ЦЕНЕ
@@ -83,16 +113,20 @@ const price = ref();
 
 const dateSort = () => {
   if (date.value === "Сначала новое") {
-    const queryProducts = useQuery(
-      computed(() => getProductByDateDesc(category.value.text)),
-      category
-    );
+    const queryProducts = useQuery(getProductByDateDesc(category.value.text), {
+      orderBy: {
+        column: "created_at",
+        order: "desc",
+      },
+    });
     products = computed(() => queryProducts.result.value?.products ?? []);
   } else {
-    const queryProducts = useQuery(
-      computed(() => filtredProduct(category.value.text)),
-      category
-    );
+    const queryProducts = useQuery(filtredProduct(category.value.text), {
+      orderBy: {
+        column: "created_at",
+        order: "asc",
+      },
+    });
     products = computed(() => queryProducts.result.value?.products ?? []);
   }
   price.value = null;
@@ -100,27 +134,33 @@ const dateSort = () => {
 
 const priceSort = () => {
   if (price.value === "Сначала дорогое") {
-    const queryProducts = useQuery(
-      computed(() => getProductByPriceDesc(category.value.text)),
-      category
-    );
+    const queryProducts = useQuery(getProductByPriceDesc(category.value.text), {
+      orderBy: {
+        column: "price",
+        order: "desc",
+      },
+    });
     products = computed(() => queryProducts.result.value?.products ?? []);
   } else if (price.value === "Сначала дешевое") {
-    const queryProducts = useQuery(
-      computed(() => getProductByPriceAsc(category.value.text)),
-      category
-    );
+    const queryProducts = useQuery(getProductByPriceAsc(category.value.text), {
+      orderBy: {
+        column: "price",
+        order: "asc",
+      },
+    });
     products = computed(() => queryProducts.result.value?.products ?? []);
   } else {
-    const queryProducts = useQuery(
-      computed(() => filtredProduct(category.value.text)),
-      category
-    );
+    const queryProducts = useQuery(filtredProduct(category.value.text), {
+      where: {
+        column: "category->name",
+        operator: "_eq",
+        value: category.value.text,
+      },
+    });
     products = computed(() => queryProducts.result.value?.products ?? []);
   }
   date.value = null;
 };
-
 
 //БЛОК ПОИСКА
 
@@ -133,23 +173,24 @@ const search = () => {
   );
 };
 
-const searchRequest=()=>{
+const searchRequest = () => {
   searchBuffer.value = searchData.value;
-  products = computed(()=>useQuery(getSearchedItem(category.value.text), {
-    searchData: `%${searchBuffer.value}%`,
-    text: category.value.text
-  }).result.value?.products ?? []);
-  searchData.value = '';
-}
-
-let products = computed(()=>useQuery(getSearchedItem(category.value.text), {
-    searchData: `%${searchBuffer.value}%`,
-    text: category.value.text
-  }).result.value?.products ?? []);
+  products = computed(
+    () =>
+      useQuery(getSearchedItem(category.value.text), {
+        where: {
+          column: "title",
+          operator: "_eq",
+          value: searchBuffer.value,
+        },
+      }).result.value?.products ?? []
+  );
+  searchData.value = "";
+};
 </script>
 
 <style lang="scss" scoped>
-.search-menu{
+.search-menu {
   width: 100%;
   background: #fff;
   border: solid 1px grey;
@@ -158,11 +199,11 @@ let products = computed(()=>useQuery(getSearchedItem(category.value.text), {
   z-index: 1;
   padding: 16px 16px 0;
 }
-a{
+a {
   text-decoration: none;
   color: #000;
   margin-bottom: 16px;
-  &:hover{
+  &:hover {
     color: grey;
   }
 }

@@ -1,6 +1,6 @@
 {
   "@quasar/apollo": {
     "typescript": false,
-    "graphql_uri": "https://wanted-bull-47.hasura.app/v1/graphql"
+    "graphql_uri": "http://localhost:3000/graphql"
   }
 }

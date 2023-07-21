@@ -20,9 +20,9 @@
 
         <VNavItem class="favorites" title="Избранное" name="favorites" />
 
-        <Cart class="cart" title="Корзина" name="cart"/>
+        <Cart class="cart" title="Корзина" name="cart" />
         <q-item id="auth-links">
-          <q-btn @click="userApi.login"> Войти </q-btn>
+          <q-btn @click="redirect"> Войти </q-btn>
         </q-item>
 
         <div class="q-ml-md" @click="toggleShowProfileSettings">
@@ -52,11 +52,19 @@ import Cart from "./MIACart.vue";
 import { inject, ref } from "vue";
 import userApi from "../sdk/user";
 import MIAUserProfile from "./UserProfile/MIAUserProfile.vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 
 const toggleRightDrawer = inject("toggleRightDrawer");
 
 const showProfileSettings = ref(false);
+
+const redirect = async () => {
+  await router.push({
+    name: "login",
+  });
+};
 
 const toggleShowProfileSettings = () => {
   showProfileSettings.value = !showProfileSettings.value;

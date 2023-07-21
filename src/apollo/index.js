@@ -2,17 +2,26 @@ import { createHttpLink, InMemoryCache } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 
 export /* async */ function getClientOptions(/* {app, router, ...} */ options) {
+  //https://wanted-bull-47.hasura.app/v1/graphql
   const httpLink = createHttpLink({
-    uri: "https://wanted-bull-47.hasura.app/v1/graphql",
+    uri: "http://localhost:3000/graphql",
   });
 
   const authLink = setContext((_, { headers }) => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      return {
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    }
 
     return {
       headers: {
         ...headers,
-        Authorization: token ? `Bearer ${token}` : "",
       },
     };
   });

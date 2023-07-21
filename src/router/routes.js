@@ -4,6 +4,16 @@ const routes = [
     component: () => import("layouts/MIAMainLayout.vue"),
     children: [
       {
+        path: "reg",
+        name: "reg",
+        component: () => import("pages/MIAReg.vue"),
+      },
+      {
+        path: "login",
+        name: "login",
+        component: () => import("pages/MIAAuth.vue"),
+      },
+      {
         path: "",
         name: "home",
         component: () => import("pages/MIAHomePage.vue"),

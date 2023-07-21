@@ -13,7 +13,7 @@
         <MIAPreviewProductItem :product="product" :imageUrl="image_url" />
       </div>
 
-      <div class="q-pa-md" style="max-width: 500px;">
+      <div class="q-pa-md" style="max-width: 500px">
         <q-form @submit="onSubmit" class="q-gutter-md">
           <div>
             <MIAUploadAvatar @updateUrl="uploadPhoto" />
@@ -31,7 +31,6 @@
             v-model="form.category"
             :options="categoriesNames"
             label="Категория товара"
-            :rules="[required]"
           />
 
           <div class="flex justify-between">
@@ -81,7 +80,7 @@
 import { ref, reactive, computed } from "vue";
 import { useQuasar } from "quasar";
 import { useQuery, useMutation } from "@vue/apollo-composable";
-import { getCategories,getSearchedItem } from "src/graphql-operations/queries";
+import { getCategories, getSearchedItem } from "src/graphql-operations/queries";
 import { addProductToCatalog } from "../graphql-operations/mutations";
 import { useValidators } from "src/use/validators";
 import MIAPreviewProductItem from "src/components/MIAPreviewProductItem.vue";
@@ -91,18 +90,21 @@ const $q = useQuasar();
 
 const queryCategories = useQuery(getCategories);
 const { mutate: addProduct } = useMutation(addProductToCatalog);
-const { refetch:refetchProducts } = useQuery(getSearchedItem("Все"), {
-    searchData: `%%`,
-  });
+const { refetch: refetchProducts } = useQuery(getSearchedItem("Все"), {
+  searchData: `%%`,
+});
 
 const categories = computed(
   () => queryCategories.result.value?.categories ?? []
 );
 const categoriesNames = computed(() =>
-  categories.value.map((category) => category.category_name)
+  categories.value.map((category) => category.id)
 );
 
-const image_url = ref("https://qgczlcboewmzhjxdbzhb.supabase.co/storage/v1/object/public/avatars/1.jpg?t=2023-03-23T13%3A45%3A05.210Z");
+const image_url = ref(
+  ""
+  // "https://qgczlcboewmzhjxdbzhb.supabase.co/storage/v1/object/public/avatars/1.jpg?t=2023-03-23T13%3A45%3A05.210Z"
+);
 const { required, minValue, isNumber } = useValidators();
 
 const uploadPhoto = (imageUrl) => {
@@ -124,13 +126,17 @@ const product = reactive(form.value);
 const onSubmit = async () => {
   try {
     const { data } = await addProduct({
-      title: form.value.title,
-      description: form.value.description,
-      price: form.value.price,
-      old_price: form.value.old_price,
-      quantity: form.value.quantity,
-      category: form.value.category,
-      image: image_url.value,
+      input: {
+        title: form.value.title,
+        description: form.value.description,
+        price: parseFloat(form.value.price),
+        old_price: parseFloat(form.value.old_price),
+        quantity: form.value.quantity,
+        category: {
+          id: form.value.category,
+        },
+        image: image_url.value,
+      },
     });
 
     form.value.title = "";

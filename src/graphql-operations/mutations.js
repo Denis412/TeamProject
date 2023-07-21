@@ -16,7 +16,7 @@ export const addProductInFavorite = gql`
 export const signUp = gql`
   mutation sign($input: SignUpInput!) {
     SignUp(input: $input) {
-      id
+      first_name
     }
   }
 `;

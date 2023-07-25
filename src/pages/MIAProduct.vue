@@ -114,14 +114,16 @@ const { refetch: cartRefetch } = useQuery(getCarts);
 const { mutate: addProductCart } = useMutation(addProductInCart);
 
 const useCart = async (id) => {
-  const user = window.Clerk.user;
-  if (!user) return;
-
   const { result: Cart, refetch: check } = useQuery(checkCart, {
-    productId: id,
+    where: {
+      column: "product->id",
+      operator: "EQ",
+      value: `${id}`,
+    },
   });
+  const { data: cart } = await check();
 
-  if (Cart.value?.carts && Cart.value?.carts.length) {
+  if (cart?.carts && cart?.carts.length) {
     $q.notify({
       type: "warning",
       message: "Товар уже есть в корзине!",
@@ -136,7 +138,14 @@ const useCart = async (id) => {
   });
 
   const { data } = await addProductCart({
-    productId: id,
+    input: {
+      product: {
+        id,
+      },
+      user: {
+        id: parseInt(localStorage.getItem("user_id")),
+      },
+    },
   });
   cartRefetch();
   check();
@@ -169,8 +178,8 @@ const product = computed(() => queryProduct.result.value?.product);
 
 const products = computed(
   () =>
-    useQuery(() => getByCategory, { text: product.value?.category }).result
-      .value?.products ?? []
+    useQuery(getByCategory, { text: product.value?.category }).result.value
+      ?.products ?? []
 );
 
 const getSlides = () => {

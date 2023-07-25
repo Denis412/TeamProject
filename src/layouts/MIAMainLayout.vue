@@ -12,15 +12,15 @@
       <VNavLinks />
 
       <div class="absolute">
-          <q-btn
-            dense
-            round
-            unelevated
-            color="primary"
-            icon="chevron_right"
-            @click="rightDrawerOpen=false"
-          />
-        </div>
+        <q-btn
+          dense
+          round
+          unelevated
+          color="primary"
+          icon="chevron_right"
+          @click="rightDrawerOpen = false"
+        />
+      </div>
     </q-drawer>
 
     <q-page-container class="q-pa-md">

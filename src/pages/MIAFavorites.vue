@@ -1,9 +1,13 @@
 <template>
   <q-list class="q-mt-xl products row">
     <div v-if="loading">Загрузка...</div>
-    <div v-else-if="!loading&&!result?.favorites.length" style="margin: 0 auto;" class="text-center text-h4">
-        Список избранного пуст
-      </div>
+    <div
+      v-else-if="!loading && !result?.favorites.length"
+      style="margin: 0 auto"
+      class="text-center text-h4"
+    >
+      Список избранного пуст
+    </div>
     <q-item
       v-else
       class="product q-pa-lg q-mb-lg row offset-lg-2 col-lg-8 col-12"
@@ -52,9 +56,16 @@
 
 <script setup>
 import { getFavorites } from "../graphql-operations/queries";
-import { useMutation, useQuery,provideApolloClient } from "@vue/apollo-composable";
-import { addProductInCart, removeProductFromFavorites } from "src/graphql-operations/mutations";
-import { checkCart,getCarts } from "../graphql-operations/queries";
+import {
+  useMutation,
+  useQuery,
+  provideApolloClient,
+} from "@vue/apollo-composable";
+import {
+  addProductInCart,
+  removeProductFromFavorites,
+} from "src/graphql-operations/mutations";
+import { checkCart, getCarts } from "../graphql-operations/queries";
 import ApolloClient from "src/apollo/apollo-client.js";
 import { useQuasar } from "quasar";
 
@@ -62,33 +73,31 @@ provideApolloClient(ApolloClient);
 const $q = useQuasar();
 
 const { result, loading, error, refetch } = useQuery(getFavorites);
-const { refetch:cartRefetch } = useQuery(getCarts);
-
+const { refetch: cartRefetch } = useQuery(getCarts);
 
 const { mutate: addProductCart } = useMutation(addProductInCart);
 
-const { mutate: deleteFavorite} = useMutation(removeProductFromFavorites)
+const { mutate: deleteFavorite } = useMutation(removeProductFromFavorites);
 
-const deleteFromFavorites = async(id) =>{
-  const user = window.Clerk.user;
-  if (!user) return;
+const deleteFromFavorites = async (id) => {
   const { data } = await deleteFavorite({
     id: id,
   });
   refetch();
-}
+};
 
-
-
-const useCart = async(id)=>{
-  const user = window.Clerk.user;
-  if (!user) return;
-
-  const { result: Cart } = useQuery(checkCart, {
-  productId: id,
+const useCart = async (id) => {
+  const { result: Cart, refetch } = useQuery(checkCart, {
+    where: {
+      column: "product->id",
+      operator: "EQ",
+      value: `${id}`,
+    },
   });
 
-  if (Cart.value?.carts && Cart.value?.carts.length) {
+  const { data: cart } = await refetch();
+
+  if (cart?.carts && cart?.carts.length) {
     $q.notify({
       type: "warning",
       message: "Товар уже есть в корзине!",
@@ -98,15 +107,22 @@ const useCart = async(id)=>{
   }
 
   $q.notify({
-      type: "positive",
-      message: "Товар добавлен в корзину!",
-    });
+    type: "positive",
+    message: "Товар добавлен в корзину!",
+  });
 
   const { data } = await addProductCart({
-    productId: id,
+    input: {
+      product: {
+        id,
+      },
+      user: {
+        id: parseInt(localStorage.getItem("user_id")),
+      },
+    },
   });
-  cartRefetch()
-}
+  cartRefetch();
+};
 </script>
 
 <style lang="sass" scoped>

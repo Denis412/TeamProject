@@ -88,7 +88,6 @@ let products = computed(
 );
 
 const useFilter = (categoryName) => {
-  console.log("hi", category.value);
   category.value.text = categoryName;
   const queryProducts = useQuery(filtredProduct(category.value.text), {
     where: {

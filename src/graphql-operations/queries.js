@@ -4,6 +4,12 @@ export const checkFavorites = gql`
   query checkProduct($where: PaginatorWhere) {
     favorites(where: $where) {
       id
+      product {
+        id
+      }
+      user {
+        id
+      }
     }
   }
 `;
@@ -12,6 +18,12 @@ export const checkCart = gql`
   query checkProduct($where: PaginatorWhere) {
     carts(where: $where) {
       id
+      product {
+        id
+      }
+      user {
+        id
+      }
     }
   }
 `;

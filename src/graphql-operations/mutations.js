@@ -63,23 +63,23 @@ export const addProductToCatalog = gql`
 `;
 
 export const removeProductFromFavorites = gql`
-  mutation removeProductFromFavorites($id: number!) {
-    removeFavorite(id: $id) {
+  mutation removeProductFromFavorites($id: Int!) {
+    deleteFavorite(id: $id) {
       id
     }
   }
 `;
 
 export const removeProductFromCarts = gql`
-  mutation removeProductFromCarts($id: number!) {
-    removeCart(id: $id) {
+  mutation removeProductFromCarts($id: Int!) {
+    deleteCart(id: $id) {
       id
     }
   }
 `;
 
 export const removeProductFromProducts = gql`
-  mutation removeProductFromCarts($id: number!) {
+  mutation removeProductFromCarts($id: Int!) {
     deleteProduct(id: $id) {
       id
     }

@@ -65,7 +65,7 @@
           if (Clerk.user) {
             // Mount user button component
             Clerk.mountUserButton(userButton);
-            userButton.style.margin = "auto";
+            userButton?.style.margin = "auto";
 
             sessionStorage.setItem(
               "token",

@@ -60,10 +60,12 @@ const { result: Cart, refetch: cartsCheckRefetch } = useQuery(checkCart, {
 });
 
 const useFavorite = async () => {
-  const user = window.Clerk.user;
-  if (!user) return;
-
-  if (Favorites.value.favorites && Favorites.value.favorites.length) {
+  await favoritesCheckRefetch();
+  if (
+    Favorites.value.favorites.some(
+      (favorite) => favorite.product.id === product.product.id
+    )
+  ) {
     $q.notify({
       type: "warning",
       message: "Товар уже есть в избранном!",
@@ -79,7 +81,7 @@ const useFavorite = async () => {
           id: product.product.id,
         },
         user: {
-          id: user.id,
+          id: parseInt(localStorage.getItem("user_id")),
         },
       },
     });
@@ -91,9 +93,8 @@ const useFavorite = async () => {
 };
 
 const useCart = async () => {
-  const user = window.Clerk.user;
-  if (!user) return;
-  if (Cart.value.carts && Cart.value.carts.length) {
+  await cartsCheckRefetch();
+  if (Cart.value.carts.some((cart) => cart.product.id === product.product.id)) {
     $q.notify({
       type: "warning",
       message: "Товар уже есть в корзине!",
@@ -108,7 +109,14 @@ const useCart = async () => {
 
   try {
     const { data } = await addProductCart({
-      productId: product.product.id,
+      input: {
+        product: {
+          id: product.product.id,
+        },
+        user: {
+          id: parseInt(localStorage.getItem("user_id")),
+        },
+      },
     });
   } catch (error) {
     console.log(error);

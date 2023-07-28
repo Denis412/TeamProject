@@ -5,6 +5,7 @@ export /* async */ function getClientOptions(/* {app, router, ...} */ options) {
   //https://wanted-bull-47.hasura.app/v1/graphql
   const httpLink = createHttpLink({
     uri: "http://localhost:3000/graphql",
+    credentials: "include",
   });
 
   const authLink = setContext((_, { headers }) => {
@@ -26,11 +27,35 @@ export /* async */ function getClientOptions(/* {app, router, ...} */ options) {
     };
   });
 
+  // const errorLink = onError(
+  //   ({ graphQLErrors, networkError, operation, forward }) => {
+  //     if (graphQLErrors) {
+  //       graphQLErrors.forEach((error) => {
+  //         if (error.message.includes("jwt expired")) {
+  //           const oldHeaders = operation.getContext().headers;
+  //           operation.setContext({
+  //             headers: {
+  //               ...oldHeaders,
+  //               authorization: getNewToken(),
+  //             },
+  //           });
+  //           // Retry the request, returning the new observable
+  //           return forward(operation);
+  //         }
+  //       });
+  //     }
+  //     if (networkError) {
+  //       console.log("Network error", networkError);
+  //     }
+  //   }
+  // );
+
   return Object.assign(
     // General options.
     {
       link: authLink.concat(httpLink),
       cache: new InMemoryCache(),
+      onerror,
     }
     // Specific Quasar mode options.
     // process.env.MODE === "spa"

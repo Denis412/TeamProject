@@ -22,7 +22,8 @@
 
         <Cart class="cart" title="Корзина" name="cart" />
         <q-item id="auth-links">
-          <q-btn @click="redirect"> Войти </q-btn>
+          <q-btn @click="redirect('login')"> Войти </q-btn>
+          <q-btn @click="redirect('reg')"> Зарегистрироваться </q-btn>
         </q-item>
 
         <div class="q-ml-md" @click="toggleShowProfileSettings">
@@ -60,9 +61,9 @@ const toggleRightDrawer = inject("toggleRightDrawer");
 
 const showProfileSettings = ref(false);
 
-const redirect = async () => {
+const redirect = async (name) => {
   await router.push({
-    name: "login",
+    name,
   });
 };
 

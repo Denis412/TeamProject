@@ -18,6 +18,7 @@ import { useMutation } from "@vue/apollo-composable";
 import { ref } from "vue";
 import { signIn } from "src/graphql-operations/mutations";
 import { useRouter } from "vue-router";
+import { Cookies } from "quasar";
 
 const router = useRouter();
 
@@ -36,6 +37,12 @@ const sign = async () => {
 
   localStorage.setItem("token", res.SignIn.access_token);
   localStorage.setItem("user_id", res.SignIn.user_id);
+
+  Cookies.set("Authrization", `Bearer ${res.SignIn.refresh_token}`, {
+    httpOnly: true,
+    domain: "http://localhost:3000",
+    path: "/graphql",
+  });
 
   await router.push({
     name: "home",

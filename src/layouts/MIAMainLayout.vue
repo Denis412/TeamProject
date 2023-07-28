@@ -23,7 +23,7 @@
       </div>
     </q-drawer>
 
-    <q-page-container class="q-pa-md">
+    <q-page-container>
       <router-view v-slot="{ Component }">
         <keep-alive :key="$route.fullPath">
           <component :is="Component" />

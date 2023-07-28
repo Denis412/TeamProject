@@ -1,6 +1,6 @@
 <template>
   <div class="text-h3 text-center q-mt-lg">
-    {{ product.title }}
+    {{ product?.title }}
   </div>
   <div class="row wrap q-pa-lg">
     <div class="col-sm-3 col-xs-12 q-pa-lg categories-area">
@@ -8,31 +8,40 @@
       <q-list>
         <q-item
           class="q-pa-md"
-          :class="{ 'active-category': getCategory(category.name) }"
+          :class="{ 'active-category': getCategory(category?.name) }"
           v-for="category in categories"
-          :key="category.name"
+          :key="category?.name"
         >
-          {{ category.name }}
+          {{ category?.name }}
         </q-item>
       </q-list>
     </div>
     <div class="col-sm-8 col-xs-12 offset-md-1 row wrap product-information">
       <div class="col-md-5 col-sm-12 col-xs-12 q-mb-lg">
-        <q-img :src="product.image" />
+        <q-img :src="product?.image" />
       </div>
       <div
         class="col-md-6 col-xs-12 offset-md-1 col-sm-12 relative-position text-information"
       >
         <p>
-          {{ product.description }}
+          {{ product?.description }}
         </p>
         <div class="buy-area text-h4 absolute-bottom text-red text-weight-bold">
-          <div>{{ product.price }} Р</div>
+          <div>{{ product?.price }} Р</div>
           <q-btn
-            @click="useCart(product.id)"
+            @click="useCart(product?.id)"
             flat
             class="btn-tocart q-mt-xl"
             label="В корзину"
+          />
+        </div>
+
+        <div>
+          <q-btn
+            flat
+            no-caps
+            class="text-body1 chat-btn"
+            label="Написать продавцу"
           />
         </div>
       </div>
@@ -54,11 +63,12 @@
       <q-carousel-slide
         :name="index + 1"
         class="column no-wrap"
-        v-for="(items, index) in getSlides()"
+        v-for="(items, index) in sl"
         :key="items[index]"
       >
         <div
           class="row justify-start items-center q-gutter-xs q-col-gutter no-wrap"
+          v-if="items"
         >
           <div class="col-sm-3 col-6" v-for="item in items" :key="item.id">
             <router-link
@@ -96,7 +106,11 @@
 <script setup>
 import { computed, ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useQuery, useMutation } from "@vue/apollo-composable";
+import {
+  useQuery,
+  useMutation,
+  provideApolloClient,
+} from "@vue/apollo-composable";
 import { addProductInCart } from "src/graphql-operations/mutations";
 import {
   getProductsById,
@@ -106,6 +120,14 @@ import {
   checkCart,
 } from "src/graphql-operations/queries";
 import { useQuasar } from "quasar";
+import {
+  getObjectByIdDocumentNode,
+  getPaginateObjectsDocumentNode,
+} from "src/graphql-operations";
+import * as _ from "lodash";
+import apolloClient from "src/apollo/apollo-client";
+
+provideApolloClient(apolloClient);
 
 const $q = useQuasar();
 const slide = ref(1);
@@ -114,13 +136,24 @@ const { refetch: cartRefetch } = useQuery(getCarts);
 const { mutate: addProductCart } = useMutation(addProductInCart);
 
 const useCart = async (id) => {
-  const { result: Cart, refetch: check } = useQuery(checkCart, {
-    where: {
-      column: "product->id",
-      operator: "EQ",
-      value: `${id}`,
-    },
-  });
+  const { result: Cart, refetch: check } = useQuery(
+    getPaginateObjectsDocumentNode(
+      "carts",
+      `{
+    id
+    product {
+      id
+    }
+  }`
+    ),
+    {
+      where: {
+        column: "product->id",
+        operator: "EQ",
+        value: `${id}`,
+      },
+    }
+  );
   const { data: cart } = await check();
 
   if (cart?.carts && cart?.carts.length) {
@@ -153,7 +186,9 @@ const useCart = async (id) => {
 
 // import SimilarProduct from "src/components/ProductPage/MIASimilarProduct.vue";
 
-const queryCategories = useQuery(getCategories);
+const queryCategories = useQuery(
+  getPaginateObjectsDocumentNode("categories", `{ id name }`)
+);
 const categories = computed(
   () => queryCategories.result.value?.categories ?? []
 );
@@ -162,25 +197,57 @@ const route = useRoute();
 const id = ref({ id: +route.params.id });
 
 const queryProduct = useQuery(
-  computed(() => getProductsById),
+  getObjectByIdDocumentNode(
+    "product",
+    `{
+    id
+    title
+    description
+    image
+    price
+    old_price
+    category {
+      id
+      name
+    }
+  }`
+  ),
   id
 );
 
-const getCategory = (name) => {
-  return name === product.value?.category;
-};
-
 const product = computed(() => queryProduct.result.value?.product);
 
-// const category = ref({text: product?.value.category} )
-
-// const {result,loading,onResult} = useQuery(()=>getByCategory, category)
+const getCategory = (name) => {
+  return name === product.value?.category.name;
+};
 
 const products = computed(
   () =>
-    useQuery(getByCategory, { text: product.value?.category }).result.value
-      ?.products ?? []
+    useQuery(
+      getPaginateObjectsDocumentNode(
+        "products",
+        `{ id image title description price old_price }`
+      ),
+      {
+        where: {
+          column: "category->id",
+          operator: "EQ",
+          value: `${product.value?.category.id}`,
+        },
+      }
+    ).result.value?.products ?? []
 );
+const sl = ref([]);
+
+if (products.value) {
+  sl.value = _.chunk(products.value, 3);
+}
+
+watch(products, (value) => {
+  if (!value) return;
+
+  sl.value = _.chunk(value, 3);
+});
 
 const getSlides = () => {
   let i;
@@ -199,6 +266,11 @@ const getSlides = () => {
 </script>
 
 <style lang="sass" scoped>
+.chat-btn
+  border-radius: 8px
+  background-color: blue
+  color: #fff
+
 .q-item
   min-height: 40px
   line-height: 28px

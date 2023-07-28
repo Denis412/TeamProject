@@ -132,6 +132,9 @@ const onSubmit = async () => {
         price: parseFloat(form.value.price),
         old_price: parseFloat(form.value.old_price),
         quantity: form.value.quantity,
+        user: {
+          id: parseInt(localStorage.getItem("user_id")),
+        },
         category: {
           id: form.value.category,
         },

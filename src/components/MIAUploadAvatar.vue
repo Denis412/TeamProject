@@ -23,7 +23,7 @@ const updateAvatar = async (event) => {
     if (error) throw error;
 
     imageUrl.value =
-      "https://qgczlcboewmzhjxdbzhb.supabase.co/storage/v1/object/public/avatars/" +
+      "https://rknojxtpjwcckodbfjju.supabase.co/storage/v1/object/public/avatars/" +
       fileName;
 
     emit("updateUrl", imageUrl.value);

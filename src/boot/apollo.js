@@ -2,7 +2,7 @@
 import { ApolloClients } from "@vue/apollo-composable";
 import { boot } from "quasar/wrappers";
 // import { getClientOptions } from "src/apollo";
-import apolloClient from 'src/apollo/apollo-client.js'
+import apolloClient from "src/apollo/apollo-client.js";
 export default boot(
   /* async */ ({ app }) => {
     // Default client.
